@@ -22,9 +22,9 @@
             <Grid Margin="10,55,10,55">
                 <ScrollViewer>
                     <StackPanel>
-                        <Button Content="Это" MinHeight="120"/>
-                        <Button Content="Типо" MinHeight="120"/>
-                        <Button Content="Вопросы" MinHeight="120"/>
+                        <Button Content="Хуй" MinHeight="120"/>
+                        <Button Content="Залупа" MinHeight="120"/>
+                        <Button Content="Пизда" MinHeight="120"/>
                         <Button MinHeight="120"/>
                         <Button MinHeight="120"/>
                         <Button Content="Добавить" Height="40" Width="120" Margin="0,10,0,0"/>
