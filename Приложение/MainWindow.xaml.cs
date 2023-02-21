@@ -34,8 +34,11 @@ namespace Приложение
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            //MessageBox.Show(tag.Name);
             Switching(button.Parent as Grid, button.Tag as Grid);
+        }
+        private void Заглушка(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Эта кнопка пока не работает :(");
         }
     }
 }
