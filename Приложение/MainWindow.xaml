@@ -1,0 +1,36 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Приложение"
+        xmlns:Properties="clr-namespace:Приложение.Properties" x:Class="Приложение.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
+    <Grid>
+        <Grid x:Name="Main" IsEnabled="False" Visibility="Hidden">
+            <Button Content="Создать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0" Click="Button_Click" Tag="{Binding ElementName=Editor}"/>
+            <Button Content="Редактировать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="135,10,0,0" Click="Button_Click" Tag="{Binding ElementName=Editor}"/>
+            <Button Content="Запустить тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="260,10,0,0"/>
+            <Button Content="Посмотреть результаты" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="140" Margin="385,10,0,0"/>
+        </Grid>
+        <Grid x:Name="Editor" IsEnabled="True" Visibility="Visible">
+            <Button Content="Сохранить" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0"/>
+            <Button Content="Сохранить как..." HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="135,10,0,0"/>
+            <Button Content="Проверить" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="260,10,0,0"/>
+            <Button Content="Вернуться назад" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="120" Margin="10,0,0,10" Click="Button_Click" Tag="{Binding ElementName=Main}"/>
+            <Grid Margin="10,55,10,55">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Button Content="Это" MinHeight="120"/>
+                        <Button Content="Типо" MinHeight="120"/>
+                        <Button Content="Вопросы" MinHeight="120"/>
+                        <Button MinHeight="120"/>
+                        <Button MinHeight="120"/>
+                        <Button Content="Добавить" Height="40" Width="120" Margin="0,10,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
