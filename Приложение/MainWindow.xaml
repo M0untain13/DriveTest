@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Приложение"
         xmlns:Properties="clr-namespace:Приложение.Properties" x:Class="Приложение.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
+        Title="MainWindow" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
     <Grid>
         <Grid x:Name="Main" IsEnabled="False" Visibility="Hidden">
             <Button Content="Создать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0" Click="Button_Click" Tag="{Binding ElementName=Editor}"/>
