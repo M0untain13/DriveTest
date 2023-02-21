@@ -37,10 +37,5 @@ namespace Приложение
             //MessageBox.Show(tag.Name);
             Switching(button.Parent as Grid, button.Tag as Grid);
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
