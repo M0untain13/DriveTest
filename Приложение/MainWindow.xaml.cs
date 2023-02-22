@@ -31,13 +31,41 @@ namespace Приложение
             next.Visibility = Visibility.Visible;
             next.IsEnabled = true;
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_Switch(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             Switching(button.Parent as Grid, button.Tag as Grid);
         }
+        private void Button_Click_CreateEditor(object sender, RoutedEventArgs e)
+        {
+            CreateTest window = new CreateTest();
+            window.ShowDialog();
+            if (window.isTestCreated)
+            {
+                Button_Click_Switch(sender, e);
+            }
+        }
+        private void Button_Click_OpenTestForEdit(object sender, RoutedEventArgs e)
+        {
+            OpenTestForEdit window = new OpenTestForEdit();
+            window.ShowDialog();
+            if (window.isTestOpened)
+            {
+                Button_Click_Switch(sender, e);
+            }
+        }
+        private void Button_Click_ExitFromEdit(object sender, RoutedEventArgs e)
+        {
+            ExitFromEdit window = new ExitFromEdit();
+            window.ShowDialog();
+            if (window.isTestClosed)
+            {
+                Button_Click_Switch(sender, e);
+            }
+        }
         private void Заглушка(object sender, RoutedEventArgs e)
         {
+            //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
             MessageBox.Show("Эта кнопка пока не работает :(");
         }
     }

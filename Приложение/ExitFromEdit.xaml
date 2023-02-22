@@ -1,0 +1,16 @@
+﻿<Window x:Class="Приложение.ExitFromEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Приложение"
+        mc:Ignorable="d"
+        Title="Закрыть редактор" Height="260" Width="390" ResizeMode="NoResize">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Вы уверены, что вы сохранили тест?" VerticalAlignment="Top"/>
+        <Button Content="Сохранить и выйти" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Click="Заглушка"/>
+        <Button Content="Выйти без сохранения" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Click="ExitWithoutSave"/>
+        <Button Content="Не выходить" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Click="Close"/>
+
+    </Grid>
+</Window>
