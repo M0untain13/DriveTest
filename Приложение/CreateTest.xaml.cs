@@ -30,7 +30,7 @@ namespace Приложение
             //TODO: стоит ли делать проверку на ввод спец.символов?
             if(textBox1.Text.Length < 5)
             {
-                warningBlock.Text = "Название должно содержать 5 или более символов!";
+                warningBlock.Text = "Название должно содержать 5 или более символов!"; //TODO: сделать проверку на занятость названия
             }
             else if(passBox1.Password.Length < 5)
             {

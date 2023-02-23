@@ -24,9 +24,7 @@ namespace Приложение
         readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");
         public MainWindow()
         {
-            InitializeComponent();
-            //TODO: исправить то, что ниже написано в MessageBox.Show("...");
-            MessageBox.Show("Возможно это только у меня проблема, но приложения после закрытия почему-то продолжает работать в фоновом режиме. В диспетчере задач выглядит, как \"Приложение (32 бита)\"");
+            InitializeComponent();           
         }
         private void Switching(Grid current, Grid next)
         {
