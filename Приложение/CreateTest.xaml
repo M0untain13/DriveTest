@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         Title="Создать тест" Height="260" Width="390" ResizeMode="NoResize">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Название"/>
-        <TextBox x:Name="TextBox1" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="280"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Text="Название"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="280" UndoLimit="20"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Пароль"/>
-        <PasswordBox HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="140"/>
+        <PasswordBox x:Name="passBox1" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="160"/>
         <Button Content="Создать" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="Button_Click"/>
+        <TextBlock x:Name="warningBlock" HorizontalAlignment="Left" Margin="10,0,0,12" TextWrapping="Wrap" Text="Прежде чем создать тест, введите название и пароль!" VerticalAlignment="Bottom" Width="318"/>
     </Grid>
 </Window>

@@ -22,11 +22,24 @@ namespace Приложение
         public CreateTest()
         {
             InitializeComponent();
+            textBox1.MaxLength = 20; //Почему это тут? А чтобы удобнее работать с ограничением ввода
+            passBox1.MaxLength = 20;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: сделать проверки ввода
-            DialogResult = true;
+            //TODO: стоит ли делать проверку на ввод спец.символов?
+            if(textBox1.Text.Length < 5)
+            {
+                warningBlock.Text = "Название должно содержать 5 или более символов!";
+            }
+            else if(passBox1.Password.Length < 5)
+            {
+                warningBlock.Text = "Пароль должен содержать 5 или более символов!";
+            }
+            else
+            {
+                DialogResult = true; //Окно закрывается
+            }
         }
     }
 }

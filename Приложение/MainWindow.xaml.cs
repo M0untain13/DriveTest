@@ -25,9 +25,12 @@ namespace Приложение
         public MainWindow()
         {
             InitializeComponent();
+            //TODO: исправить то, что ниже написано в MessageBox.Show("...");
+            MessageBox.Show("Возможно это только у меня проблема, но приложения после закрытия почему-то продолжает работать в фоновом режиме. В диспетчере задач выглядит, как \"Приложение (32 бита)\"");
         }
         private void Switching(Grid current, Grid next)
         {
+            //Функция смены поверхности
             current.Visibility = Visibility.Hidden;
             current.IsEnabled = false;
             next.Visibility = Visibility.Visible;
@@ -35,39 +38,13 @@ namespace Приложение
         }
         private void Button_Click_Switch(object sender, RoutedEventArgs e)
         {
+            //Событие нажатия кнопки для смены поверхности
             Button button = sender as Button;
             Switching(button.Parent as Grid, button.Tag as Grid);
         }
-        private void Button_Click_CreateEditor(object sender, RoutedEventArgs e)
-        {
-            CreateTest window = new CreateTest();
-            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
-            if (isButtonClick)
-            {
-                Button_Click_Switch(sender, e);
-            }
-        }
-        private void Button_Click_OpenTestForEdit(object sender, RoutedEventArgs e)
-        {
-            OpenTestForEdit window = new OpenTestForEdit();
-            mainDirectory.GetDirectories().ToList().ForEach(directory => { window.testsDir.Add(directory); });
-            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
-            if (isButtonClick)
-            {
-                Button_Click_Switch(sender, e);
-            }
-        }
-        private void Button_Click_ExitFromEdit(object sender, RoutedEventArgs e)
-        {
-            ExitFromEdit window = new ExitFromEdit();
-            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
-            if (isButtonClick)
-            {
-                Button_Click_Switch(sender, e);
-            }
-        }
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
+            //Событие нажатия кнопки, вызывающего промежуточное окно
             Button button = sender as Button;
             dynamic window = null;
             switch (button.DataContext)
