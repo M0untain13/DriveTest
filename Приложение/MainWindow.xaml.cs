@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,14 @@ namespace Приложение
     /// </summary>
     public partial class MainWindow : Window
     {
+        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();           
         }
         private void Switching(Grid current, Grid next)
         {
+            //Функция смены поверхности
             current.Visibility = Visibility.Hidden;
             current.IsEnabled = false;
             next.Visibility = Visibility.Visible;
@@ -33,32 +36,34 @@ namespace Приложение
         }
         private void Button_Click_Switch(object sender, RoutedEventArgs e)
         {
+            //Событие нажатия кнопки для смены поверхности
             Button button = sender as Button;
             Switching(button.Parent as Grid, button.Tag as Grid);
         }
-        private void Button_Click_CreateEditor(object sender, RoutedEventArgs e)
+        private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
-            CreateTest window = new CreateTest();
-            window.ShowDialog();
-            if (window.isTestCreated)
+            //Событие нажатия кнопки, вызывающего промежуточное окно
+            Button button = sender as Button;
+            dynamic window = null;
+            switch (button.DataContext)
             {
-                Button_Click_Switch(sender, e);
+                case CreateTest:
+                    window = new CreateTest();
+                    break;
+                case ExitFromEdit:
+                    window = new ExitFromEdit();
+                    break;
+                case OpenTestForEdit:
+                    window = new OpenTestForEdit();
+                    mainDirectory.GetDirectories().ToList().ForEach(directory => { window.testsDir.Add(directory); });
+                    break;
             }
-        }
-        private void Button_Click_OpenTestForEdit(object sender, RoutedEventArgs e)
-        {
-            OpenTestForEdit window = new OpenTestForEdit();
-            window.ShowDialog();
-            if (window.isTestOpened)
+            if(window == null)
             {
-                Button_Click_Switch(sender, e);
+                throw new Exception("Ошибка: Попытка открыть несуществующее окно!");
             }
-        }
-        private void Button_Click_ExitFromEdit(object sender, RoutedEventArgs e)
-        {
-            ExitFromEdit window = new ExitFromEdit();
-            window.ShowDialog();
-            if (window.isTestClosed)
+            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
+            if (isButtonClick)
             {
                 Button_Click_Switch(sender, e);
             }
