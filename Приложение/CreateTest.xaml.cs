@@ -19,7 +19,6 @@ namespace Приложение
     /// </summary>
     public partial class CreateTest : Window
     {
-        public bool isTestCreated = false;
         public CreateTest()
         {
             InitializeComponent();
@@ -27,8 +26,7 @@ namespace Приложение
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //TODO: сделать проверки ввода
-            isTestCreated = true;
-            Close();
+            DialogResult = true;
         }
     }
 }

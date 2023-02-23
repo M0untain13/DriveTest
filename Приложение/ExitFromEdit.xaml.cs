@@ -19,7 +19,6 @@ namespace Приложение
     /// </summary>
     public partial class ExitFromEdit : Window
     {
-        public bool isTestClosed = false;
         public ExitFromEdit()
         {
             InitializeComponent();
@@ -27,8 +26,7 @@ namespace Приложение
         private void ExitWithoutSave(object sender, RoutedEventArgs e)
         {
             //TODO: сделать проверки ввода
-            isTestClosed = true;
-            Close();
+            DialogResult = true;
         }
         private void Close(object sender, RoutedEventArgs e)
         {

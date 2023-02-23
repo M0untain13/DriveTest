@@ -9,8 +9,16 @@
         Title="MainWindow" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
     <Grid>
         <Grid x:Name="Main" IsEnabled="True" Visibility="Visible">
-            <Button Content="Создать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0" Click="Button_Click_CreateEditor" Tag="{Binding ElementName=Editor}"/>
-            <Button Content="Редактировать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="135,10,0,0" Click="Button_Click_OpenTestForEdit" Tag="{Binding ElementName=Editor}"/>
+            <Button Content="Создать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0" Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
+                <Button.DataContext>
+                    <local:CreateTest/>
+                </Button.DataContext>
+            </Button>
+            <Button Content="Редактировать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="135,10,0,0" Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
+                <Button.DataContext>
+                    <local:OpenTestForEdit/>
+                </Button.DataContext>
+            </Button>
             <Button Content="Запустить тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="260,10,0,0" Click="Заглушка"/>
             <Button Content="Посмотреть результаты" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="140" Margin="385,10,0,0" Click="Заглушка"/>
         </Grid>
@@ -18,7 +26,11 @@
             <Button Content="Сохранить" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0" Click="Заглушка"/>
             <Button Content="Сохранить как..." HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="135,10,0,0" Click="Заглушка"/>
             <Button Content="Проверить" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="260,10,0,0" Click="Заглушка"/>
-            <Button Content="Вернуться назад" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="120" Margin="10,0,0,10" Click="Button_Click_ExitFromEdit" Tag="{Binding ElementName=Main}"/>
+            <Button Content="Вернуться назад" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="120" Margin="10,0,0,10" Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Main}">
+                <Button.DataContext>
+                    <local:ExitFromEdit/>
+                </Button.DataContext>
+            </Button>
             <Grid Margin="10,55,10,55">
                 <ScrollViewer>
                     <StackPanel>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Приложение
     /// </summary>
     public partial class MainWindow : Window
     {
+        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");
         public MainWindow()
         {
             InitializeComponent();
@@ -39,8 +41,8 @@ namespace Приложение
         private void Button_Click_CreateEditor(object sender, RoutedEventArgs e)
         {
             CreateTest window = new CreateTest();
-            window.ShowDialog();
-            if (window.isTestCreated)
+            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
+            if (isButtonClick)
             {
                 Button_Click_Switch(sender, e);
             }
@@ -48,8 +50,9 @@ namespace Приложение
         private void Button_Click_OpenTestForEdit(object sender, RoutedEventArgs e)
         {
             OpenTestForEdit window = new OpenTestForEdit();
-            window.ShowDialog();
-            if (window.isTestOpened)
+            mainDirectory.GetDirectories().ToList().ForEach(directory => { window.testsDir.Add(directory); });
+            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
+            if (isButtonClick)
             {
                 Button_Click_Switch(sender, e);
             }
@@ -57,8 +60,35 @@ namespace Приложение
         private void Button_Click_ExitFromEdit(object sender, RoutedEventArgs e)
         {
             ExitFromEdit window = new ExitFromEdit();
-            window.ShowDialog();
-            if (window.isTestClosed)
+            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
+            if (isButtonClick)
+            {
+                Button_Click_Switch(sender, e);
+            }
+        }
+        private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            dynamic window = null;
+            switch (button.DataContext)
+            {
+                case CreateTest:
+                    window = new CreateTest();
+                    break;
+                case ExitFromEdit:
+                    window = new ExitFromEdit();
+                    break;
+                case OpenTestForEdit:
+                    window = new OpenTestForEdit();
+                    mainDirectory.GetDirectories().ToList().ForEach(directory => { window.testsDir.Add(directory); });
+                    break;
+            }
+            if(window == null)
+            {
+                throw new Exception("Ошибка: Попытка открыть несуществующее окно!");
+            }
+            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
+            if (isButtonClick)
             {
                 Button_Click_Switch(sender, e);
             }
