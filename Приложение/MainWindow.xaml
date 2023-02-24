@@ -19,7 +19,11 @@
                     <local:OpenTestForEdit/>
                 </Button.DataContext>
             </Button>
-            <Button Content="Запустить тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="260,10,0,0" Click="Заглушка"/>
+            <Button Content="Запустить тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="260,10,0,0" Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Test}">
+                <Button.DataContext>
+                    <local:OpenTest/>
+                </Button.DataContext>
+            </Button>
             <Button Content="Посмотреть результаты" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="140" Margin="385,10,0,0" Click="Заглушка"/>
         </Grid>
         <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden">
@@ -44,6 +48,9 @@
                 </ScrollViewer>
                 <Border BorderBrush="Black" BorderThickness="1"/>
             </Grid>
+        </Grid>
+        <Grid x:Name="Test" IsEnabled="False" Visibility="Hidden">
+            <TextBlock Text="Это типо окно тестирования, но пока пустое"/>
         </Grid>
     </Grid>
 </Window>

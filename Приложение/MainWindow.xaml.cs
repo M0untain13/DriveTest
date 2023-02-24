@@ -57,6 +57,10 @@ namespace Приложение
                     window = new OpenTestForEdit();
                     mainDirectory.GetDirectories().ToList().ForEach(directory => { window.testsDir.Add(directory); });
                     break;
+                case OpenTest:
+                    window = new OpenTest();
+                    mainDirectory.GetDirectories().ToList().ForEach(directory => { window.testsDir.Add(directory); });
+                    break;
             }
             if(window == null)
             {
@@ -65,7 +69,7 @@ namespace Приложение
             bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
             if (isButtonClick)
             {
-                Button_Click_Switch(sender, e);
+                Button_Click_Switch(sender, e); //Если не были учтены условия для перехода в другое окно, то перехода кнш не будет
             }
         }
         private void Заглушка(object sender, RoutedEventArgs e)
