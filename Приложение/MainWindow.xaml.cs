@@ -26,10 +26,10 @@ namespace Приложение
         private ObservableCollection<Class1> questions = new ObservableCollection<Class1>(); //Коллекция вопросов в тесте
         readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string>  //Строки для добавления вопросов в тест
         {
-            "Вопрос с открытым ответом",
-            "Вопрос с выборочным ответом",
-            "Вопрос с поиском соответствия",
-            "Поле для ввода данных"
+            StringTypeQuestion.OPEN_ANSWER,
+            StringTypeQuestion.SELECTIVE_ANSWER,
+            StringTypeQuestion.MATCHING_SEARCH,
+            StringTypeQuestion.DATA_INPUT
         };
         public MainWindow()
         {
@@ -92,21 +92,38 @@ namespace Приложение
             questions.Add(new Class1("Вопрос", "Ответ")); //TODO: это надо будет потом поменять
             testList.ItemsSource = questions;
         }
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            //Событие для прокрутки вопросов
+            //При наводке курсора на listbox, прокрутка не происходила
+            //Этот метод решает проблему данную проблему
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+        private void comboBox1_DropDownClosed(object sender, EventArgs e)
+        {
+            switch (comboBox1.Text) //TODO: потом это переделать, конструкции должны быть разными
+            {
+                case StringTypeQuestion.OPEN_ANSWER:
+                    AddTest();
+                    break;
+                case StringTypeQuestion.SELECTIVE_ANSWER:
+                    AddTest();
+                    break;
+                case StringTypeQuestion.MATCHING_SEARCH:
+                    AddTest();
+                    break;
+                case StringTypeQuestion.DATA_INPUT:
+                    AddTest();
+                    break;
+            }
+            comboBox1.Text = string.Empty;
+        }
         private void Заглушка(object sender, RoutedEventArgs e)
         {
             //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
             MessageBox.Show("Эта кнопка пока не работает :(");
-        }
-
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            AddTest();
-        }
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
-            e.Handled = true;
         }
     }
 }

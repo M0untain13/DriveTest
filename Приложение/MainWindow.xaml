@@ -50,7 +50,7 @@
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
-                        <ComboBox x:Name="comboBox1" DataContext="+" Height="40" Width="40" Margin="0,10,0,0" SelectionChanged="comboBox1_SelectionChanged"/>
+                        <ComboBox x:Name="comboBox1" DataContext="+" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="comboBox1_DropDownClosed"/>
                     </StackPanel>
                 </ScrollViewer>
                 
