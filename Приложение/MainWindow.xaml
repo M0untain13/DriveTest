@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
     <Grid>
-        <Grid x:Name="Main" IsEnabled="True" Visibility="Visible">
+        <Grid x:Name="Main" IsEnabled="False" Visibility="Hidden">
             <Button Content="Создать тест" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0" Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
                     <local:CreateTest/>
@@ -26,7 +26,7 @@
             </Button>
             <Button Content="Посмотреть результаты" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="140" Margin="385,10,0,0" Click="Заглушка"/>
         </Grid>
-        <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden">
+        <Grid x:Name="Editor" IsEnabled="True" Visibility="Visible">
             <Button Content="Сохранить" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="10,10,0,0" Click="Заглушка"/>
             <Button Content="Сохранить как..." HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="135,10,0,0" Click="Заглушка"/>
             <Button Content="Проверить" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="120" Margin="260,10,0,0" Click="Заглушка"/>
@@ -36,17 +36,24 @@
                 </Button.DataContext>
             </Button>
             <Grid Margin="10,55,10,55">
-                <ScrollViewer>
-                    <StackPanel>
-                        <Button Content="Хуй" MinHeight="400" MaxWidth="800"/>
-                        <Button Content="Хуй" MinHeight="400" MaxWidth="800"/>
-                        <Button Content="Хуй" MinHeight="400" MaxWidth="800"/>
-                        <Button Content="Хуй" MinHeight="400" MaxWidth="800"/>
-                        <Button Content="Хуй" MinHeight="400" MaxWidth="800"/>
-                        <Button Content="Добавить" Height="40" Width="120" Margin="0,10,0,0" Click="Заглушка"/>
+                <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                    <StackPanel Margin="10">
+                        <TextBox Text="Название теста" MaxWidth="800" MinHeight="30" />
+
+                        <ListBox x:Name="testList"
+                                 ItemTemplate="{StaticResource QuestionTemplate}"
+                                 MinHeight="30"
+                                 MaxWidth="800">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <ComboBox x:Name="comboBox1" DataContext="+" Height="40" Width="40" Margin="0,10,0,0" SelectionChanged="comboBox1_SelectionChanged"/>
                     </StackPanel>
                 </ScrollViewer>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                
             </Grid>
         </Grid>
         <Grid x:Name="Test" IsEnabled="False" Visibility="Hidden">

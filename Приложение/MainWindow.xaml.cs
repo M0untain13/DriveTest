@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,10 +22,19 @@ namespace Приложение
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");
+        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests"); //Главный каталог, где будут лежать тесты
+        private ObservableCollection<Class1> questions = new ObservableCollection<Class1>(); //Коллекция вопросов в тесте
+        readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string>  //Строки для добавления вопросов в тест
+        {
+            "Вопрос с открытым ответом",
+            "Вопрос с выборочным ответом",
+            "Вопрос с поиском соответствия",
+            "Поле для ввода данных"
+        };
         public MainWindow()
         {
-            InitializeComponent();           
+            InitializeComponent();
+            comboBox1.ItemsSource = addQuestion;
         }
         private void Switching(Grid current, Grid next)
         {
@@ -69,13 +79,34 @@ namespace Приложение
             bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
             if (isButtonClick)
             {
-                Button_Click_Switch(sender, e); //Если не были учтены условия для перехода в другое окно, то перехода кнш не будет
+                if(window.GetType() == new OpenTestForEdit().GetType())
+                {
+                    questions = window.testList;
+                    testList.ItemsSource = questions;
+                }
+                Button_Click_Switch(sender, e); //Если не были учтены условия для перехода в другое окно, то перехода не будет
             }
+        }
+        private void AddTest()
+        {
+            questions.Add(new Class1("Вопрос", "Ответ")); //TODO: это надо будет потом поменять
+            testList.ItemsSource = questions;
         }
         private void Заглушка(object sender, RoutedEventArgs e)
         {
             //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
             MessageBox.Show("Эта кнопка пока не работает :(");
+        }
+
+        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AddTest();
+        }
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
         }
     }
 }
