@@ -5,11 +5,6 @@
              StartupUri="MainWindow.xaml"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
-        <DataTemplate x:Key="QuestionTemplate">
-            <StackPanel Margin="10">
-                <TextBox Text="{Binding st1}" MinWidth="200" MinHeight="50"/>
-                <TextBox Text="{Binding st2}" MinWidth="200" MinHeight="50"/>
-            </StackPanel>
-        </DataTemplate>
+        
     </Application.Resources>
 </Application>

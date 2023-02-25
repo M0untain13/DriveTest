@@ -19,13 +19,13 @@ namespace Приложение
     /// </summary>
     public partial class ExitFromEdit : Window
     {
+        public bool saveTest = false;
         public ExitFromEdit()
         {
             InitializeComponent();
         }
         private void ExitWithoutSave(object sender, RoutedEventArgs e)
         {
-            //TODO: сделать проверки ввода
             DialogResult = true;
         }
         private void Close(object sender, RoutedEventArgs e)
