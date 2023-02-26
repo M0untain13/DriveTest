@@ -38,7 +38,7 @@
             <Grid Margin="10,55,10,55">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                     <StackPanel Margin="10">
-                        <TextBox Text="Название теста" MaxWidth="800" MinHeight="30" />
+                        <TextBox x:Name="textBox1" Text="Название теста" MaxWidth="800" MinHeight="30" />
 
                         <ListBox x:Name="listBox1"
                                  MaxWidth="800"

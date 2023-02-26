@@ -82,7 +82,8 @@ namespace Приложение
             {
                 if(window is OpenTestForEdit)
                 {
-                    questions = window.testList;
+                    questions = window.questions;
+                    textBox1.Text = window.name;
                     listBox1.ItemsSource = questions;
                 }
                 else if(window is ExitFromEdit)
@@ -90,7 +91,12 @@ namespace Приложение
                     if (!window.saveTest)
                     {
                         questions.Clear();
+                        textBox1.Clear();
                     }
+                }
+                else if(window is CreateTest)
+                {
+                    textBox1.Text = window.textBox1.Text;
                 }
                 Button_Click_Switch(sender, e); //Если не были учтены условия для перехода в другое окно, то перехода не будет
             }
