@@ -22,9 +22,15 @@ namespace Приложение
         public CreateTest()
         {
             InitializeComponent();
-            textBox1.MaxLength = 20; //Почему это тут? А чтобы удобнее работать с ограничением ввода
+            textBox1.MaxLength = 20;
             passBox1.MaxLength = 20;
         }
+
+        /// <summary>
+        /// Нажатие на кнопку "Создать"
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //TODO: стоит ли делать проверку на ввод спец.символов?

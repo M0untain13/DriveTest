@@ -22,9 +22,9 @@ namespace Приложение
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests"); //Главный каталог, где будут лежать тесты
-        private ObservableCollection<DQuest> questions = new(); //Коллекция вопросов в тесте
-        readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string> //Строки для добавления вопросов в тест
+        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                       //Главный каталог, где будут лежать тесты.
+        private ObservableCollection<DQuest> questions = new();                                         //Коллекция вопросов в тесте.
+        readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string>    //Строки для добавления вопросов в тест.
         {
             StringTypeQuestion.OPEN_ANSWER,
             StringTypeQuestion.SELECTIVE_ANSWER,
@@ -34,26 +34,42 @@ namespace Приложение
         public MainWindow()
         {
             InitializeComponent();
-            comboBox1.ItemsSource = addQuestion;
             listBox1.ItemsSource = questions;
+            comboBox1.ItemsSource = addQuestion;
         }
+
+        /// <summary>
+        /// Сменить поверхности\сетки\grid.
+        /// </summary>
+        /// <param name="current"> Данная поверхность </param>
+        /// <param name="next"> Новая поверхность </param>
         private void Switching(Grid current, Grid next)
         {
-            //Функция смены поверхности
             current.Visibility = Visibility.Hidden;
             current.IsEnabled = false;
             next.Visibility = Visibility.Visible;
             next.IsEnabled = true;
         }
+
+        /// <summary>
+        /// Нажатие какой-либо кнопки, приводящее к смене поверхностей.
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
         private void Button_Click_Switch(object sender, RoutedEventArgs e)
         {
-            //Событие нажатия кнопки для смены поверхности
             Button button = sender as Button;
             Switching(button.Parent as Grid, button.Tag as Grid);
         }
+
+        /// <summary>
+        /// Нажатие какой-либо кнопки, приводящее к открытию промежуточного окна.
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        /// <exception cref="Exception"></exception>
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
-            //Событие нажатия кнопки, вызывающего промежуточное окно
             Button button = sender as Button;
             dynamic window = null;
             switch (button.DataContext)
@@ -78,7 +94,7 @@ namespace Приложение
                 throw new Exception("Ошибка: Попытка открыть несуществующее окно!");
             }
             bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
-            if (isButtonClick)
+            if (isButtonClick) //Логика действий в зависимости от типа окна.
             {
                 if(window is OpenTestForEdit)
                 {
@@ -98,12 +114,16 @@ namespace Приложение
                 {
                     textBox1.Text = window.textBox1.Text;
                 }
-                Button_Click_Switch(sender, e); //Если не были учтены условия для перехода в другое окно, то перехода не будет
+                Button_Click_Switch(sender, e); //Если не были учтены условия для перехода в другое окно, то перехода не будет.
             }
         }
-        private void AddTest()
+
+        /// <summary>
+        /// Добавить вопрос в редакторе
+        /// </summary>
+        private void AddQuestion()
         {
-            //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда буду готовы конструкции разных вопросов
+            //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда будут готовы конструкции разных вопросов.
             //testList.ItemsSource = questions;
             DQuest quest = new();
             quest.answers = new ObservableCollection<DAnswer> { new DAnswer() };
@@ -111,31 +131,40 @@ namespace Приложение
             questions.Add(quest);
             listBox1.ItemsSource = questions;
         }
+
+        /// <summary>
+        /// Прокрутка колёсиком мышки.
+        /// Без этого события, прокрутка не происходит при наводке на lixtBox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            //Событие для прокрутки вопросов
-            //При наводке курсора на listbox, прокрутка не происходила
-            //Этот метод решает проблему данную проблему
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
+
+        /// <summary>
+        /// Выбор типа вопроса в выпадающем списке, приводящее к созданию нового вопроса в тесте
+        /// </summary>
+        /// <param name="sender"> Объект выпадающего списка </param>
+        /// <param name="e"></param>
         private void comboBox1_DropDownClosed(object sender, EventArgs e)
         {
-            //Событие, с которого начинается добавление вопроса в тест
             switch (comboBox1.Text) //TODO: потом это переделать, конструкции должны быть разными
             {
                 case StringTypeQuestion.OPEN_ANSWER:
-                    AddTest();
+                    AddQuestion();
                     break;
                 case StringTypeQuestion.SELECTIVE_ANSWER:
-                    AddTest();
+                    AddQuestion();
                     break;
                 case StringTypeQuestion.MATCHING_SEARCH:
-                    AddTest();
+                    AddQuestion();
                     break;
                 case StringTypeQuestion.DATA_INPUT:
-                    AddTest();
+                    AddQuestion();
                     break;
             }
             comboBox1.Text = string.Empty;
@@ -146,6 +175,11 @@ namespace Приложение
             MessageBox.Show("Эта кнопка пока не работает :(");
         }
 
+        /// <summary>
+        /// Нажатие кнопки, приводящее к добавлению поля для ответа в вопросе в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
         private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -157,6 +191,12 @@ namespace Приложение
                 listBox1.ItemsSource = questions;
             }
         }
+
+        /// <summary>
+        /// Нажатие кнопки, приводящее к удалению поля ответа в вопросе в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
         private void Button_Click_AnswerDelete(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -169,6 +209,11 @@ namespace Приложение
             }
         }
 
+        /// <summary>
+        /// Нажатие кнопки, приводящее к удалению вопроса в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
         private void Button_Click_QuestionDelete(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;

@@ -24,14 +24,32 @@ namespace Приложение
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Выход без сохранения
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitWithoutSave(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
         }
+
+        /// <summary>
+        /// Закрытие окна и возврат в редактор
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Close(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
+        /// <summary>
+        /// Заглушка, вместо которой должно происходить сохранение теста и выход из редактора
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Заглушка(object sender, RoutedEventArgs e)
         {
             //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
