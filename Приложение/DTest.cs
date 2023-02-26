@@ -11,25 +11,6 @@ namespace Приложение
     {
         public string name = "";
         public ObservableCollection<DQuest> quests = new();
-        static public DTest GetTest()
-        {
-            DTest test = new();
-            test.name = "Name";
-            for(int i = 0; i < 3; i++)
-            {
-                DQuest quest = new();
-                quest.quest = i.ToString();
-                quest.number = i + 1;
-                for (int j = 0; j < 3; j++)
-                {
-                    DAnswer answer = new();
-                    answer.answer = i.ToString();
-                    quest.answers.Add(answer);
-                }
-                test.quests.Add(quest);
-            }
-            return test;
-        }
     }
     public class DQuest
     {

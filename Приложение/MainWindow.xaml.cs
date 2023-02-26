@@ -31,11 +31,10 @@ namespace Приложение
             StringTypeQuestion.MATCHING_SEARCH,
             StringTypeQuestion.DATA_INPUT
         };
-        public MainWindow() //TODO: потом надо будет убрать заранее подготовленный список
+        public MainWindow()
         {
             InitializeComponent();
             comboBox1.ItemsSource = addQuestion;
-            //DTest.GetTest().quests.ToList().ForEach(quest => { questions.Add(quest); }); //Добавляем вопросы из заранее подготовленного списка
             listBox1.ItemsSource = questions;
         }
         private void Switching(Grid current, Grid next)
@@ -145,8 +144,36 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            questions[number - 1].answers.Add(new DAnswer());
+            ObservableCollection<DAnswer> answers = questions[number - 1].answers;
+            if (answers.Count < 10)
+            {
+                answers.Add(new DAnswer());
+                listBox1.ItemsSource = questions;
+            }
+        }
+        private void Button_Click_AnswerDelete(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            int number = (int)button.Tag;
+            ObservableCollection<DAnswer> answers = questions[number - 1].answers;
+            if(answers.Count > 1)
+            {
+                answers.RemoveAt(answers.Count - 1);
+                listBox1.ItemsSource = questions;
+            }
+        }
+
+        private void Button_Click_QuestionDelete(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            int number = (int)button.Tag;
+            questions.RemoveAt(number - 1);
+            for(int i = 0; i < questions.Count; i++)
+            {
+                questions[i].number = i + 1;
+            }
             listBox1.ItemsSource = questions;
+            listBox1.Items.Refresh();
         }
     }
 }
