@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Приложение
 {
+    // ОГРОМНАЯ ЖОПА КОЗЛА
     public class DTest //TODO: надо будет заменить этот класс
     {
         public string name = "";
