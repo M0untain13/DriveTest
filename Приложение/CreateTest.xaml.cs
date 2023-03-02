@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Приложение
     /// <summary>
     /// Логика взаимодействия для CreateTest.xaml
     /// </summary>
-    public partial class CreateTest : Window
+    public partial class CreateTest : Window, IDriveTestWindow
     {
         public CreateTest()
         {
@@ -46,6 +47,11 @@ namespace Приложение
             {
                 DialogResult = true; //Окно закрывается
             }
+        }
+
+        void IDriveTestWindow.Command(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        {
+            textBox = textBox1;
         }
     }
 }

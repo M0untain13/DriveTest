@@ -78,6 +78,7 @@
     <Compile Include="CreateTest.xaml.cs">
       <DependentUpon>CreateTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interface1.cs" />
     <Compile Include="StringTypeQuestion.cs" />
     <Compile Include="ExitFromEdit.xaml.cs">
       <DependentUpon>ExitFromEdit.xaml</DependentUpon>

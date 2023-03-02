@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Приложение
     /// <summary>
     /// Логика взаимодействия для ExitFromEdit.xaml
     /// </summary>
-    public partial class ExitFromEdit : Window
+    public partial class ExitFromEdit : Window, IDriveTestWindow
     {
         public bool saveTest = false;
         public ExitFromEdit()
@@ -54,6 +55,15 @@ namespace Приложение
         {
             //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
             MessageBox.Show("Функция кнопки пока не реализована...");
+        }
+
+        void IDriveTestWindow.Command(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        {
+            if(!saveTest)
+            {
+                questions.Clear();
+                textBox.Clear();
+            }
         }
     }
 }
