@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,13 +58,18 @@ namespace Приложение
             MessageBox.Show("Функция кнопки пока не реализована...");
         }
 
-        void IDriveTestWindow.Command(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
         {
             if(!saveTest)
             {
                 questions.Clear();
                 textBox.Clear();
             }
+        }
+
+        IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
+        {
+            return new ExitFromEdit();
         }
     }
 }

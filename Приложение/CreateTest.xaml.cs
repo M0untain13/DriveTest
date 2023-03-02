@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,9 +50,14 @@ namespace Приложение
             }
         }
 
-        void IDriveTestWindow.Command(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
         {
-            textBox = textBox1;
+            textBox.Text = textBox1.Text;
+        }
+
+        IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
+        {
+            return new CreateTest();
         }
     }
 }

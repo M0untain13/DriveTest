@@ -71,30 +71,12 @@ namespace Приложение
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            IDriveTestWindow window = null;
-            switch (button.DataContext)
-            {
-                case CreateTest:
-                    window = new CreateTest();
-                    break;
-                case ExitFromEdit:
-                    window = new ExitFromEdit();
-                    break;
-                case OpenTestForEdit:
-                    window = new OpenTestForEdit(mainDirectory);
-                    break;
-                case OpenTest:
-                    window = new OpenTest(mainDirectory);
-                    break;
-            }
-            if(window == null)
-            {
-                throw new Exception("Ошибка: Попытка открыть несуществующее окно!");
-            }
+            IDriveTestWindow window = button.DataContext as IDriveTestWindow; //Из DataContext мы получаем тип окна.
+            window = window.Init(mainDirectory); //Инициируем окно согласно его типу.
             bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
-            if (isButtonClick) //Логика действий в зависимости от типа окна.
+            if (isButtonClick)
             {
-                window.Command(ref textBox1, ref listBox1, ref questions);
+                window.Commands(ref textBox1, ref listBox1, ref questions); //Комманды, которое должны выполниться над элементами главного окна
                 Button_Click_Switch(sender, e);
             }
         }
