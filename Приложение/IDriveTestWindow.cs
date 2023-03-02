@@ -14,6 +14,11 @@ namespace Приложение
     /// </summary>
     public interface IDriveTestWindow
     {
+        /// <summary>
+        /// Порождение экземпляра
+        /// </summary>
+        /// <param name="directoryInfo"></param>
+        /// <returns></returns>
         public IDriveTestWindow Init(DirectoryInfo directoryInfo);
         /// <summary>
         /// Набор комманд, которые должны выполниться над элементами главного окна
