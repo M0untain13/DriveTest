@@ -11,5 +11,6 @@ namespace Приложение
     public interface IDriveTestWindow
     {
         public void Command(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions);
+        public bool? ShowDialog();
     }
 }
