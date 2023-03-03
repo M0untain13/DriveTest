@@ -15,7 +15,7 @@ namespace Приложение
     public class DQuest
     {
         public string quest = "";
-        public string type = StringTypeQuestion.OPEN_ANSWER;
+        public string type = "";
         public ObservableCollection<DAnswer> answers = new();
         public int number = -1;
         public string Type { get {  return type; } set { type = value; } }
