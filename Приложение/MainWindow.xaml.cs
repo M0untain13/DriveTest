@@ -67,13 +67,12 @@ namespace Приложение
         /// </summary>
         /// <param name="sender"> Объект кнопки </param>
         /// <param name="e"></param>
-        /// <exception cref="Exception"></exception>
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             IDriveTestWindow window = button.DataContext as IDriveTestWindow; //Из DataContext мы получаем тип окна.
             window = window.Init(mainDirectory); //Инициируем окно согласно его типу.
-            bool isButtonClick = window.ShowDialog() ?? false; //Если метод возвращает null, то в переменную запишется false.
+            bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
                 window.Commands(ref textBox1, ref listBox1, ref questions); //Комманды, которое должны выполниться над элементами главного окна
@@ -84,11 +83,12 @@ namespace Приложение
         /// <summary>
         /// Добавить вопрос в редакторе
         /// </summary>
-        private void AddQuestion()
+        private void AddQuestion(string type)
         {
             //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда будут готовы конструкции разных вопросов.
             //testList.ItemsSource = questions;
             DQuest quest = new();
+            quest.type = type;
             quest.answers = new ObservableCollection<DAnswer> { new DAnswer() };
             quest.Number = questions.Count + 1;
             questions.Add(quest);
@@ -115,21 +115,7 @@ namespace Приложение
         /// <param name="e"></param>
         private void comboBox1_DropDownClosed(object sender, EventArgs e)
         {
-            switch (comboBox1.Text) //TODO: потом это переделать, конструкции должны быть разными
-            {
-                case StringTypeQuestion.OPEN_ANSWER:
-                    AddQuestion();
-                    break;
-                case StringTypeQuestion.SELECTIVE_ANSWER:
-                    AddQuestion();
-                    break;
-                case StringTypeQuestion.MATCHING_SEARCH:
-                    AddQuestion();
-                    break;
-                case StringTypeQuestion.DATA_INPUT:
-                    AddQuestion();
-                    break;
-            }
+            AddQuestion(comboBox1.Text);
             comboBox1.Text = string.Empty;
         }
         private void Заглушка(object sender, RoutedEventArgs e)

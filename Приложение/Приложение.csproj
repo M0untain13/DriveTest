@@ -79,6 +79,7 @@
       <DependentUpon>CreateTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="IDriveTestWindow.cs" />
+    <Compile Include="QuestionTemplateSelector.cs" />
     <Compile Include="StringTypeQuestion.cs" />
     <Compile Include="ExitFromEdit.xaml.cs">
       <DependentUpon>ExitFromEdit.xaml</DependentUpon>
