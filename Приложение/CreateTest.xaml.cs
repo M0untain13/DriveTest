@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,14 +19,20 @@ namespace Приложение
     /// <summary>
     /// Логика взаимодействия для CreateTest.xaml
     /// </summary>
-    public partial class CreateTest : Window
+    public partial class CreateTest : Window, IDriveTestWindow
     {
         public CreateTest()
         {
             InitializeComponent();
-            textBox1.MaxLength = 20; //Почему это тут? А чтобы удобнее работать с ограничением ввода
+            textBox1.MaxLength = 20;
             passBox1.MaxLength = 20;
         }
+
+        /// <summary>
+        /// Нажатие на кнопку "Создать"
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //TODO: стоит ли делать проверку на ввод спец.символов?
@@ -40,6 +48,16 @@ namespace Приложение
             {
                 DialogResult = true; //Окно закрывается
             }
+        }
+
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        {
+            textBox.Text = textBox1.Text;
+        }
+
+        IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
+        {
+            return new CreateTest();
         }
     }
 }
