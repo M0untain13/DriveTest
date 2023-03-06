@@ -65,6 +65,7 @@ namespace Приложение
         #endregion Поля
 
         #region Свойства
+        public string Name { get { return name; } set { name = value; } }
         public string Type { get {  return _type; } set { _type = value; } }
         public ObservableCollection<DAnswer> Answers { get { return _answers; } set { _answers = value; } }
         public int Number { get { return _number; } set { _number = value; } }

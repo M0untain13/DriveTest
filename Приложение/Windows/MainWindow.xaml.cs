@@ -175,5 +175,18 @@ namespace Приложение
             listBox1.ItemsSource = questions;
             listBox1.Items.Refresh();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            foreach (char c in textBox.Text)
+            {
+                if (c < '0' || c > '9')
+                {
+                    MessageBox.Show("Ошибка: Ввод нечисленных символов недопустим!");
+                    textBox.Text = "0";
+                }
+            }
+        }
     }
 }

@@ -35,7 +35,7 @@
 
                     <!-- Поля для ввода вопроса -->
                     <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
 
@@ -75,6 +75,14 @@
                         <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" />
                     </Grid>
 
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" TextChanged="TextBox_TextChanged" />
+
+                    <!-- Поле обязательности ответа -->
+                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
+                    
                 </StackPanel>
                 <Border BorderBrush="Black" BorderThickness="1"/>
             </Grid>
