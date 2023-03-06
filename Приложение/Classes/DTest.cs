@@ -76,7 +76,9 @@ namespace Приложение
     public class DAnswer
     {
         private string _answer = "";
+        private bool _isCorrect = false;
         public string Answer { get { return _answer; } set { _answer = value; } }
+        public bool IsCorrect { get { return _isCorrect; } set { _isCorrect = value; } }
     }
     
 }

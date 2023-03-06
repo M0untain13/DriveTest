@@ -63,7 +63,10 @@
                         <!-- Стиль оформления ответа -->
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Answer}" Width="100"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding Answer}" Width="100"/>
+                                    <CheckBox IsChecked="{Binding IsCorrect}"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
 
