@@ -88,8 +88,8 @@ namespace Приложение
             //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда будут готовы конструкции разных вопросов.
             //testList.ItemsSource = questions;
             DQuest quest = new();
-            quest.type = type;
-            quest.answers = new ObservableCollection<DAnswer> { new DAnswer() };
+            quest.Type = type;
+            quest.Answers = new ObservableCollection<DAnswer> { new DAnswer() };
             quest.Number = questions.Count + 1;
             questions.Add(quest);
             listBox1.ItemsSource = questions;
@@ -133,7 +133,7 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = questions[number - 1].answers;
+            ObservableCollection<DAnswer> answers = questions[number - 1].Answers;
             if (answers.Count < 10)
             {
                 answers.Add(new DAnswer());
@@ -150,7 +150,7 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = questions[number - 1].answers;
+            ObservableCollection<DAnswer> answers = questions[number - 1].Answers;
             if(answers.Count > 1)
             {
                 answers.RemoveAt(answers.Count - 1);
@@ -170,7 +170,7 @@ namespace Приложение
             questions.RemoveAt(number - 1);
             for(int i = 0; i < questions.Count; i++)
             {
-                questions[i].number = i + 1;
+                questions[i].Number = i + 1;
             }
             listBox1.ItemsSource = questions;
             listBox1.Items.Refresh();

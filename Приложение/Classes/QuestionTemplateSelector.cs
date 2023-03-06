@@ -22,7 +22,7 @@ namespace Приложение
         public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
         {
             DQuest question = item as DQuest;
-            return question.type switch
+            return question.Type switch
             {
                 StringTypeQuestion.SELECTIVE_ANSWER => SelectiveAnswerTemplate,
                 StringTypeQuestion.OPEN_ANSWER => OpenAnswerTemplate,
