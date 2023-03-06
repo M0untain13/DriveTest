@@ -39,7 +39,7 @@
 
                     <!-- Поля для ввода ответа -->
 
-                    <TextBlock Text="Введите ответ" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Введите ответы и отметьте верные" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ListBox x:Name="listBox2" 
                                                  ItemsSource= "{Binding Answers}"
                                                  HorizontalAlignment="Left" 
