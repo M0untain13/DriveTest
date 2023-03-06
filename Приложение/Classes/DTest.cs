@@ -69,7 +69,14 @@ namespace Приложение
         public string Type { get {  return _type; } set { _type = value; } }
         public ObservableCollection<DAnswer> Answers { get { return _answers; } set { _answers = value; } }
         public int Number { get { return _number; } set { _number = value; } }
-        public bool AnswerRequired { get { return _answerRequired; } set { _answerRequired = value; } }
+        public bool AnswerRequired { 
+            get 
+            { 
+                if(_type == StringTypeQuestion.OPEN_ANSWER)
+                    return true;
+                return _answerRequired; 
+            } 
+            set { _answerRequired = value; } }
         public double Price { get { return _price; } set { _price = value; } }
         #endregion Свойства
     }
