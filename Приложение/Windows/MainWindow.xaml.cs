@@ -24,20 +24,14 @@ namespace Приложение
     {
         readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                       //Главный каталог, где будут лежать тесты.
         private DTest test = null;                                                                      //Объект теста
-        readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string>    //Строки для добавления вопросов в тест.
-        {
-            StringTypeQuestion.OPEN_ANSWER,
-            StringTypeQuestion.SELECTIVE_ANSWER,
-            StringTypeQuestion.MATCHING_SEARCH,
-            StringTypeQuestion.DATA_INPUT
-        };
+        readonly private ObservableCollection<string> addQuestion = StringTypeQuestion.List;            //Строки для добавления вопросов в тест.
         public MainWindow()
         {
             InitializeComponent();
             listBox1.ItemsSource = new ObservableCollection<DQuest>();
             comboBox1.ItemsSource = addQuestion;
         }
-
+        
         /// <summary>
         /// Сменить поверхности\сетки\grid.
         /// </summary>
