@@ -23,8 +23,7 @@ namespace Приложение
     public partial class MainWindow : Window
     {
         readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                       //Главный каталог, где будут лежать тесты.
-        private DTest test = null;
-        private ObservableCollection<DQuest> questions = new();                                         //Коллекция вопросов в тесте.
+        private DTest test = null;                                                                      //Объект теста
         readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string>    //Строки для добавления вопросов в тест.
         {
             StringTypeQuestion.OPEN_ANSWER,
@@ -35,7 +34,7 @@ namespace Приложение
         public MainWindow()
         {
             InitializeComponent();
-            listBox1.ItemsSource = questions;
+            listBox1.ItemsSource = new ObservableCollection<DQuest>();
             comboBox1.ItemsSource = addQuestion;
         }
 
@@ -76,7 +75,7 @@ namespace Приложение
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
-                window.Commands(ref textBox1, ref listBox1, ref questions, ref test); //Комманды, которое должны выполниться над элементами главного окна
+                window.Commands(ref textBox1, ref listBox1, ref test); //Комманды, которое должны выполниться над элементами главного окна
                 Button_Click_Switch(sender, e);
             }
         }
@@ -91,9 +90,9 @@ namespace Приложение
             DQuest quest = new();
             quest.Type = type;
             quest.Answers = new ObservableCollection<DAnswer> { new DAnswer() };
-            quest.Number = questions.Count + 1;
-            questions.Add(quest);
-            listBox1.ItemsSource = questions;
+            quest.Number = test.quests.Count + 1;
+            test.quests.Add(quest);
+            listBox1.ItemsSource = test.quests;
         }
 
         /// <summary>
@@ -138,7 +137,6 @@ namespace Приложение
         /// <param name="e"></param>
         private void SaveTest(object sender, RoutedEventArgs e)
         {
-            test.quests = questions;
             test.name = textBox1.Text;
             test.Save(mainDirectory.ToString());
             MessageBox.Show("Тест сохранён!");
@@ -153,11 +151,11 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = questions[number - 1].Answers;
+            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
             if (answers.Count < 10)
             {
                 answers.Add(new DAnswer());
-                listBox1.ItemsSource = questions;
+                listBox1.ItemsSource = test.quests;
             }
         }
 
@@ -170,11 +168,11 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = questions[number - 1].Answers;
+            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
             if(answers.Count > 1)
             {
                 answers.RemoveAt(answers.Count - 1);
-                listBox1.ItemsSource = questions;
+                listBox1.ItemsSource = test.quests;
             }
         }
 
@@ -187,12 +185,12 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            questions.RemoveAt(number - 1);
-            for(int i = 0; i < questions.Count; i++)
+            test.quests.RemoveAt(number - 1);
+            for(int i = 0; i < test.quests.Count; i++)
             {
-                questions[i].Number = i + 1;
+                test.quests[i].Number = i + 1;
             }
-            listBox1.ItemsSource = questions;
+            listBox1.ItemsSource = test.quests;
             listBox1.Items.Refresh();
         }
 

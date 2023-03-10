@@ -58,13 +58,13 @@ namespace Приложение
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions, ref DTest test)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test)
         {
             if(saveTest)
             {
                 test.Save("Tests"); //TODO: это потом исправить на нормальную передачу имени главного каталога.
             }
-            questions.Clear();
+            test.quests.Clear();
             textBox.Clear();
         }
 

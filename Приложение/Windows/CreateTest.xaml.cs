@@ -55,12 +55,12 @@ namespace Приложение
             }
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions, ref DTest test)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test)
         {
             test = this.test;
-            questions = this.test.quests;
+            test.quests = this.test.quests;
             textBox.Text = this.test.name;
-            listBox.ItemsSource = questions;
+            listBox.ItemsSource = test.quests;
         }
 
         IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)

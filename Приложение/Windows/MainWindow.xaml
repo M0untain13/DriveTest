@@ -186,7 +186,7 @@
     
     <Grid>
         <!-- Поверхность главного меню -->
-        <Grid x:Name="Main" IsEnabled="False" Visibility="Hidden">
+        <Grid x:Name="Main" IsEnabled="True" Visibility="Visible">
             
             <Button Content="Создать тест" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -223,7 +223,7 @@
         </Grid>
         
         <!-- Поверхность редактора -->
-        <Grid x:Name="Editor" IsEnabled="True" Visibility="Visible">
+        <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden">
             
             <Button Content="Сохранить" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
