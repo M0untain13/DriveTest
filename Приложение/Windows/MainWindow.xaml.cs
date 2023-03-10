@@ -69,7 +69,7 @@ namespace Приложение
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
-                window.Commands(ref textBox1, ref listBox1, ref test); //Комманды, которое должны выполниться над элементами главного окна
+                window.Commands(ref textBox1, ref listBox1, ref test, this); //Комманды, которое должны выполниться над элементами главного окна
                 Button_Click_Switch(sender, e);
             }
         }
