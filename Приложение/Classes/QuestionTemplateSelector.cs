@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Приложение
 {
+    /// <summary>
+    /// Описание структуры селектора формы вопроса
+    /// </summary>
     public class QuestionTemplateSelector : System.Windows.Controls.DataTemplateSelector
     {
         public System.Windows.DataTemplate OpenAnswerTemplate { get; set; }
@@ -21,6 +24,13 @@ namespace Приложение
             MatchingSearchTemplate = new System.Windows.DataTemplate();
             DataInputTemplate = new System.Windows.DataTemplate();
         }
+
+        /// <summary>
+        /// Метод выбора формы вопроса
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="container"></param>
+        /// <returns></returns>
         public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
         {
             DQuest question = item as DQuest;

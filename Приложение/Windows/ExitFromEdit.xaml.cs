@@ -58,11 +58,11 @@ namespace Приложение
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow mainWindow)
         {
             if(saveTest)
             {
-                test.Save("Tests"); //TODO: это потом исправить на нормальную передачу имени главного каталога.
+                test.Save(mainWindow.mainDirectory.ToString());
             }
             test.quests.Clear();
             textBox.Clear();

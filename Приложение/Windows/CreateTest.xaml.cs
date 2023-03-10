@@ -55,7 +55,7 @@ namespace Приложение
             }
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow w)
         {
             test = this.test;
             test.quests = this.test.quests;

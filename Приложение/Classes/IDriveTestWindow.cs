@@ -20,13 +20,15 @@ namespace Приложение
         /// <param name="directoryInfo"></param>
         /// <returns></returns>
         public IDriveTestWindow Init(DirectoryInfo directoryInfo);
+
         /// <summary>
         /// Набор комманд, которые должны выполниться над элементами главного окна
         /// </summary>
         /// <param name="textBox"> Текстовое поле </param>
         /// <param name="listBox"> Поле для вопросов вроде бы </param>
         /// <param name="questions"> Список вопросов </param>
-        public void Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test);
+        public void Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow mainWindow);
+
         /// <summary>
         /// Функция вызова окна
         /// </summary>

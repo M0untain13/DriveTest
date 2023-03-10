@@ -14,19 +14,33 @@ using System.Xml;
 
 namespace Приложение
 {
+    /// <summary>
+    /// Описание структуры теста
+    /// </summary>
     [Serializable]
-    public class DTest //TODO: надо будет заменить этот класс
+    public class DTest
     {
         public string name = "";
         public ObservableCollection<DQuest> quests = new();
         private readonly string _password = "";
-        private readonly bool _isOpened = false;
+        private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
         public bool IsOpened { get { return _isOpened; } }
+
+        /// <summary>
+        /// Конструктор для создания нового теста
+        /// </summary>
+        /// <param name="password"></param>
         public DTest(string password) 
         {
             _password = Encryption(password);
             _isOpened = true;
         }
+
+        /// <summary>
+        /// Конструктор для открытия существующего теста
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="path"></param>
         public DTest(string password, string path)
         {
             FileStream fs = new FileStream(path, FileMode.Open);
@@ -44,6 +58,11 @@ namespace Приложение
             fs.Close();
         }
 
+        /// <summary>
+        /// Метод для шифровки пароля
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private string Encryption(string password)
         {
             string newPassword = "";
@@ -54,6 +73,10 @@ namespace Приложение
             return newPassword;
         }
 
+        /// <summary>
+        /// Метод для сохранения теста
+        /// </summary>
+        /// <param name="pathToMainDirectory"></param>
         public void Save(string pathToMainDirectory)
         {
             string path = pathToMainDirectory + "\\" + name;

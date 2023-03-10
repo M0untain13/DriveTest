@@ -8,6 +8,9 @@ using System.Windows.Markup;
 
 namespace Приложение
 {
+    /// <summary>
+    /// Описание перечисления форм вопросов
+    /// </summary>
     static public class StringTypeQuestion
     {
         public const string OPEN_ANSWER = "Вопрос с открытым ответом";
