@@ -58,7 +58,7 @@ namespace Приложение
             MessageBox.Show("Функция кнопки пока не реализована...");
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions, ref DTest test)
         {
             if(!saveTest)
             {

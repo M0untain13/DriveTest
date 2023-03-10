@@ -23,6 +23,7 @@ namespace Приложение
     public partial class MainWindow : Window
     {
         readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                       //Главный каталог, где будут лежать тесты.
+        private DTest test = null;
         private ObservableCollection<DQuest> questions = new();                                         //Коллекция вопросов в тесте.
         readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string>    //Строки для добавления вопросов в тест.
         {
@@ -75,7 +76,7 @@ namespace Приложение
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
-                window.Commands(ref textBox1, ref listBox1, ref questions); //Комманды, которое должны выполниться над элементами главного окна
+                window.Commands(ref textBox1, ref listBox1, ref questions, ref test); //Комманды, которое должны выполниться над элементами главного окна
                 Button_Click_Switch(sender, e);
             }
         }
@@ -122,6 +123,12 @@ namespace Приложение
         {
             //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
             MessageBox.Show("Эта кнопка пока не работает :(");
+        }
+        private void SaveTest(object sender, RoutedEventArgs e)
+        {
+            test.quests = questions;
+            test.name = textBox1.Text;
+            test.Save(mainDirectory.ToString());
         }
 
         /// <summary>

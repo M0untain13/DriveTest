@@ -13,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Приложение
 {
@@ -21,6 +23,7 @@ namespace Приложение
     /// </summary>
     public partial class CreateTest : Window, IDriveTestWindow
     {
+        public DTest test;
         public CreateTest()
         {
             InitializeComponent();
@@ -46,13 +49,18 @@ namespace Приложение
             }
             else
             {
+                test = new DTest(passBox1.Password);
+                test.name = textBox1.Text;
                 DialogResult = true; //Окно закрывается
             }
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions, ref DTest test)
         {
-            textBox.Text = textBox1.Text;
+            test = this.test;
+            questions = this.test.quests;
+            textBox.Text = this.test.name;
+            listBox.ItemsSource = questions;
         }
 
         IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)

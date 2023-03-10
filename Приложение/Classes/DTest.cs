@@ -6,8 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 using System.Xml;
 
 namespace Приложение
@@ -17,20 +19,26 @@ namespace Приложение
     {
         public string name = "";
         public ObservableCollection<DQuest> quests = new();
-        private readonly string password = "";
-        public DTest() { }
+        private readonly string _password = "";
+        private readonly bool _isOpened = false;
+        public bool IsOpened { get { return _isOpened; } }
+        public DTest(string password) 
+        {
+            _password = Encryption(password);
+            _isOpened = true;
+        }
         public DTest(string password, string path)
         {
             FileStream fs = new FileStream(path, FileMode.Open);
             DataContractSerializer ser = new DataContractSerializer(typeof(DTest));
             XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-            // Deserialize the data and read it from the instance.
-            DTest deserialized = (DTest)ser.ReadObject(reader, true);
-            if (Encryption(password) == deserialized.password)
+            DTest deserialized = ser.ReadObject(reader, true) as DTest;
+            if (Encryption(password) == deserialized._password)
             {
-                this.password = deserialized.password;
-                this.name = deserialized.name;
-                this.quests = deserialized.quests;
+                _password = deserialized._password;
+                name = deserialized.name;
+                quests = deserialized.quests;
+                _isOpened = true;
             }
             reader.Close();
             fs.Close();
@@ -46,12 +54,18 @@ namespace Приложение
             return newPassword;
         }
 
-        // Приложение\Tests(который pathToMainDirectory)\%название_теста%(которое this.name)\Test.XML
         public void Save(string pathToMainDirectory)
         {
-            
+            string path = pathToMainDirectory + "\\" + name;
+            Directory.CreateDirectory(path);
+            path += "\\Test.XML";
+            FileStream fs = new FileStream(path, FileMode.Create);
+            DataContractSerializer ser = new DataContractSerializer(typeof(DTest));
+            XmlWriter reader = XmlWriter.Create(fs);
+            ser.WriteObject(reader, this);
+            reader.Close();
+            fs.Close();
         }
-
     }
     public class DQuest
     {
