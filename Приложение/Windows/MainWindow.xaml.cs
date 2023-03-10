@@ -119,16 +119,29 @@ namespace Приложение
             AddQuestion(comboBox1.Text);
             comboBox1.Text = string.Empty;
         }
+
+        /// <summary>
+        /// Заглушка, от которой необходимо избавиться
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Заглушка(object sender, RoutedEventArgs e)
         {
             //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
             MessageBox.Show("Эта кнопка пока не работает :(");
         }
+
+        /// <summary>
+        /// Нажатие кнопки "Сохранить" сохраняет тест
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveTest(object sender, RoutedEventArgs e)
         {
             test.quests = questions;
             test.name = textBox1.Text;
             test.Save(mainDirectory.ToString());
+            MessageBox.Show("Тест сохранён!");
         }
 
         /// <summary>
@@ -183,6 +196,11 @@ namespace Приложение
             listBox1.Items.Refresh();
         }
 
+        /// <summary>
+        /// Проверка ввода баллов на содержание нечисленных символов в вводе
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
