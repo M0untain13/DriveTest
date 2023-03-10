@@ -109,8 +109,11 @@ namespace Приложение
         /// <param name="e"></param>
         private void comboBox1_DropDownClosed(object sender, EventArgs e)
         {
-            AddQuestion(comboBox1.Text);
-            comboBox1.Text = string.Empty;
+            if(comboBox1.Text != string.Empty)
+            {
+                AddQuestion(comboBox1.Text);
+                comboBox1.Text = string.Empty;
+            }
         }
 
         /// <summary>
