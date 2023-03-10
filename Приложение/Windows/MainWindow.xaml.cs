@@ -23,21 +23,15 @@ namespace Приложение
     public partial class MainWindow : Window
     {
         readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                       //Главный каталог, где будут лежать тесты.
-        private ObservableCollection<DQuest> questions = new();                                         //Коллекция вопросов в тесте.
-        readonly private ObservableCollection<string> addQuestion = new ObservableCollection<string>    //Строки для добавления вопросов в тест.
-        {
-            StringTypeQuestion.OPEN_ANSWER,
-            StringTypeQuestion.SELECTIVE_ANSWER,
-            StringTypeQuestion.MATCHING_SEARCH,
-            StringTypeQuestion.DATA_INPUT
-        };
+        private DTest test = null;                                                                      //Объект теста
+        readonly private ObservableCollection<string> addQuestion = StringTypeQuestion.List;            //Строки для добавления вопросов в тест.
         public MainWindow()
         {
             InitializeComponent();
-            listBox1.ItemsSource = questions;
+            listBox1.ItemsSource = new ObservableCollection<DQuest>();
             comboBox1.ItemsSource = addQuestion;
         }
-
+        
         /// <summary>
         /// Сменить поверхности\сетки\grid.
         /// </summary>
@@ -75,7 +69,7 @@ namespace Приложение
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
-                window.Commands(ref textBox1, ref listBox1, ref questions); //Комманды, которое должны выполниться над элементами главного окна
+                window.Commands(ref textBox1, ref listBox1, ref test); //Комманды, которое должны выполниться над элементами главного окна
                 Button_Click_Switch(sender, e);
             }
         }
@@ -88,11 +82,11 @@ namespace Приложение
             //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда будут готовы конструкции разных вопросов.
             //testList.ItemsSource = questions;
             DQuest quest = new();
-            quest.type = type;
-            quest.answers = new ObservableCollection<DAnswer> { new DAnswer() };
-            quest.Number = questions.Count + 1;
-            questions.Add(quest);
-            listBox1.ItemsSource = questions;
+            quest.Type = type;
+            quest.Answers = new ObservableCollection<DAnswer> { new DAnswer() };
+            quest.Number = test.quests.Count + 1;
+            test.quests.Add(quest);
+            listBox1.ItemsSource = test.quests;
         }
 
         /// <summary>
@@ -115,13 +109,34 @@ namespace Приложение
         /// <param name="e"></param>
         private void comboBox1_DropDownClosed(object sender, EventArgs e)
         {
-            AddQuestion(comboBox1.Text);
-            comboBox1.Text = string.Empty;
+            if(comboBox1.Text != string.Empty)
+            {
+                AddQuestion(comboBox1.Text);
+                comboBox1.Text = string.Empty;
+            }
         }
+
+        /// <summary>
+        /// Заглушка, от которой необходимо избавиться
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Заглушка(object sender, RoutedEventArgs e)
         {
             //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
             MessageBox.Show("Эта кнопка пока не работает :(");
+        }
+
+        /// <summary>
+        /// Нажатие кнопки "Сохранить" сохраняет тест
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveTest(object sender, RoutedEventArgs e)
+        {
+            test.name = textBox1.Text;
+            test.Save(mainDirectory.ToString());
+            MessageBox.Show("Тест сохранён!");
         }
 
         /// <summary>
@@ -133,11 +148,11 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = questions[number - 1].answers;
+            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
             if (answers.Count < 10)
             {
                 answers.Add(new DAnswer());
-                listBox1.ItemsSource = questions;
+                listBox1.ItemsSource = test.quests;
             }
         }
 
@@ -150,11 +165,11 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = questions[number - 1].answers;
+            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
             if(answers.Count > 1)
             {
                 answers.RemoveAt(answers.Count - 1);
-                listBox1.ItemsSource = questions;
+                listBox1.ItemsSource = test.quests;
             }
         }
 
@@ -167,13 +182,31 @@ namespace Приложение
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            questions.RemoveAt(number - 1);
-            for(int i = 0; i < questions.Count; i++)
+            test.quests.RemoveAt(number - 1);
+            for(int i = 0; i < test.quests.Count; i++)
             {
-                questions[i].number = i + 1;
+                test.quests[i].Number = i + 1;
             }
-            listBox1.ItemsSource = questions;
+            listBox1.ItemsSource = test.quests;
             listBox1.Items.Refresh();
+        }
+
+        /// <summary>
+        /// Проверка ввода баллов на содержание нечисленных символов в вводе
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            foreach (char c in textBox.Text)
+            {
+                if (c < '0' || c > '9')
+                {
+                    MessageBox.Show("Ошибка: Ввод нечисленных символов недопустим!");
+                    textBox.Text = "0";
+                }
+            }
         }
     }
 }

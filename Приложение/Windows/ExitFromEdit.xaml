@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Вы уверены, что сохранили тест?" Height="150" Width="300" ResizeMode="NoResize">
     <Grid>
-        <Button Content="Сохранить и выйти" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Click="Заглушка"/>
+        <Button Content="Сохранить и выйти" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Click="ExitWithSave"/>
         <Button Content="Выйти" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Click="ExitWithoutSave"/>
         <Button Content="Не выходить" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Click="Close"/>
     </Grid>

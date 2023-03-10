@@ -26,7 +26,7 @@ namespace Приложение
         /// <param name="textBox"> Текстовое поле </param>
         /// <param name="listBox"> Поле для вопросов вроде бы </param>
         /// <param name="questions"> Список вопросов </param>
-        public void Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions);
+        public void Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test);
         /// <summary>
         /// Функция вызова окна
         /// </summary>

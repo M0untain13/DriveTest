@@ -48,23 +48,24 @@ namespace Приложение
         }
 
         /// <summary>
-        /// Заглушка, вместо которой должно происходить сохранение теста и выход из редактора
+        /// Выход с сохранием теста
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Заглушка(object sender, RoutedEventArgs e)
+        private void ExitWithSave(object sender, RoutedEventArgs e)
         {
-            //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
-            MessageBox.Show("Функция кнопки пока не реализована...");
+            saveTest = true;
+            DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref ObservableCollection<DQuest> questions)
+        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test)
         {
-            if(!saveTest)
+            if(saveTest)
             {
-                questions.Clear();
-                textBox.Clear();
+                test.Save("Tests"); //TODO: это потом исправить на нормальную передачу имени главного каталога.
             }
+            test.quests.Clear();
+            textBox.Clear();
         }
 
         IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
