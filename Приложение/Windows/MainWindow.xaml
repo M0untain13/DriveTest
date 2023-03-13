@@ -296,8 +296,11 @@
             <Button Content="Посмотреть результаты" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="140" Margin="385,10,0,0"
-                    Click="Заглушка"/>
-            
+                    Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
+                <Button.DataContext>
+                    <local:OpenResults/>
+                </Button.DataContext>
+            </Button>
         </Grid>
         
         <!-- Поверхность редактора -->
@@ -370,6 +373,11 @@
         
         <!-- Поверхность тестирования -->
         <Grid x:Name="Test" IsEnabled="False" Visibility="Hidden">
+            <TextBlock Text="Это типо окно тестирования, но пока пустое"/>
+        </Grid>
+
+        <!-- Поверхность просмотра результатов -->
+        <Grid x:Name="Result" IsEnabled="False" Visibility="Hidden">
             <TextBlock Text="Это типо окно тестирования, но пока пустое"/>
         </Grid>
     </Grid>
