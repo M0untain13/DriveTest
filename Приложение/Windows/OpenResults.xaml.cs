@@ -46,16 +46,11 @@ namespace Приложение
 
         }
 
-        IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
-        {
-            return new OpenResults(directoryInfo);
-        }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
             if (choseTest.Text == string.Empty)
             {
-                warningBlock.Text = "Тест не выбран!";
+                warning.Text = "Тест не выбран!";
             }
         }
     }

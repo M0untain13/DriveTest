@@ -62,10 +62,5 @@ namespace Приложение
             textBox.Text = this.test.name;
             listBox.ItemsSource = test.quests;
         }
-
-        IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
-        {
-            return new CreateTest();
-        }
     }
 }

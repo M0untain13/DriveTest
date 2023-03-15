@@ -67,10 +67,5 @@ namespace Приложение
             test.quests.Clear();
             textBox.Clear();
         }
-
-        IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
-        {
-            return new ExitFromEdit();
-        }
     }
 }

@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Classes\FactoryMethod.cs" />
     <Compile Include="Windows\OpenResults.xaml.cs">
       <DependentUpon>OpenResults.xaml</DependentUpon>
     </Compile>

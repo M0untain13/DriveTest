@@ -64,8 +64,9 @@ namespace Приложение
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            IDriveTestWindow window = button.DataContext as IDriveTestWindow; //Из DataContext мы получаем тип окна.
-            window = window.Init(mainDirectory); //Инициируем окно согласно его типу.
+            IFactoryMethod factoryMethod = button.DataContext as IFactoryMethod;
+            factoryMethod.SetDirectory = mainDirectory; //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
+            IDriveTestWindow window = factoryMethod.Window();
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
