@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
 
@@ -41,6 +42,13 @@ namespace Приложение.Windows
                 };
                 DialogResult = true; //Окно закрывается
             }
+            ClearWarning();
+        }
+
+        private async void ClearWarning()
+        {
+            await Task.Delay(3000);
+            warningBlock.Text = "Прежде чем создать тест, введите название и пароль!";
         }
 
         void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow w)

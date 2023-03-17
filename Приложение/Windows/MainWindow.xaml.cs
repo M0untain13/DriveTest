@@ -13,11 +13,10 @@ namespace Приложение.Windows
     /// Логика взаимодействия для MainWindow.xaml
     /// Напишу тут про известные баги
     /// TODO: баг, кнопочки RadioButtons не хотят нормально группироваться
-    /// TODO: баг, тест не сохраняется при каком-то условии, надо потыкаться, вроде с какой-то формой вопроса связано
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                       //Главный каталог, где будут лежать тесты.
+        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                  //Главный каталог, где будут лежать тесты.
         private DTest test = null;                                                                      //Объект теста
         readonly private ObservableCollection<string> addQuestion = StringTypeQuestion.List;            //Строки для добавления вопросов в тест.
         public MainWindow()
@@ -59,9 +58,9 @@ namespace Приложение.Windows
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            IFactoryMethod factoryMethod = button.DataContext as IFactoryMethod;
-            factoryMethod.SetDirectory = mainDirectory; //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
-            IDriveTestWindow window = factoryMethod.Window();
+            IWindowFactoryMethod windowFactoryMethod = button.DataContext as IWindowFactoryMethod;
+            windowFactoryMethod.SetDirectory = mainDirectory; //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
+            IDriveTestWindow window = windowFactoryMethod.Window();
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
@@ -89,23 +88,14 @@ namespace Приложение.Windows
         /// </summary>
         private void AddQuestion(string type)
         {
-            DQuest quest = new()
+            DQuest quest = type switch
             {
-                Type = type
-
+                StringTypeQuestion.MATCHING_SEARCH => new DQuest(new InitAP()),
+                StringTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new InitAO()),
+                _ => new DQuest(new InitA()),
             };
-            if (type == StringTypeQuestion.MATCHING_SEARCH)
-            {
-                quest.Answers = new ObservableCollection<IAnswer> { new DAnswerPair() };
-            }
-            if (type == StringTypeQuestion.SELECTIVE_ANSWER_ONE)
-            {
-                quest.Answers = new ObservableCollection<IAnswer> { new DAnswerOne(quest) };
-            }
-            else
-            {
-                quest.Answers = new ObservableCollection<IAnswer> { new DAnswer() };
-            }
+            quest.Type = type;
+            quest.Answers = new ObservableCollection<IAnswer> { quest.FactoryMethod.Answer() };
             quest.Number = test.quests.Count + 1;
             test.quests.Add(quest);
             listBox1.ItemsSource = test.quests;
@@ -142,7 +132,7 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void SaveTest(object sender, RoutedEventArgs e)
         {
-            test.name = textBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название?
+            test.name = textBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
             test.Save(mainDirectory.ToString());
             MessageBox.Show("Тест сохранён!");
         }
@@ -155,18 +145,14 @@ namespace Приложение.Windows
         private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
+            DQuest quest = button.DataContext as DQuest;
+            IAnswerFactoryMethod factoryMethod = quest.FactoryMethod;
+            IAnswer answer = factoryMethod.Answer();
             int number = (int)button.Tag;
             ObservableCollection<IAnswer> answers = test.quests[number - 1].Answers;
             if (answers.Count < 10)
             {
-                if (test.quests[number-1].Type == StringTypeQuestion.MATCHING_SEARCH)
-                {
-                    answers.Add(new DAnswerPair());
-                }
-                else
-                {
-                    answers.Add(new DAnswer());
-                }
+                answers.Add(answer);
                 listBox1.ItemsSource = test.quests;
             }
         }

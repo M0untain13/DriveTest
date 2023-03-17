@@ -6,7 +6,7 @@ namespace Приложение.Classes
     /// <summary>
     /// Да это же фабричный метод!!!
     /// </summary>
-    public interface IFactoryMethod
+    public interface IWindowFactoryMethod
     {
         /// <summary>
         /// При необходимости, устанавливаем путь к папке, где лежат тесты.
@@ -19,7 +19,7 @@ namespace Приложение.Classes
         public IDriveTestWindow Window();
     }
 
-    public class InitCT : IFactoryMethod
+    public class InitCT : IWindowFactoryMethod
     {
         public DirectoryInfo SetDirectory { set { } }
         public IDriveTestWindow Window()
@@ -28,7 +28,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitEFE : IFactoryMethod
+    public class InitEFE : IWindowFactoryMethod
     {
         public DirectoryInfo SetDirectory { set { } }
         public IDriveTestWindow Window()
@@ -37,7 +37,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitOR : IFactoryMethod
+    public class InitOR : IWindowFactoryMethod
     {
         private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
@@ -47,7 +47,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitOT : IFactoryMethod
+    public class InitOT : IWindowFactoryMethod
     {
         private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
@@ -57,7 +57,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitOTFE : IFactoryMethod
+    public class InitOTFE : IWindowFactoryMethod
     {
         private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }

@@ -9,28 +9,40 @@ namespace Приложение.Classes
 {
     /// <summary>
     /// Описание структуры теста
-    /// TODO: нужно сделать фабричный метод для объектов ответа
     /// </summary>
     [DataContract]
     public class DTest
     {
         #region Поля
-        [DataMember]
-        public string name = "";
-        [DataMember]
-        public ObservableCollection<DQuest> quests = new();
-        [DataMember]
-        private readonly string _password = "";
+
+        [DataMember] public string name = "";
+        [DataMember] public ObservableCollection<DQuest> quests = new();
+        [DataMember] private readonly string _password = "";
+        private static DataContractSerializer _serializer = new DataContractSerializer(
+            typeof(DTest),
+            new List<Type>
+            {
+                typeof(DQuest), typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer),
+                typeof(InitA), typeof(InitAO), typeof(InitAP),
+            });
+
         [DataMember]
         private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
+
         #endregion
-        public bool IsOpened { get { return _isOpened; } }
+
+        public bool IsOpened
+        {
+            get { return _isOpened; }
+        }
+
         #region Конструкторы
+
         /// <summary>
         /// Конструктор для создания нового теста
         /// </summary>
         /// <param name="password"></param>
-        public DTest(string password) 
+        public DTest(string password)
         {
             _password = Encryption(password);
             _isOpened = true;
@@ -44,9 +56,8 @@ namespace Приложение.Classes
         public DTest(string password, string path)
         {
             FileStream fs = new FileStream(path, FileMode.Open);
-            DataContractSerializer ser = new DataContractSerializer(typeof(DTest), new List<Type> { typeof(DQuest), typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) });
             XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-            DTest deserialized = ser.ReadObject(reader, true) as DTest;
+            DTest deserialized = _serializer.ReadObject(reader, true) as DTest;
             if (Encryption(password) == deserialized._password)
             {
                 _password = deserialized._password;
@@ -54,11 +65,15 @@ namespace Приложение.Classes
                 quests = deserialized.quests;
                 _isOpened = true;
             }
+
             reader.Close();
             fs.Close();
         }
+
         #endregion
+
         #region Методы
+
         /// <summary>
         /// Метод для шифровки пароля
         /// </summary>
@@ -71,6 +86,7 @@ namespace Приложение.Classes
             {
                 newPassword += password[i] + i;
             }
+
             return newPassword;
         }
 
@@ -84,62 +100,94 @@ namespace Приложение.Classes
             Directory.CreateDirectory(path);
             path += "\\Test.XML";
             FileStream fs = new FileStream(path, FileMode.Create);
-            DataContractSerializer ser = new DataContractSerializer(typeof(DTest), new List<Type> { typeof(DQuest), typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) });
             XmlWriter reader = XmlWriter.Create(fs);
-            ser.WriteObject(reader, this); //TODO: сериализация пошла по одному месту из-за наличия ссылки у ответов на вопрос
+            _serializer.WriteObject(reader,
+                this);
             reader.Close();
             fs.Close();
         }
+
         #endregion
     }
+
     [DataContract]
     public class DQuest
     {
         #region Поля
-        [DataMember]
-        public string name = "";
-        [DataMember]
-        private string _type = "";
-        [DataMember]
-        private ObservableCollection<IAnswer> _answers = null;
-        [DataMember]
-        private int _number = -1;
-        [DataMember]
-        private bool _answerRequired = true;
-        [DataMember]
-        private double _price = 0;
+
+        [DataMember] public string name = "";
+        [DataMember] private string _type = "";
+        [DataMember] private ObservableCollection<IAnswer> _answers = null;
+        [DataMember] private int _number = -1;
+        [DataMember] private bool _answerRequired = true;
+        [DataMember] private double _price = 0;
+        [DataMember] private IAnswerFactoryMethod _factoryMethod;
+
         #endregion Поля
 
         #region Свойства
-        public string Name { get { return name; } set { name = value; } }
-        public string Type { get {  return _type; } set { _type = value; } }
-        public ObservableCollection<IAnswer> Answers { get { return _answers; } set { _answers = value; } }
-        public int Number { get { return _number; } set { _number = value; } }
-        public bool AnswerRequired { 
-            get 
-            { 
-                if(_type == StringTypeQuestion.OPEN_ANSWER)
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string Type
+        {
+            get { return _type; }
+            set { _type = value; }
+        }
+
+        public ObservableCollection<IAnswer> Answers
+        {
+            get { return _answers; }
+            set { _answers = value; }
+        }
+
+        public int Number
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
+
+        public bool AnswerRequired
+        {
+            get
+            {
+                if (_type == StringTypeQuestion.OPEN_ANSWER)
                     return true;
-                return _answerRequired; 
-            } 
-            set { _answerRequired = value; } }
-        public double Price { get { return _price; } set { _price = value; } }
+                return _answerRequired;
+            }
+            set { _answerRequired = value; }
+        }
+
+        public double Price
+        {
+            get { return _price; }
+            set { _price = value; }
+        }
+
+        public IAnswerFactoryMethod FactoryMethod
+        {
+            get { return _factoryMethod; }
+        }
+    
+
         #endregion Свойства
 
-        public void ReserCorrect()
+        
+        public DQuest(IAnswerFactoryMethod factoryMethod)
         {
-            foreach(IAnswer answer in _answers)
-            {
-                answer.IsCorrect = false;
-            }
+            _factoryMethod = factoryMethod;
         }
     }
+
     public interface IAnswer
     {
         public string Answer1 { get; set;}
         public string Answer2 { get; set; }
         public bool IsCorrect { get; set; }
-        public IAnswer Init(DQuest quest);
     }
     [DataContract]
     public class DAnswer : IAnswer
@@ -151,10 +199,6 @@ namespace Приложение.Classes
         public string Answer1 { get { return _answer; } set { _answer = value; } }
         public string Answer2 { get { return null; } set { } }
         public bool IsCorrect { get { return _isCorrect; } set { _isCorrect = value; } }
-        public IAnswer Init(DQuest quest)
-        {
-            return new DAnswer();
-        }
     }
     [DataContract]
     public class DAnswerOne : IAnswer
@@ -163,12 +207,6 @@ namespace Приложение.Classes
         private string _answer = "";
         [DataMember]
         private bool _isCorrect = false;
-        [DataMember]
-        private readonly DQuest _quest = null;
-        public DAnswerOne(DQuest quest)
-        {
-            _quest = quest;
-        }
         public string Answer1 { get { return _answer; } set { _answer = value; } }
         public string Answer2 { get { return null; } set { } }
         public bool IsCorrect 
@@ -177,16 +215,9 @@ namespace Приложение.Classes
             { return _isCorrect; } 
             set 
             {
-                if (value)
-                {
-                    _quest.ReserCorrect();
-                }
+                
                 _isCorrect = value; 
             } 
-        }
-        public IAnswer Init(DQuest quest)
-        {
-            return new DAnswerOne(quest);
         }
     }
     [DataContract]
@@ -199,9 +230,5 @@ namespace Приложение.Classes
         public string Answer1 { get { return _answer1; } set { _answer1 = value; } }
         public string Answer2 { get { return _answer2; } set { _answer2 = value; } }
         public bool IsCorrect { get { return false; } set { } }
-        public IAnswer Init(DQuest quest)
-        {
-            return new DAnswerPair();
-        }
     }
 }

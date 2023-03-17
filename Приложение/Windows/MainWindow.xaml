@@ -68,8 +68,8 @@
 
                     <!-- Кнопки добавления и удаления ответов -->
                     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag="{Binding Number}"/>
-                        <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" />
+                        <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag = "{Binding Number}"/>
+                        <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}"/>
                     </Grid>
 
                     <!-- Поле с ценностью ответа -->
