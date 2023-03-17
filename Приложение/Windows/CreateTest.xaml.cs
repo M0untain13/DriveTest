@@ -35,8 +35,10 @@ namespace Приложение.Windows
             }
             else
             {
-                test = new DTest(passBox1.Password);
-                test.name = textBox1.Text;
+                test = new DTest(passBox1.Password)
+                {
+                    name = textBox1.Text
+                };
                 DialogResult = true; //Окно закрывается
             }
         }

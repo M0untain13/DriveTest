@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Приложение.Classes;
 
-namespace Приложение
+namespace Приложение.Windows
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -100,7 +92,7 @@ namespace Приложение
         /// <param name="e"></param>
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scv = (ScrollViewer)sender;
+            ScrollViewer scv = sender as ScrollViewer;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
@@ -202,9 +194,10 @@ namespace Приложение
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
+
             foreach (char c in textBox.Text)
             {
-                if (c < '0' || c > '9')
+                if (c is < '0' or > '9')
                 {
                     MessageBox.Show("Ошибка: Ввод нечисленных символов недопустим!");
                     textBox.Text = "0";
