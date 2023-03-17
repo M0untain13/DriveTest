@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization;
@@ -8,6 +9,7 @@ namespace Приложение.Classes
 {
     /// <summary>
     /// Описание структуры теста
+    /// TODO: нужно сделать фабричный метод для объектов ответа
     /// </summary>
     [DataContract]
     public class DTest
