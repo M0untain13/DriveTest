@@ -9,15 +9,21 @@ namespace Приложение.Classes
     /// <summary>
     /// Описание структуры теста
     /// </summary>
-    [Serializable]
+    [DataContract]
     public class DTest
     {
+        #region Поля
+        [DataMember]
         public string name = "";
+        [DataMember]
         public ObservableCollection<DQuest> quests = new();
+        [DataMember]
         private readonly string _password = "";
+        [DataMember]
         private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
+        #endregion
         public bool IsOpened { get { return _isOpened; } }
-
+        #region Конструкторы
         /// <summary>
         /// Конструктор для создания нового теста
         /// </summary>
@@ -36,7 +42,7 @@ namespace Приложение.Classes
         public DTest(string password, string path)
         {
             FileStream fs = new FileStream(path, FileMode.Open);
-            DataContractSerializer ser = new DataContractSerializer(typeof(DTest));
+            DataContractSerializer ser = new DataContractSerializer(typeof(DTest), new List<Type> { typeof(DQuest), typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) });
             XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
             DTest deserialized = ser.ReadObject(reader, true) as DTest;
             if (Encryption(password) == deserialized._password)
@@ -49,7 +55,8 @@ namespace Приложение.Classes
             reader.Close();
             fs.Close();
         }
-
+        #endregion
+        #region Методы
         /// <summary>
         /// Метод для шифровки пароля
         /// </summary>
@@ -75,28 +82,36 @@ namespace Приложение.Classes
             Directory.CreateDirectory(path);
             path += "\\Test.XML";
             FileStream fs = new FileStream(path, FileMode.Create);
-            DataContractSerializer ser = new DataContractSerializer(typeof(DTest));
+            DataContractSerializer ser = new DataContractSerializer(typeof(DTest), new List<Type> { typeof(DQuest), typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) });
             XmlWriter reader = XmlWriter.Create(fs);
-            ser.WriteObject(reader, this);
+            ser.WriteObject(reader, this); //TODO: сериализация пошла по одному месту из-за наличия ссылки у ответов на вопрос
             reader.Close();
             fs.Close();
         }
+        #endregion
     }
+    [DataContract]
     public class DQuest
     {
         #region Поля
+        [DataMember]
         public string name = "";
+        [DataMember]
         private string _type = "";
-        private ObservableCollection<DAnswer> _answers = new();
+        [DataMember]
+        private ObservableCollection<IAnswer> _answers = null;
+        [DataMember]
         private int _number = -1;
+        [DataMember]
         private bool _answerRequired = true;
+        [DataMember]
         private double _price = 0;
         #endregion Поля
 
         #region Свойства
         public string Name { get { return name; } set { name = value; } }
         public string Type { get {  return _type; } set { _type = value; } }
-        public ObservableCollection<DAnswer> Answers { get { return _answers; } set { _answers = value; } }
+        public ObservableCollection<IAnswer> Answers { get { return _answers; } set { _answers = value; } }
         public int Number { get { return _number; } set { _number = value; } }
         public bool AnswerRequired { 
             get 
@@ -108,13 +123,83 @@ namespace Приложение.Classes
             set { _answerRequired = value; } }
         public double Price { get { return _price; } set { _price = value; } }
         #endregion Свойства
+
+        public void ReserCorrect()
+        {
+            foreach(IAnswer answer in _answers)
+            {
+                answer.IsCorrect = false;
+            }
+        }
     }
-    public class DAnswer
+    public interface IAnswer
     {
-        private string _answer = "";
-        private bool _isCorrect = false;
-        public string Answer { get { return _answer; } set { _answer = value; } }
-        public bool IsCorrect { get { return _isCorrect; } set { _isCorrect = value; } }
+        public string Answer1 { get; set;}
+        public string Answer2 { get; set; }
+        public bool IsCorrect { get; set; }
+        public IAnswer Init(DQuest quest);
     }
-    
+    [DataContract]
+    public class DAnswer : IAnswer
+    {
+        [DataMember]
+        private string _answer = "";
+        [DataMember]
+        private bool _isCorrect = false;
+        public string Answer1 { get { return _answer; } set { _answer = value; } }
+        public string Answer2 { get { return null; } set { } }
+        public bool IsCorrect { get { return _isCorrect; } set { _isCorrect = value; } }
+        public IAnswer Init(DQuest quest)
+        {
+            return new DAnswer();
+        }
+    }
+    [DataContract]
+    public class DAnswerOne : IAnswer
+    {
+        [DataMember]
+        private string _answer = "";
+        [DataMember]
+        private bool _isCorrect = false;
+        [DataMember]
+        private readonly DQuest _quest = null;
+        public DAnswerOne(DQuest quest)
+        {
+            _quest = quest;
+        }
+        public string Answer1 { get { return _answer; } set { _answer = value; } }
+        public string Answer2 { get { return null; } set { } }
+        public bool IsCorrect 
+        { 
+            get 
+            { return _isCorrect; } 
+            set 
+            {
+                if (value)
+                {
+                    _quest.ReserCorrect();
+                }
+                _isCorrect = value; 
+            } 
+        }
+        public IAnswer Init(DQuest quest)
+        {
+            return new DAnswerOne(quest);
+        }
+    }
+    [DataContract]
+    public class DAnswerPair : IAnswer
+    {
+        [DataMember]
+        private string _answer1 = "";
+        [DataMember]
+        private string _answer2 = "";
+        public string Answer1 { get { return _answer1; } set { _answer1 = value; } }
+        public string Answer2 { get { return _answer2; } set { _answer2 = value; } }
+        public bool IsCorrect { get { return false; } set { } }
+        public IAnswer Init(DQuest quest)
+        {
+            return new DAnswerPair();
+        }
+    }
 }

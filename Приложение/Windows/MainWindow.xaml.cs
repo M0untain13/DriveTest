@@ -68,18 +68,42 @@ namespace Приложение.Windows
         }
 
         /// <summary>
+        /// Выбор типа вопроса в выпадающем списке, приводящее к созданию нового вопроса в тесте
+        /// </summary>
+        /// <param name="sender"> Объект выпадающего списка </param>
+        /// <param name="e"></param>
+        private void comboBox1_DropDownClosed(object sender, EventArgs e)
+        {
+            if (comboBox1.Text != string.Empty)
+            {
+                AddQuestion(comboBox1.Text);
+                comboBox1.Text = string.Empty;
+            }
+        }
+
+        /// <summary>
         /// Добавить вопрос в редакторе
         /// </summary>
         private void AddQuestion(string type)
         {
-            //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда будут готовы конструкции разных вопросов.
-            //testList.ItemsSource = questions;
             DQuest quest = new()
             {
-                Type = type,
-                Answers = new ObservableCollection<DAnswer> { new DAnswer() },
-                Number = test.quests.Count + 1
+                Type = type
+
             };
+            if (type == StringTypeQuestion.MATCHING_SEARCH)
+            {
+                quest.Answers = new ObservableCollection<IAnswer> { new DAnswerPair() };
+            }
+            if (type == StringTypeQuestion.SELECTIVE_ANSWER_ONE)
+            {
+                quest.Answers = new ObservableCollection<IAnswer> { new DAnswerOne(quest) };
+            }
+            else
+            {
+                quest.Answers = new ObservableCollection<IAnswer> { new DAnswer() };
+            }
+            quest.Number = test.quests.Count + 1;
             test.quests.Add(quest);
             listBox1.ItemsSource = test.quests;
         }
@@ -95,20 +119,6 @@ namespace Приложение.Windows
             ScrollViewer scv = sender as ScrollViewer;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
-        }
-
-        /// <summary>
-        /// Выбор типа вопроса в выпадающем списке, приводящее к созданию нового вопроса в тесте
-        /// </summary>
-        /// <param name="sender"> Объект выпадающего списка </param>
-        /// <param name="e"></param>
-        private void comboBox1_DropDownClosed(object sender, EventArgs e)
-        {
-            if(comboBox1.Text != string.Empty)
-            {
-                AddQuestion(comboBox1.Text);
-                comboBox1.Text = string.Empty;
-            }
         }
 
         /// <summary>
@@ -129,7 +139,7 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void SaveTest(object sender, RoutedEventArgs e)
         {
-            test.name = textBox1.Text;
+            test.name = textBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название?
             test.Save(mainDirectory.ToString());
             MessageBox.Show("Тест сохранён!");
         }
@@ -143,10 +153,17 @@ namespace Приложение.Windows
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
+            ObservableCollection<IAnswer> answers = test.quests[number - 1].Answers;
             if (answers.Count < 10)
             {
-                answers.Add(new DAnswer());
+                if (test.quests[number-1].Type == StringTypeQuestion.MATCHING_SEARCH)
+                {
+                    answers.Add(new DAnswerPair());
+                }
+                else
+                {
+                    answers.Add(new DAnswer());
+                }
                 listBox1.ItemsSource = test.quests;
             }
         }
@@ -160,7 +177,7 @@ namespace Приложение.Windows
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
+            ObservableCollection<IAnswer> answers = test.quests[number - 1].Answers;
             if(answers.Count > 1)
             {
                 answers.RemoveAt(answers.Count - 1);
