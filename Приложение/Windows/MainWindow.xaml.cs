@@ -95,7 +95,7 @@ namespace Приложение.Windows
                 _ => new DQuest(new InitA()),
             };
             quest.Type = type;
-            quest.Answers = new ObservableCollection<IAnswer> { quest.FactoryMethod.Answer() };
+            quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
             quest.Number = test.quests.Count + 1;
             test.quests.Add(quest);
             listBox1.ItemsSource = test.quests;
@@ -146,13 +146,13 @@ namespace Приложение.Windows
         {
             Button button = sender as Button;
             DQuest quest = button.DataContext as DQuest;
-            IAnswerFactoryMethod factoryMethod = quest.FactoryMethod;
-            IAnswer answer = factoryMethod.Answer();
+            AbstractAnswerFactoryMethod factoryMethod = quest.FactoryMethod;
+            AbstractAnswer abstractAnswer = factoryMethod.Answer();
             int number = (int)button.Tag;
-            ObservableCollection<IAnswer> answers = test.quests[number - 1].Answers;
+            ObservableCollection<AbstractAnswer> answers = test.quests[number - 1].Answers;
             if (answers.Count < 10)
             {
-                answers.Add(answer);
+                answers.Add(abstractAnswer);
                 listBox1.ItemsSource = test.quests;
             }
         }
@@ -166,7 +166,7 @@ namespace Приложение.Windows
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<IAnswer> answers = test.quests[number - 1].Answers;
+            ObservableCollection<AbstractAnswer> answers = test.quests[number - 1].Answers;
             if(answers.Count > 1)
             {
                 answers.RemoveAt(answers.Count - 1);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
 
@@ -18,15 +19,9 @@ namespace Приложение.Classes
         [DataMember] public string name = "";
         [DataMember] public ObservableCollection<DQuest> quests = new();
         [DataMember] private readonly string _password = "";
-        private static DataContractSerializer _serializer = new DataContractSerializer(
-            typeof(DTest),
-            new List<Type>
-            {
-                typeof(DQuest), typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer),
-                typeof(InitA), typeof(InitAO), typeof(InitAP),
-            });
 
-        [DataMember]
+        private readonly DataContractSerializer _serializer =
+            new DataContractSerializer(typeof(DTest), new List<Type>{typeof(DQuest)}.Concat(AbstractAnswerFactoryMethod.ListOfTypesFactory));
         private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
 
         #endregion
@@ -115,13 +110,14 @@ namespace Приложение.Classes
     {
         #region Поля
 
+        
         [DataMember] public string name = "";
         [DataMember] private string _type = "";
-        [DataMember] private ObservableCollection<IAnswer> _answers = null;
+        [DataMember] private ObservableCollection<AbstractAnswer> _answers = null;
         [DataMember] private int _number = -1;
         [DataMember] private bool _answerRequired = true;
         [DataMember] private double _price = 0;
-        [DataMember] private IAnswerFactoryMethod _factoryMethod;
+        [DataMember] private AbstractAnswerFactoryMethod _factoryMethod;
 
         #endregion Поля
 
@@ -139,7 +135,7 @@ namespace Приложение.Classes
             set { _type = value; }
         }
 
-        public ObservableCollection<IAnswer> Answers
+        public ObservableCollection<AbstractAnswer> Answers
         {
             get { return _answers; }
             set { _answers = value; }
@@ -168,7 +164,7 @@ namespace Приложение.Classes
             set { _price = value; }
         }
 
-        public IAnswerFactoryMethod FactoryMethod
+        public AbstractAnswerFactoryMethod FactoryMethod
         {
             get { return _factoryMethod; }
         }
@@ -177,39 +173,40 @@ namespace Приложение.Classes
         #endregion Свойства
 
         
-        public DQuest(IAnswerFactoryMethod factoryMethod)
+        public DQuest(AbstractAnswerFactoryMethod factoryMethod)
         {
             _factoryMethod = factoryMethod;
         }
     }
-
-    public interface IAnswer
+    [DataContract]
+    public abstract class AbstractAnswer
     {
-        public string Answer1 { get; set;}
-        public string Answer2 { get; set; }
-        public bool IsCorrect { get; set; }
+        public static List<Type> ListOfTypesAnswer = new List<Type> { typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) };
+        public virtual string Answer1 { get; set;}
+        public virtual string Answer2 { get; set; }
+        public virtual bool IsCorrect { get; set; }
     }
     [DataContract]
-    public class DAnswer : IAnswer
+    public class DAnswer : AbstractAnswer
     {
         [DataMember]
         private string _answer = "";
         [DataMember]
         private bool _isCorrect = false;
-        public string Answer1 { get { return _answer; } set { _answer = value; } }
-        public string Answer2 { get { return null; } set { } }
-        public bool IsCorrect { get { return _isCorrect; } set { _isCorrect = value; } }
+        public override string Answer1 { get { return _answer; } set { _answer = value; } }
+        public override string Answer2 { get { return null; } set { } }
+        public override bool IsCorrect { get { return _isCorrect; } set { _isCorrect = value; } }
     }
     [DataContract]
-    public class DAnswerOne : IAnswer
+    public class DAnswerOne : AbstractAnswer
     {
         [DataMember]
         private string _answer = "";
         [DataMember]
         private bool _isCorrect = false;
-        public string Answer1 { get { return _answer; } set { _answer = value; } }
-        public string Answer2 { get { return null; } set { } }
-        public bool IsCorrect 
+        public override string Answer1 { get { return _answer; } set { _answer = value; } }
+        public override string Answer2 { get { return null; } set { } }
+        public override bool IsCorrect 
         { 
             get 
             { return _isCorrect; } 
@@ -221,14 +218,14 @@ namespace Приложение.Classes
         }
     }
     [DataContract]
-    public class DAnswerPair : IAnswer
+    public class DAnswerPair : AbstractAnswer
     {
         [DataMember]
         private string _answer1 = "";
         [DataMember]
         private string _answer2 = "";
-        public string Answer1 { get { return _answer1; } set { _answer1 = value; } }
-        public string Answer2 { get { return _answer2; } set { _answer2 = value; } }
-        public bool IsCorrect { get { return false; } set { } }
+        public override string Answer1 { get { return _answer1; } set { _answer1 = value; } }
+        public override string Answer2 { get { return _answer2; } set { _answer2 = value; } }
+        public override bool IsCorrect { get { return false; } set { } }
     }
 }
