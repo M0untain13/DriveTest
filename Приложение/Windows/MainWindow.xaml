@@ -336,7 +336,7 @@
                     Height="40" Width="120" Margin="10,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
-                    <classes:InitCT/>
+                    <classes:FactoryCreateTest/>
                 </Button.DataContext>
             </Button>
             
@@ -345,7 +345,7 @@
                     Height="40" Width="120" Margin="135,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
-                    <classes:InitOTFE/>
+                    <classes:FactoryOpenTestForEdit/>
                 </Button.DataContext>
             </Button>
             
@@ -354,7 +354,7 @@
                     Height="40" Width="120" Margin="260,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Test}">
                 <Button.DataContext>
-                    <classes:InitOT/>
+                    <classes:FactoryOpenTest/>
                 </Button.DataContext>
             </Button>
             
@@ -363,7 +363,7 @@
                     Height="40" Width="140" Margin="385,10,0,0"
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
                 <Button.DataContext>
-                    <classes:InitOR/>
+                    <classes:FactoryOpenResults/>
                 </Button.DataContext>
             </Button>
         </Grid>
@@ -391,7 +391,7 @@
                     Height="40" Width="120" Margin="10,0,0,10" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Main}">
                 <Button.DataContext>
-                    <classes:InitEFE/>
+                    <classes:FactoryExitFromEdit/>
                 </Button.DataContext>
             </Button>
 

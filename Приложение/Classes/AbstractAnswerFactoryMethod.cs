@@ -9,11 +9,11 @@ namespace Приложение.Classes
 {
     public abstract class AbstractAnswerFactoryMethod
     {
-        public static List<Type> ListOfTypesFactory = new List<Type> { typeof(InitA), typeof(InitAO), typeof(InitAP) }.Concat(AbstractAnswer.ListOfTypesAnswer).ToList();
+        public static List<Type> ListOfTypesFactory = new List<Type> { typeof(FactoryAnswer), typeof(FactoryAnswerOne), typeof(FactoryAnswerPair) }.Concat(AbstractAnswer.ListOfTypesAnswer).ToList();
         public abstract AbstractAnswer Answer();
     }
 
-    public class InitA : AbstractAnswerFactoryMethod
+    public class FactoryAnswer : AbstractAnswerFactoryMethod
     {
         public override AbstractAnswer Answer()
         {
@@ -21,7 +21,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitAP : AbstractAnswerFactoryMethod
+    public class FactoryAnswerPair : AbstractAnswerFactoryMethod
     {
         public override AbstractAnswer Answer()
         {
@@ -29,7 +29,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitAO : AbstractAnswerFactoryMethod
+    public class FactoryAnswerOne : AbstractAnswerFactoryMethod
     {
         public override AbstractAnswer Answer()
         {

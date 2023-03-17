@@ -90,9 +90,9 @@ namespace Приложение.Windows
         {
             DQuest quest = type switch
             {
-                StringTypeQuestion.MATCHING_SEARCH => new DQuest(new InitAP()),
-                StringTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new InitAO()),
-                _ => new DQuest(new InitA()),
+                StringTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryAnswerPair()),
+                StringTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactoryAnswerOne()),
+                _ => new DQuest(new FactoryAnswer()),
             };
             quest.Type = type;
             quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };

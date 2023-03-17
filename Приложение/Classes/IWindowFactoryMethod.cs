@@ -19,7 +19,7 @@ namespace Приложение.Classes
         public IDriveTestWindow Window();
     }
 
-    public class InitCT : IWindowFactoryMethod
+    public class FactoryCreateTest : IWindowFactoryMethod
     {
         public DirectoryInfo SetDirectory { set { } }
         public IDriveTestWindow Window()
@@ -28,7 +28,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitEFE : IWindowFactoryMethod
+    public class FactoryExitFromEdit : IWindowFactoryMethod
     {
         public DirectoryInfo SetDirectory { set { } }
         public IDriveTestWindow Window()
@@ -37,7 +37,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitOR : IWindowFactoryMethod
+    public class FactoryOpenResults : IWindowFactoryMethod
     {
         private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
@@ -47,7 +47,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitOT : IWindowFactoryMethod
+    public class FactoryOpenTest : IWindowFactoryMethod
     {
         private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
@@ -57,7 +57,7 @@ namespace Приложение.Classes
         }
     }
 
-    public class InitOTFE : IWindowFactoryMethod
+    public class FactoryOpenTestForEdit : IWindowFactoryMethod
     {
         private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
