@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using Приложение.Windows;
 
-namespace Приложение
+namespace Приложение.Classes
 {
     /// <summary>
     /// Интерфейс взаимодействия с окнами
@@ -19,7 +13,8 @@ namespace Приложение
         /// </summary>
         /// <param name="textBox"> Текстовое поле </param>
         /// <param name="listBox"> Поле для вопросов вроде бы </param>
-        /// <param name="questions"> Список вопросов </param>
+        /// <param name="test"> Объект теста </param>
+        /// <param name="mainWindow"> Объект главного окна </param>
         public void Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow mainWindow);
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace Приложение
         /// </summary>
         /// <param name="current"> Данная поверхность </param>
         /// <param name="next"> Новая поверхность </param>
-        private void Switching(Grid current, Grid next)
+        private static void Switching(UIElement current, UIElement next)
         {
             current.Visibility = Visibility.Hidden;
             current.IsEnabled = false;
@@ -50,7 +50,7 @@ namespace Приложение
         /// </summary>
         /// <param name="sender"> Объект кнопки </param>
         /// <param name="e"></param>
-        private void Button_Click_Switch(object sender, RoutedEventArgs e)
+        private static void Button_Click_Switch(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             Switching(button.Parent as Grid, button.Tag as Grid);
@@ -82,10 +82,12 @@ namespace Приложение
         {
             //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда будут готовы конструкции разных вопросов.
             //testList.ItemsSource = questions;
-            DQuest quest = new();
-            quest.Type = type;
-            quest.Answers = new ObservableCollection<DAnswer> { new DAnswer() };
-            quest.Number = test.quests.Count + 1;
+            DQuest quest = new()
+            {
+                Type = type,
+                Answers = new ObservableCollection<DAnswer> { new DAnswer() },
+                Number = test.quests.Count + 1
+            };
             test.quests.Add(quest);
             listBox1.ItemsSource = test.quests;
         }

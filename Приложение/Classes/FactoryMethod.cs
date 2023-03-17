@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.IO;
+using Приложение.Windows;
 
-namespace Приложение
+namespace Приложение.Classes
 {
     /// <summary>
     /// Да это же фабричный метод!!!
@@ -44,7 +39,7 @@ namespace Приложение
 
     public class InitOR : IFactoryMethod
     {
-        DirectoryInfo _directory;
+        private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
         public IDriveTestWindow Window()
         {
@@ -54,7 +49,7 @@ namespace Приложение
 
     public class InitOT : IFactoryMethod
     {
-        DirectoryInfo _directory;
+        private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
         public IDriveTestWindow Window()
         {
@@ -64,7 +59,7 @@ namespace Приложение
 
     public class InitOTFE : IFactoryMethod
     {
-        DirectoryInfo _directory;
+        private DirectoryInfo _directory;
         public DirectoryInfo SetDirectory { set { _directory = value; } }
         public IDriveTestWindow Window()
         {

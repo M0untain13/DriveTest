@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Приложение"
-        xmlns:Properties="clr-namespace:Приложение.Properties" x:Class="Приложение.MainWindow"
+        xmlns:Properties="clr-namespace:Приложение.Properties"
+        xmlns:classes="clr-namespace:Приложение.Classes"
+        x:Class="Приложение.Windows.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
     
@@ -253,7 +255,7 @@
             <!-- Поле для вопроса: Конец -->
         </DataTemplate>
 
-        <local:QuestionTemplateSelector OpenAnswerTemplate="{StaticResource openAnswerTemplate}"
+        <classes:QuestionTemplateSelector OpenAnswerTemplate="{StaticResource openAnswerTemplate}"
                                         SelectiveAnswerOneTemplate="{StaticResource selectiveAnswerOneTemplate}"
                                         SelectiveAnswerMultipleTemplate="{StaticResource selectiveAnswerMultipleTemplate}"
                                         MatchingSearchTemplate="{StaticResource matchingSearchTemplate}"
@@ -271,7 +273,7 @@
                     Height="40" Width="120" Margin="10,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
-                    <local:InitCT/>
+                    <classes:InitCT/>
                 </Button.DataContext>
             </Button>
             
@@ -280,7 +282,7 @@
                     Height="40" Width="120" Margin="135,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
-                    <local:InitOTFE/>
+                    <classes:InitOTFE/>
                 </Button.DataContext>
             </Button>
             
@@ -289,7 +291,7 @@
                     Height="40" Width="120" Margin="260,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Test}">
                 <Button.DataContext>
-                    <local:InitOT/>
+                    <classes:InitOT/>
                 </Button.DataContext>
             </Button>
             
@@ -298,7 +300,7 @@
                     Height="40" Width="140" Margin="385,10,0,0"
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
                 <Button.DataContext>
-                    <local:InitOR/>
+                    <classes:InitOR/>
                 </Button.DataContext>
             </Button>
         </Grid>
@@ -326,7 +328,7 @@
                     Height="40" Width="120" Margin="10,0,0,10" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Main}">
                 <Button.DataContext>
-                    <local:InitEFE/>
+                    <classes:InitEFE/>
                 </Button.DataContext>
             </Button>
 
