@@ -104,7 +104,6 @@ namespace Приложение.Classes
 
         #endregion
     }
-
     [DataContract]
     public class DQuest
     {
@@ -172,7 +171,6 @@ namespace Приложение.Classes
 
         #endregion Свойства
 
-        
         public DQuest(AbstractAnswerFactoryMethod factoryMethod)
         {
             _factoryMethod = factoryMethod;

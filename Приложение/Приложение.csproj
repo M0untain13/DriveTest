@@ -77,6 +77,7 @@
     </Page>
     <Compile Include="Classes\AbstractAnswerFactoryMethod.cs" />
     <Compile Include="Classes\IWindowFactoryMethod.cs" />
+    <Compile Include="Classes\DResults.cs" />
     <Compile Include="Windows\OpenResults.xaml.cs">
       <DependentUpon>OpenResults.xaml</DependentUpon>
     </Compile>
