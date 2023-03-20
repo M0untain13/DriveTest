@@ -315,6 +315,30 @@
         </DataTemplate>
 
         <DataTemplate x:Key="dataInputTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+                    <!-- Нумерация вопроса -->
+                    <TextBlock Text="Форма " 
+                                                       HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Margin="-5,-10,0,0">
+                        <Run Text ="{Binding Number}"/>
+                        <Run Text ="-"/>
+                        <Run Text ="{Binding Type}"/>
+                    </TextBlock>
+                    
+                    <!-- Кнопка удаления вопроса -->
+                    <Button Content="x" 
+                                                    HorizontalAlignment="Right" VerticalAlignment="Top"  
+                                                    Width="20" Height="20" Margin="-5,-10,0,0" 
+                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
+                    
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ввод инфы" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ввод данных" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
             
         </DataTemplate>
 
@@ -330,7 +354,6 @@
     <Grid>
         <!-- Поверхность главного меню -->
         <Grid x:Name="Main" IsEnabled="True" Visibility="Visible">
-            
             <Button Content="Создать тест" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="10,10,0,0" 

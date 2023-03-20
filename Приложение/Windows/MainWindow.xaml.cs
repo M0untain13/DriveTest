@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,10 @@ namespace Приложение.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        public HashSet<char> incorrectChars = new HashSet<char>()
+        {
+            '\\', '/', ':', '*', '?', '"', '<', '>', '|'
+        };
         readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                  //Главный каталог, где будут лежать тесты.
         private DTest test = null;                                                                      //Объект теста
         readonly private ObservableCollection<string> addQuestion = StringTypeQuestion.List;            //Строки для добавления вопросов в тест.
@@ -132,9 +137,19 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void SaveTest(object sender, RoutedEventArgs e)
         {
-            test.name = textBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
-            test.Save(mainDirectory.ToString());
-            MessageBox.Show("Тест сохранён!");
+            //TODO: проверка названия работает некорректно со слэшами, причем в отладке вроде все в порядке
+            if ((from char sym in test.name
+                 where incorrectChars.Contains(sym)
+                 select sym).Count() != 0)
+            {
+                MessageBox.Show("Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
+            }
+            else
+            {
+                test.name = textBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
+                test.Save(mainDirectory.ToString());
+                MessageBox.Show("Тест сохранён!");
+            }
         }
 
         /// <summary>

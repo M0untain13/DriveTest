@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
@@ -10,6 +12,10 @@ namespace Приложение.Windows
     /// </summary>
     public partial class CreateTest : Window, IDriveTestWindow
     {
+        public HashSet<char> incorrectChars = new HashSet<char>()
+        {
+            '\\', '/', ':', '*', '?', '"', '<', '>', '|'
+        };
         public DTest test;
         public CreateTest()
         {
@@ -25,7 +31,6 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: стоит ли делать проверку на ввод спец.символов?
             if(textBox1.Text.Length < 5)
             {
                 warningBlock.Text = "Название должно содержать 5 или более символов!"; //TODO: сделать проверку на занятость названия, или не делать, если мы в название будем добавлять время создания?
@@ -33,6 +38,13 @@ namespace Приложение.Windows
             else if(passBox1.Password.Length < 5)
             {
                 warningBlock.Text = "Пароль должен содержать 5 или более символов!";
+            }
+            //TODO: проверка названия работает некорректно со слэшами, причем в отладке вроде все в порядке, странная херня
+            else if ((from char sym in textBox1.Text
+                     where incorrectChars.Contains(sym)
+                     select sym).Count() != 0)
+            {
+                warningBlock.Text = "Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray());
             }
             else
             {
