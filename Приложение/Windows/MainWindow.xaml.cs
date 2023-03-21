@@ -138,7 +138,7 @@ namespace Приложение.Windows
         private void SaveTest(object sender, RoutedEventArgs e)
         {
             //TODO: проверка названия работает некорректно со слэшами, причем в отладке вроде все в порядке
-            if ((from char sym in test.name
+            if ((from char sym in textBox1.Text
                  where incorrectChars.Contains(sym)
                  select sym).Count() != 0)
             {
