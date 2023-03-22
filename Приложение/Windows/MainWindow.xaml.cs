@@ -18,9 +18,9 @@ namespace Приложение.Windows
     public partial class MainWindow : Window
     {
         public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
-        readonly public DirectoryInfo mainDirectory = new("Tests");                  //Главный каталог, где будут лежать тесты.
-        private DTest test = null;                                                                      //Объект теста
-        readonly private ObservableCollection<string> addQuestion = EnumTypeQuestion.strings;            //Строки для добавления вопросов в тест.
+        public readonly DirectoryInfo mainDirectory = new("Tests");                         //Главный каталог, где будут лежать тесты.
+        private DTest test = null;                                                               //Объект теста
+        private readonly ObservableCollection<string> addQuestion = EnumTypeQuestion.strings;    //Строки для добавления вопросов в тест.
         public MainWindow()
         {
             InitializeComponent();
