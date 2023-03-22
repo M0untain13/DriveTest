@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO.Packaging;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Приложение.Classes
 {
@@ -12,7 +7,7 @@ namespace Приложение.Classes
     public class DResults
     {
         private readonly IEnumerable<AbstractDResultsAnswer> _answers = Enumerable.Empty<AbstractDResultsAnswer>();
-        public IEnumerable<AbstractDResultsAnswer> Answers { get { return _answers; } }
+        public IEnumerable<AbstractDResultsAnswer> Answers => _answers;
     }
     /// <summary>
     /// На вывод: Имя, баллы * процент_корректности, варианты ответов при необходимости, данный ответ
@@ -24,7 +19,7 @@ namespace Приложение.Classes
         /// <summary>
         /// Название вопроса
         /// </summary>
-        public string Name { get { return _name; } }
+        public string Name => _name;
         /// <summary>
         /// Кол-во баллов за ответ
         /// </summary>
@@ -36,11 +31,11 @@ namespace Приложение.Classes
         /// <summary>
         /// Предполагается список вариантов ответа
         /// </summary>
-        public virtual IEnumerable<string> ArrayOfString_01 { get { return Enumerable.Empty<string>();} }
+        public virtual IEnumerable<string> ArrayOfString01 { get { return Enumerable.Empty<string>();} }
         /// <summary>
         /// Предполагается список ответов данных пользователем
         /// </summary>
-        public virtual IEnumerable<string> ArrayOfString_02 { get { return Enumerable.Empty<string>(); } }
+        public virtual IEnumerable<string> ArrayOfString02 { get { return Enumerable.Empty<string>(); } }
     }
     /// <summary>
     /// Несколько вариантов и все верные
@@ -67,8 +62,8 @@ namespace Приложение.Classes
         /// <summary>
         /// Возвращает пустой список, т.к. все ответы из списка являются корректными, а значит их палить нельзя
         /// </summary>
-        public override IEnumerable<string> ArrayOfString_01 => base.ArrayOfString_01;
-        public override IEnumerable<string> ArrayOfString_02 => _answerFromTesting.Split();
+        public override IEnumerable<string> ArrayOfString01 => base.ArrayOfString01;
+        public override IEnumerable<string> ArrayOfString02 => _answerFromTesting.Split();
     }
     /// <summary>
     /// Несколько вариантов и один верный
@@ -88,8 +83,8 @@ namespace Приложение.Classes
                 return 0;
             }
         }
-        public override IEnumerable<string> ArrayOfString_01 => _answers;
-        public override IEnumerable<string> ArrayOfString_02 { get { yield return _receivedAnswer; }
+        public override IEnumerable<string> ArrayOfString01 => _answers;
+        public override IEnumerable<string> ArrayOfString02 { get { yield return _receivedAnswer; }
         }
     }
     /// <summary>
@@ -109,14 +104,14 @@ namespace Приложение.Classes
                 var countOfCorrectAnswers = (from answer in _receivedAnswers
                                              where _correctAnswers.Contains(answer)
                                              select answer).Count();
-                var countOfErrors = _receivedAnswers.Count() - countOfCorrectAnswers;
+                var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
 
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
                 return countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _answers.Count);
             }
         }
-        public override IEnumerable<string> ArrayOfString_01 => _answers;
-        public override IEnumerable<string> ArrayOfString_02 => _receivedAnswers;
+        public override IEnumerable<string> ArrayOfString01 => _answers;
+        public override IEnumerable<string> ArrayOfString02 => _receivedAnswers;
     }
     /// <summary>
     /// Пары ответов
@@ -133,7 +128,7 @@ namespace Приложение.Classes
                 var countOfCorrectAnswers = (from answer in _receivedAnswers
                                              where _correctAnswers[answer.Key] == _receivedAnswers[answer.Key]
                                              select answer).Count();
-                var countOfErrors = _receivedAnswers.Count() - countOfCorrectAnswers;
+                var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
 
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
                 return countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count);
@@ -142,11 +137,11 @@ namespace Приложение.Classes
         /// <summary>
         /// Возвращаем первый список данных ответов, которые являются парами ответам из второго списка
         /// </summary>
-        public override IEnumerable<string> ArrayOfString_01 => _receivedAnswers.Keys;
+        public override IEnumerable<string> ArrayOfString01 => _receivedAnswers.Keys;
         /// <summary>
         /// Возвращаем второй список данных ответов, которые являются парами ответам из первого списка
         /// </summary>
-        public override IEnumerable<string> ArrayOfString_02 => _receivedAnswers.Values;
+        public override IEnumerable<string> ArrayOfString02 => _receivedAnswers.Values;
     }
     /// <summary>
     /// Просто строка
@@ -154,9 +149,9 @@ namespace Приложение.Classes
     /// </summary>
     public class DResultsAnswerDataInput : AbstractDResultsAnswer
     {
-        private readonly string _info;
+        private readonly string _info = "";
         protected override double Сorrectness => base.Сorrectness;
-        public override IEnumerable<string> ArrayOfString_01 { get { yield return _info; } }
-        public override IEnumerable<string> ArrayOfString_02 => base.ArrayOfString_02;
+        public override IEnumerable<string> ArrayOfString01 { get { yield return _info; } }
+        public override IEnumerable<string> ArrayOfString02 => base.ArrayOfString02;
     }
 }

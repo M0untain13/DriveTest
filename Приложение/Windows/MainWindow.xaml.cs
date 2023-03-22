@@ -18,7 +18,7 @@ namespace Приложение.Windows
     public partial class MainWindow : Window
     {
         public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
-        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                  //Главный каталог, где будут лежать тесты.
+        readonly public DirectoryInfo mainDirectory = new("Tests");                  //Главный каталог, где будут лежать тесты.
         private DTest test = null;                                                                      //Объект теста
         readonly private ObservableCollection<string> addQuestion = EnumTypeQuestion.strings;            //Строки для добавления вопросов в тест.
         public MainWindow()
@@ -76,7 +76,7 @@ namespace Приложение.Windows
         /// </summary>
         /// <param name="sender"> Объект выпадающего списка </param>
         /// <param name="e"></param>
-        private void comboBox1_DropDownClosed(object sender, EventArgs e)
+        private void СomboBox1_DropDownClosed(object sender, EventArgs e)
         {
             if (comboBox1.Text != string.Empty)
             {

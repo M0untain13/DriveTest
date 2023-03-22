@@ -23,7 +23,7 @@ namespace Приложение.Classes
         [DataMember] private readonly string _password = "";
 
         private readonly DataContractSerializer _serializer =
-            new(typeof(DTest), new List<Type>{typeof(DQuest)}.Concat(AbstractAnswerFactoryMethod.ListOfTypesFactory));
+            new(typeof(DTest), new List<Type>{typeof(DQuest)}.Concat(AbstractAnswerFactoryMethod.listOfTypesFactory));
         //TODO: надо бы изучить момент, при успешном открытии _isOpened становиться true, остаётся ли он true, при сохранении?
         private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
 

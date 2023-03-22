@@ -460,7 +460,7 @@
                         <!-- Список вопросов: Конец -->
                         
                         <!-- Кнопка добавления вопроса -->
-                        <ComboBox x:Name="comboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="comboBox1_DropDownClosed"/>
+                        <ComboBox x:Name="comboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed"/>
                         
                     </StackPanel>
                 </ScrollViewer>

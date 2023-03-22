@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Приложение.Classes;
 
 namespace Приложение.Classes
 {
     public abstract class AbstractAnswerFactoryMethod
     {
-        public static List<Type> ListOfTypesFactory = new List<Type> { typeof(FactoryAnswer), typeof(FactoryAnswerOne), typeof(FactoryAnswerPair) }.Concat(AbstractAnswer.ListOfTypesAnswer).ToList();
+        public static List<Type> listOfTypesFactory = new List<Type> { typeof(FactoryAnswer), typeof(FactoryAnswerOne), typeof(FactoryAnswerPair) }.Concat(AbstractAnswer.ListOfTypesAnswer).ToList();
         public abstract AbstractAnswer Answer();
     }
 
