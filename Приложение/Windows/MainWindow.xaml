@@ -426,7 +426,16 @@
                         <!-- Название теста -->
                         <TextBox x:Name="textBox1" Text="Название теста" 
                                  MaxWidth="800" MinHeight="30" />
+
+                        <!-- Время для решения теста -->
+                        <StackPanel>
+                            <TextBox x:Name="textBoxTime" Text="0" 
+                                 Width="30" Height="30" 
+                                 HorizontalAlignment="Left"/>
+                            <TextBlock Text="Время для решения теста"/>
+                        </StackPanel>
                         
+
                         <!-- Список вопросов: Начало -->
                         <ListBox x:Name="listBox1"
                                  MaxWidth="800"

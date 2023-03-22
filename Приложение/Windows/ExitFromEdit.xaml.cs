@@ -46,14 +46,15 @@ namespace Приложение.Windows
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow mainWindow)
+        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, MainWindow mainWindow)
         {
             if(saveTest)
             {
                 test.Save(mainWindow.mainDirectory.ToString());
             }
             test.quests.Clear();
-            textBox.Clear();
+            textBoxText.Clear();
+            textBoxTime.Clear();
         }
     }
 }

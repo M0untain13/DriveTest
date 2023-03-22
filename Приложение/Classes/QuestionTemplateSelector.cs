@@ -30,11 +30,11 @@
             DQuest question = item as DQuest;
             return question.Type switch
             {
-                StringTypeQuestion.OPEN_ANSWER => OpenAnswerTemplate,
-                StringTypeQuestion.SELECTIVE_ANSWER_ONE => SelectiveAnswerOneTemplate,
-                StringTypeQuestion.SELECTIVE_ANSWER_MULTIPLE => SelectiveAnswerMultipleTemplate,
-                StringTypeQuestion.MATCHING_SEARCH => MatchingSearchTemplate,
-                StringTypeQuestion.DATA_INPUT => DataInputTemplate,
+                EnumTypeQuestion.OPEN_ANSWER => OpenAnswerTemplate,
+                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => SelectiveAnswerOneTemplate,
+                EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE => SelectiveAnswerMultipleTemplate,
+                EnumTypeQuestion.MATCHING_SEARCH => MatchingSearchTemplate,
+                EnumTypeQuestion.DATA_INPUT => DataInputTemplate,
                 _ => null
             };
         }

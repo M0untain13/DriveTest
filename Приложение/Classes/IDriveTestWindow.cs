@@ -8,6 +8,7 @@ namespace Приложение.Classes
     /// </summary>
     public interface IDriveTestWindow
     {
+        //TODO: я вдруг осознал, что неправильно делал привязку данных из теста к полям в приложении, возможно потом буду всё рефакторить...
         /// <summary>
         /// Набор комманд, которые должны выполниться над элементами главного окна
         /// </summary>
@@ -15,7 +16,7 @@ namespace Приложение.Classes
         /// <param name="listBox"> Поле для вопросов вроде бы </param>
         /// <param name="test"> Объект теста </param>
         /// <param name="mainWindow"> Объект главного окна </param>
-        public void Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow mainWindow);
+        public void Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, MainWindow mainWindow);
 
         /// <summary>
         /// Функция вызова окна

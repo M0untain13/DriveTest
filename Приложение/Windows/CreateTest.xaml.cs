@@ -12,10 +12,7 @@ namespace Приложение.Windows
     /// </summary>
     public partial class CreateTest : Window, IDriveTestWindow
     {
-        public HashSet<char> incorrectChars = new HashSet<char>()
-        {
-            '\\', '/', ':', '*', '?', '"', '<', '>', '|'
-        };
+        public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
         public DTest test;
         public CreateTest()
         {
@@ -35,9 +32,9 @@ namespace Приложение.Windows
             {
                 warningBlock.Text = "Название должно содержать 5 или более символов!"; //TODO: сделать проверку на занятость названия, или не делать, если мы в название будем добавлять время создания?
             }
-            else if(passBox1.Password.Length < 5)
+            else if(passBox1.Password.Length < 3)
             {
-                warningBlock.Text = "Пароль должен содержать 5 или более символов!";
+                warningBlock.Text = "Пароль должен содержать 3 или более символов!";
             }
             //TODO: проверка названия работает некорректно со слэшами, причем в отладке вроде все в порядке, странная херня
             else if ((from char sym in textBox1.Text
@@ -63,11 +60,11 @@ namespace Приложение.Windows
             warningBlock.Text = "Прежде чем создать тест, введите название и пароль!";
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test, MainWindow w)
+        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, MainWindow w)
         {
             test = this.test;
-            test.quests = this.test.quests;
-            textBox.Text = this.test.name;
+            textBoxText.Text = test.name;
+            textBoxTime.Text = test.time.ToString();
             listBox.ItemsSource = test.quests;
         }
     }

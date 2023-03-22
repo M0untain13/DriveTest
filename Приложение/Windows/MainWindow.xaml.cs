@@ -17,13 +17,10 @@ namespace Приложение.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        public HashSet<char> incorrectChars = new HashSet<char>()
-        {
-            '\\', '/', ':', '*', '?', '"', '<', '>', '|'
-        };
+        public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
         readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                  //Главный каталог, где будут лежать тесты.
         private DTest test = null;                                                                      //Объект теста
-        readonly private ObservableCollection<string> addQuestion = StringTypeQuestion.List;            //Строки для добавления вопросов в тест.
+        readonly private ObservableCollection<string> addQuestion = EnumTypeQuestion.strings;            //Строки для добавления вопросов в тест.
         public MainWindow()
         {
             InitializeComponent();
@@ -69,7 +66,7 @@ namespace Приложение.Windows
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
-                window.Commands(ref textBox1, ref listBox1, ref test, this); //Комманды, которое должны выполниться над элементами главного окна
+                window.Commands(ref textBox1, ref textBoxTime, ref listBox1, ref test, this); //Комманды, которое должны выполниться над элементами главного окна
                 Button_Click_Switch(sender, e);
             }
         }
@@ -95,8 +92,8 @@ namespace Приложение.Windows
         {
             DQuest quest = type switch
             {
-                StringTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryAnswerPair()),
-                StringTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactoryAnswerOne()),
+                EnumTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryAnswerPair()),
+                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactoryAnswerOne()),
                 _ => new DQuest(new FactoryAnswer()),
             };
             quest.Type = type;
@@ -137,15 +134,21 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void SaveTest(object sender, RoutedEventArgs e)
         {
-            //TODO: проверка названия работает некорректно со слэшами, причем в отладке вроде все в порядке
             if ((from char sym in textBox1.Text
                  where incorrectChars.Contains(sym)
                  select sym).Count() != 0)
             {
                 MessageBox.Show("Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
             }
+            else if((from char sym in textBoxTime.Text
+                    where !char.IsDigit(sym)
+                    select sym).Count() != 0)
+            {
+                MessageBox.Show("Время выполнения содержит нечисленные символы!");
+            }
             else
             {
+                test.time = Convert.ToInt32(textBoxTime.Text);
                 test.name = textBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
                 test.Save(mainDirectory.ToString());
                 MessageBox.Show("Тест сохранён!");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.Serialization;
 using System.Xml;
 
@@ -18,11 +19,14 @@ namespace Приложение.Classes
 
         [DataMember] public string name = "";
         [DataMember] public ObservableCollection<DQuest> quests = new();
+        [DataMember] public int time = 0; //Время для решения теста, в минутах, если 0 - то время неограничено
         [DataMember] private readonly string _password = "";
 
         private readonly DataContractSerializer _serializer =
-            new DataContractSerializer(typeof(DTest), new List<Type>{typeof(DQuest)}.Concat(AbstractAnswerFactoryMethod.ListOfTypesFactory));
+            new(typeof(DTest), new List<Type>{typeof(DQuest)}.Concat(AbstractAnswerFactoryMethod.ListOfTypesFactory));
+        //TODO: надо бы изучить момент, при успешном открытии _isOpened становиться true, остаётся ли он true, при сохранении?
         private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
+
 
         #endregion
 
@@ -58,6 +62,7 @@ namespace Приложение.Classes
                 _password = deserialized._password;
                 name = deserialized.name;
                 quests = deserialized.quests;
+                time = deserialized.time;
                 _isOpened = true;
             }
 
@@ -150,7 +155,7 @@ namespace Приложение.Classes
         {
             get
             {
-                if (_type == StringTypeQuestion.OPEN_ANSWER)
+                if (_type == EnumTypeQuestion.OPEN_ANSWER)
                     return true;
                 return _answerRequired;
             }
