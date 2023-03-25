@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.Serialization;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
 using System.Xml;
 
 namespace Приложение.Classes
@@ -22,11 +28,15 @@ namespace Приложение.Classes
         [DataMember] public int time = 0; //Время для решения теста, в минутах, если 0 - то время неограничено
         [DataMember] private readonly string _password = "";
 
+        private static readonly DataContractSerializerSettings _settings = new DataContractSerializerSettings
+        {
+            KnownTypes = new List<Type> { typeof(DQuest), typeof(MatrixTransform)}.Concat(AbstractAnswerFactoryMethod.listOfTypesFactory),
+            PreserveObjectReferences = true,
+        };
         private readonly DataContractSerializer _serializer =
-            new(typeof(DTest), new List<Type>{typeof(DQuest)}.Concat(AbstractAnswerFactoryMethod.listOfTypesFactory));
+            new(typeof(DTest), _settings);
         //TODO: надо бы изучить момент, при успешном открытии _isOpened становиться true, остаётся ли он true, при сохранении?
         private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
-
 
         #endregion
 
@@ -70,6 +80,22 @@ namespace Приложение.Classes
             fs.Close();
         }
 
+        public DTest()
+        {
+        }
+
+        public void OpenTestForTesting(string path)
+        {
+            FileStream fs = new FileStream(path, FileMode.Open);
+            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+            DTest deserialized = _serializer.ReadObject(reader, true) as DTest;
+            name = deserialized.name;
+            quests = deserialized.quests;
+            time = deserialized.time;
+            reader.Close();
+            fs.Close();
+        }
+
         #endregion
 
         #region Методы
@@ -109,12 +135,12 @@ namespace Приложение.Classes
 
         #endregion
     }
+
     [DataContract]
     public class DQuest
     {
         #region Поля
 
-        
         [DataMember] public string name = "";
         [DataMember] private string _type = "";
         [DataMember] private ObservableCollection<AbstractAnswer> _answers = null;
@@ -122,6 +148,7 @@ namespace Приложение.Classes
         [DataMember] private bool _answerRequired = true;
         [DataMember] private double _price = 0;
         [DataMember] private AbstractAnswerFactoryMethod _factoryMethod;
+        private ListBox _listBox;
 
         #endregion Поля
 
@@ -168,11 +195,25 @@ namespace Приложение.Classes
             set { _price = value; }
         }
 
+        public ListBox ListBox
+        {
+            get => _listBox;
+            set => _listBox = value;
+        }
+
         public AbstractAnswerFactoryMethod FactoryMethod
         {
             get { return _factoryMethod; }
         }
-    
+
+        /// <summary>
+        /// Это для формы ввода данных
+        /// </summary>
+        public string InputData
+        {
+            get { return _answers[0].Answer1; } 
+            set { _answers[0].Answer1 = value; }
+        }
 
         #endregion Свойства
 
@@ -180,7 +221,26 @@ namespace Приложение.Classes
         {
             _factoryMethod = factoryMethod;
         }
+
+        public void ResetCorrect()
+        {
+            foreach (var answer in _answers)
+            {
+                answer.IsCorrect = false;
+            }
+            _listBox.Items.Refresh();
+        }
+
+        public void ResetMarked()
+        {
+            foreach (var answer in _answers)
+            {
+                answer.IsMarkedByUser = false;
+            }
+            _listBox.Items.Refresh();
+        }
     }
+
     [DataContract]
     public abstract class AbstractAnswer
     {
@@ -188,45 +248,72 @@ namespace Приложение.Classes
         public virtual string Answer1 { get; set;}
         public virtual string Answer2 { get; set; }
         public virtual bool IsCorrect { get; set; }
+        public virtual bool IsMarkedByUser { get; set; }
+        public virtual DQuest Parrent { get; set; }
     }
+
     [DataContract]
     public class DAnswer : AbstractAnswer
     {
-        [DataMember]
-        private string _answer = "";
-        [DataMember]
-        private bool _isCorrect = false;
+        [DataMember] private string _answer = "";
+        [DataMember] private bool _isCorrect = false;
+        private bool _isMarkedByUser = false;
         public override string Answer1 { get { return _answer; } set { _answer = value; } }
         public override string Answer2 { get { return null; } set { } }
-        public override bool IsCorrect { get { return _isCorrect; } set { _isCorrect = value; } }
+
+        public override bool IsCorrect
+        {
+            get { return _isCorrect; } 
+            set { _isCorrect = value; }
+        }
+        public override bool IsMarkedByUser
+        {
+            get { return _isMarkedByUser; }
+            set { _isMarkedByUser = value; }
+        }
     }
+
     [DataContract]
     public class DAnswerOne : AbstractAnswer
     {
-        [DataMember]
-        private string _answer = "";
-        [DataMember]
-        private bool _isCorrect = false;
+        [DataMember] private string _answer = "";
+        [DataMember] private bool _isCorrect = false;
+        [DataMember] private DQuest _parrent;
+        private bool _isMarkedByUser = false;
+        public override DQuest Parrent { get => _parrent; set => _parrent = value; }
         public override string Answer1 { get { return _answer; } set { _answer = value; } }
         public override string Answer2 { get { return null; } set { } }
         public override bool IsCorrect 
         { 
-            get 
-            { return _isCorrect; } 
-            set 
+            get { return _isCorrect; }
+            set
             {
-                
-                _isCorrect = value; 
+                if (value)
+                {
+                    _parrent.ResetCorrect();
+                }
+                _isCorrect = value;
             } 
         }
+        public override bool IsMarkedByUser
+        {
+            get { return _isMarkedByUser; }
+            set
+            {
+                if (value)
+                {
+                    _parrent.ResetMarked();
+                }
+                _isMarkedByUser = value;
+            }
+        }
     }
+
     [DataContract]
     public class DAnswerPair : AbstractAnswer
     {
-        [DataMember]
-        private string _answer1 = "";
-        [DataMember]
-        private string _answer2 = "";
+        [DataMember] private string _answer1 = "";
+        [DataMember] private string _answer2 = "";
         public override string Answer1 { get { return _answer1; } set { _answer1 = value; } }
         public override string Answer2 { get { return _answer2; } set { _answer2 = value; } }
         public override bool IsCorrect { get { return false; } set { } }

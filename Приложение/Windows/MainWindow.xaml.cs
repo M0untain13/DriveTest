@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Приложение.Classes;
 
 namespace Приложение.Windows
@@ -14,18 +15,25 @@ namespace Приложение.Windows
     /// Логика взаимодействия для MainWindow.xaml
     /// Напишу тут про известные баги
     /// TODO: баг, кнопочки RadioButtons не хотят нормально группироваться
+    /// TODO: баг, инфа в форме данных не сохраняется
+    /// TODO: при выходе из редактора и нажатии кнопки "Сохранить и выйти" сохранение время для прохождения теста не сохраняется
     /// </summary>
     public partial class MainWindow : Window
     {
         public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
         public readonly DirectoryInfo mainDirectory = new("Tests");                         //Главный каталог, где будут лежать тесты.
-        private DTest test = null;                                                               //Объект теста
-        private readonly ObservableCollection<string> addQuestion = EnumTypeQuestion.strings;    //Строки для добавления вопросов в тест.
+        private readonly ObservableCollection<string> _addQuestion = EnumTypeQuestion.strings;    //Строки для добавления вопросов в тест.
+        private DTest _test = null;
+        private DResult _result = null;
+
+        private DispatcherTimer _timer;
+        private TimeSpan _time;
+
         public MainWindow()
         {
             InitializeComponent();
-            listBox1.ItemsSource = new ObservableCollection<DQuest>();
-            comboBox1.ItemsSource = addQuestion;
+            EditListBox1.ItemsSource = new ObservableCollection<DQuest>();
+            EditComboBox1.ItemsSource = _addQuestion;
         }
         
         /// <summary>
@@ -46,10 +54,29 @@ namespace Приложение.Windows
         /// </summary>
         /// <param name="sender"> Объект кнопки </param>
         /// <param name="e"></param>
-        private static void Button_Click_Switch(object sender, RoutedEventArgs e)
+        private void Button_Click_Switch(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            Switching(button.Parent as Grid, button.Tag as Grid);
+            Grid nextGrid = button.Tag as Grid;
+            switch (nextGrid.Name)
+            {
+                case "Main":
+                    Title = "Главное меню";
+                    break;
+                case "Editor":
+                    Title = "Редактор тестов";
+                    break;
+                case "Test":
+                    Title = "Тестирование";
+                    break;
+                case "Result":
+                    Title = "Результаты";
+                    break;
+                default:
+                    Title = "А что это за окно?";
+                    break;
+            }
+            Switching(button.Parent as Grid, nextGrid);
         }
 
         /// <summary>
@@ -66,7 +93,40 @@ namespace Приложение.Windows
             bool isButtonClick = window.ShowDialog() ?? false;
             if (isButtonClick)
             {
-                window.Commands(ref textBox1, ref textBoxTime, ref listBox1, ref test, this); //Комманды, которое должны выполниться над элементами главного окна
+                window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, this); //Комманды, которое должны выполниться над элементами главного окна
+                if (window.GetType() == typeof(OpenTest))
+                {
+                    TestTextBox1.Text = EditTextBox1.Text;
+                    TestListBox1.ItemsSource = EditListBox1.ItemsSource;
+
+                    if (Convert.ToInt32(EditTextBoxTime.Text) == 0)
+                    {
+                        TestTextBoxTime.Text = "Время выполнения неограничено";
+                    }
+                    else
+                    {
+                        _time = TimeSpan.FromMinutes(Convert.ToInt32(EditTextBoxTime.Text));
+                        _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+                        {
+                            //TODO: при завершении обратного отсчёта тест должен завершиться принудительно
+                            TestTextBoxTime.Text = _time.ToString("c");
+                            if (_time == TimeSpan.Zero) _timer.Stop();
+                            _time = _time.Add(TimeSpan.FromSeconds(-1));
+                        }, Application.Current.Dispatcher);
+                        _timer.Start();
+                    }
+                    foreach (var quest in _test.quests)
+                    {
+                        quest.ListBox = TestListBox1;
+                    }
+                }
+                else
+                {
+                    foreach (var quest in _test.quests)
+                    {
+                        quest.ListBox = EditListBox1;
+                    }
+                }
                 Button_Click_Switch(sender, e);
             }
         }
@@ -78,10 +138,10 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void СomboBox1_DropDownClosed(object sender, EventArgs e)
         {
-            if (comboBox1.Text != string.Empty)
+            if (EditComboBox1.Text != string.Empty)
             {
-                AddQuestion(comboBox1.Text);
-                comboBox1.Text = string.Empty;
+                AddQuestion(EditComboBox1.Text);
+                EditComboBox1.Text = string.Empty;
             }
         }
 
@@ -98,9 +158,10 @@ namespace Приложение.Windows
             };
             quest.Type = type;
             quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
-            quest.Number = test.quests.Count + 1;
-            test.quests.Add(quest);
-            listBox1.ItemsSource = test.quests;
+            quest.Answers[0].Parrent = quest;
+            quest.Number = _test.quests.Count + 1;
+            _test.quests.Add(quest);
+            EditListBox1.ItemsSource = _test.quests;
         }
 
         /// <summary>
@@ -134,13 +195,13 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void SaveTest(object sender, RoutedEventArgs e)
         {
-            if ((from char sym in textBox1.Text
+            if ((from char sym in EditTextBox1.Text
                  where incorrectChars.Contains(sym)
                  select sym).Count() != 0)
             {
                 MessageBox.Show("Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
             }
-            else if((from char sym in textBoxTime.Text
+            else if((from char sym in EditTextBoxTime.Text
                     where !char.IsDigit(sym)
                     select sym).Count() != 0)
             {
@@ -148,9 +209,9 @@ namespace Приложение.Windows
             }
             else
             {
-                test.time = Convert.ToInt32(textBoxTime.Text);
-                test.name = textBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
-                test.Save(mainDirectory.ToString());
+                _test.time = Convert.ToInt32(EditTextBoxTime.Text);
+                _test.name = EditTextBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
+                _test.Save(mainDirectory.ToString());
                 MessageBox.Show("Тест сохранён!");
             }
         }
@@ -166,12 +227,13 @@ namespace Приложение.Windows
             DQuest quest = button.DataContext as DQuest;
             AbstractAnswerFactoryMethod factoryMethod = quest.FactoryMethod;
             AbstractAnswer abstractAnswer = factoryMethod.Answer();
+            abstractAnswer.Parrent = quest;
             int number = (int)button.Tag;
-            ObservableCollection<AbstractAnswer> answers = test.quests[number - 1].Answers;
+            ObservableCollection<AbstractAnswer> answers = _test.quests[number - 1].Answers;
             if (answers.Count < 10)
             {
                 answers.Add(abstractAnswer);
-                listBox1.ItemsSource = test.quests;
+                EditListBox1.ItemsSource = _test.quests;
             }
         }
 
@@ -184,11 +246,11 @@ namespace Приложение.Windows
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            ObservableCollection<AbstractAnswer> answers = test.quests[number - 1].Answers;
+            ObservableCollection<AbstractAnswer> answers = _test.quests[number - 1].Answers;
             if(answers.Count > 1)
             {
                 answers.RemoveAt(answers.Count - 1);
-                listBox1.ItemsSource = test.quests;
+                EditListBox1.ItemsSource = _test.quests;
             }
         }
 
@@ -201,13 +263,13 @@ namespace Приложение.Windows
         {
             Button button = sender as Button;
             int number = (int)button.Tag;
-            test.quests.RemoveAt(number - 1);
-            for(int i = 0; i < test.quests.Count; i++)
+            _test.quests.RemoveAt(number - 1);
+            for(int i = 0; i < _test.quests.Count; i++)
             {
-                test.quests[i].Number = i + 1;
+                _test.quests[i].Number = i + 1;
             }
-            listBox1.ItemsSource = test.quests;
-            listBox1.Items.Refresh();
+            EditListBox1.ItemsSource = _test.quests;
+            EditListBox1.Items.Refresh();
         }
 
         /// <summary>

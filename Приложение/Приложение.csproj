@@ -59,6 +59,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Windows\ExitFromTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\OpenResults.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -77,8 +81,11 @@
     </Page>
     <Compile Include="Classes\AbstractAnswerFactoryMethod.cs" />
     <Compile Include="Classes\IWindowFactoryMethod.cs" />
-    <Compile Include="Classes\DResults.cs" />
+    <Compile Include="Classes\DResult.cs" />
     <Compile Include="Classes\EnumIncorrectCharacters.cs" />
+    <Compile Include="Windows\ExitFromTest.xaml.cs">
+      <DependentUpon>ExitFromTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\OpenResults.xaml.cs">
       <DependentUpon>OpenResults.xaml</DependentUpon>
     </Compile>
@@ -91,7 +98,7 @@
       <DependentUpon>CreateTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\IDriveTestWindow.cs" />
-    <Compile Include="Classes\QuestionTemplateSelector.cs" />
+    <Compile Include="Classes\EditQuestionTemplateSelector.cs" />
     <Compile Include="Classes\EnumTypeQuestion.cs" />
     <Compile Include="Windows\ExitFromEdit.xaml.cs">
       <DependentUpon>ExitFromEdit.xaml</DependentUpon>

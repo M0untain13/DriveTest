@@ -19,6 +19,15 @@ namespace Приложение.Classes
         public IDriveTestWindow Window();
     }
 
+    public class FactoryExitFromTest : IWindowFactoryMethod
+    {
+        public DirectoryInfo SetDirectory { set { } }
+        public IDriveTestWindow Window()
+        {
+            return new ExitFromTest();
+        }
+    }
+
     public class FactoryCreateTest : IWindowFactoryMethod
     {
         public DirectoryInfo SetDirectory { set { } }

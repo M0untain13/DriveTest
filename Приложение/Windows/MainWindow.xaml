@@ -8,84 +8,85 @@
         xmlns:classes="clr-namespace:Приложение.Classes"
         x:Class="Приложение.Windows.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
+        Title="Главное меню" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
     
     <Window.Resources>
+        
+        <DataTemplate x:Key="editOpenAnswerTemplate">
+            <Grid>
+                <Grid Margin="5">
+                    <StackPanel Margin="10">
 
-        <DataTemplate x:Key="openAnswerTemplate">
-            <Grid Margin="5">
-                <StackPanel Margin="10">
-
-                    <!-- Нумерация вопроса -->
-                    <TextBlock Text="Вопрос " 
+                        <!-- Нумерация вопроса -->
+                        <TextBlock Text="Вопрос " 
                                HorizontalAlignment="Left" VerticalAlignment="Top" 
                                Margin="-5,-10,0,0">
                         <Run Text ="{Binding Number}"/>
                         <Run Text ="-"/>
                         <Run Text ="{Binding Type}"/>
-                    </TextBlock>
+                        </TextBlock>
 
-                    <!-- Кнопка удаления вопроса -->
-                    <Button Content="x" 
-                            HorizontalAlignment="Right" VerticalAlignment="Top"  
-                            Width="20" Height="20" Margin="-5,-10,0,0" 
-                            Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
+                        <!-- Кнопка удаления вопроса -->
+                        <Button Content="x" 
+                                HorizontalAlignment="Right" VerticalAlignment="Top"  
+                                Width="20" Height="20" Margin="-5,-10,0,0" 
+                                Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
 
-                    <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                        <!-- Поля для ввода вопроса -->
+                        <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
-                    <!-- Поля для ввода ответа -->
-
-                    <TextBlock Text="Введите ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ListBox x:Name="listBox2" 
+                        <!-- Поля для ввода ответа -->
+                        <TextBlock Text="Введите ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <ListBox x:Name="listBox2" 
                              ItemsSource= "{Binding Answers}"
                              HorizontalAlignment="Left" 
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
 
-                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <ContentPresenter/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
 
-                        <!-- Стиль оформления ответа -->
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Answer1}" Width="100"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
+                            <!-- Стиль оформления ответа -->
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Answer1}" Width="100"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
 
-                    </ListBox>
+                        </ListBox>
 
-                    <!-- Кнопки добавления и удаления ответов -->
-                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag = "{Binding Number}"/>
-                        <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}"/>
-                    </Grid>
+                        <!-- Кнопки добавления и удаления ответов -->
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag = "{Binding Number}"/>
+                            <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}"/>
+                        </Grid>
 
-                    <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" TextChanged="TextBox_TextChanged" />
+                        <!-- Поле с ценностью ответа -->
+                        <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" TextChanged="TextBox_TextChanged" />
 
-                    <!-- Поле обязательности ответа -->
-                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
+                        <!-- Поле обязательности ответа -->
+                        <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
 
-                </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                    </StackPanel>
+                    <Border BorderBrush="Black" BorderThickness="1"/>
+                </Grid>
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="selectiveAnswerOneTemplate">
+        <DataTemplate x:Key="editSelectiveAnswerOneTemplate">
             <Grid Margin="5">
                 <StackPanel Margin="10">
 
@@ -135,7 +136,6 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Text="{Binding Answer1}" Width="100"/>
-                                    
                                     <RadioButton IsChecked="{Binding IsCorrect, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -162,7 +162,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="selectiveAnswerMultipleTemplate">
+        <DataTemplate x:Key="editSelectiveAnswerMultipleTemplate">
             <Grid Margin="5">
                 <StackPanel Margin="10">
 
@@ -238,7 +238,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="matchingSearchTemplate">
+        <DataTemplate x:Key="editMatchingSearchTemplate">
             <Grid Margin="5">
                 <StackPanel Margin="10">
 
@@ -262,8 +262,7 @@
                     <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
-
-                    <TextBlock Text="Введите ответы и отметьте верные" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Введите ответы и соотнесите верные" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ListBox x:Name="listBox2" 
                                                  ItemsSource= "{Binding Answers}"
                                                  HorizontalAlignment="Left" 
@@ -314,7 +313,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="dataInputTemplate">
+        <DataTemplate x:Key="editDataInputTemplate">
             <Grid Margin="5">
                 <StackPanel Margin="10">
                     <!-- Нумерация вопроса -->
@@ -332,22 +331,270 @@
                                                     Width="20" Height="20" Margin="-5,-10,0,0" 
                                                     Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
                     
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ввод инфы" VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ввод данных" VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введите описание требуемой информации" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Name}"/>
                 </StackPanel>
                 <Border BorderBrush="Black" BorderThickness="1"/>
             </Grid>
             
         </DataTemplate>
 
-        <classes:QuestionTemplateSelector OpenAnswerTemplate="{StaticResource openAnswerTemplate}"
-                                        SelectiveAnswerOneTemplate="{StaticResource selectiveAnswerOneTemplate}"
-                                        SelectiveAnswerMultipleTemplate="{StaticResource selectiveAnswerMultipleTemplate}"
-                                        MatchingSearchTemplate="{StaticResource matchingSearchTemplate}"
-                                        DataInputTemplate="{StaticResource dataInputTemplate}"
-                                        x:Key="questionTemplateSelector"/>
+        <classes:EditQuestionTemplateSelector EditOpenAnswerTemplate="{StaticResource editOpenAnswerTemplate}"
+                                        EditSelectiveAnswerOneTemplate="{StaticResource editSelectiveAnswerOneTemplate}"
+                                        EditSelectiveAnswerMultipleTemplate="{StaticResource editSelectiveAnswerMultipleTemplate}"
+                                        EditMatchingSearchTemplate="{StaticResource editMatchingSearchTemplate}"
+                                        EditDataInputTemplate="{StaticResource editDataInputTemplate}"
+                                        x:Key="editQuestionTemplateSelector"/>
+
+        <DataTemplate x:Key="testingOpenAnswerTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Нумерация вопроса -->
+                    <TextBlock Text="Вопрос " 
+                               HorizontalAlignment="Left" VerticalAlignment="Top" 
+                               Margin="-5,-10,0,0">
+                        <Run Text ="{Binding Number}"/>
+                        <Run Text ="-"/>
+                        <Run Text ="{Binding Type}"/>
+                    </TextBlock>
+
+                    <!-- Поля с вопросом -->
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Введите ответ(ы) через пробел" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <!-- TODO: тут надо что-то придумать с выводом ответа -->
+                    <TextBox Width="200" HorizontalAlignment="Left"/>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}"/>
+
+                    <!-- Поле обязательности ответа -->
+                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}" IsEnabled="False"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="testingSelectiveAnswerOneTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Нумерация вопроса -->
+                    <TextBlock Text="Вопрос " 
+                                                       HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Margin="-5,-10,0,0">
+                        <Run Text ="{Binding Number}"/>
+                        <Run Text ="-"/>
+                        <Run Text ="{Binding Type}"/>
+                    </TextBlock>
+
+                    <!-- Поля для ввода вопроса -->
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Отметьте верные ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listBox2" 
+                                                 ItemsSource="{Binding Answers}"
+                                                 HorizontalAlignment="Left" 
+                                                 VerticalAlignment="Top"
+                                                 BorderBrush="{x:Null}">
+
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        <!-- Стиль оформления ответа -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Answer1}" Width="100"/>
+
+                                    <RadioButton IsChecked="{Binding IsMarkedByUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}"/>
+
+                    <!-- Поле обязательности ответа -->
+                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}" IsEnabled="False"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="testingSelectiveAnswerMultipleTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Нумерация вопроса -->
+                    <TextBlock Text="Вопрос " 
+                                                       HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Margin="-5,-10,0,0">
+                        <Run Text ="{Binding Number}"/>
+                        <Run Text ="-"/>
+                        <Run Text ="{Binding Type}"/>
+                    </TextBlock>
+
+                    <!-- Поля для ввода вопроса -->
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Отметьте верные ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listBox2" 
+                                                 ItemsSource= "{Binding Answers}"
+                                                 HorizontalAlignment="Left" 
+                                                 VerticalAlignment="Top"
+                                                 BorderBrush="{x:Null}">
+
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        <!-- Стиль оформления ответа -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Answer1}" Width="100"/>
+                                    <CheckBox IsChecked="{Binding IsMarkedByUser}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}"/>
+
+                    <!-- Поле обязательности ответа -->
+                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}" IsEnabled="False"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="testingMatchingSearchTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Нумерация вопроса -->
+                    <TextBlock Text="Вопрос " 
+                                                       HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Margin="-5,-10,0,0">
+                        <Run Text ="{Binding Number}"/>
+                        <Run Text ="-"/>
+                        <Run Text ="{Binding Type}"/>
+                    </TextBlock>
+
+                    <!-- Поля для ввода вопроса -->
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Соотнесите верные ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox x:Name="listBox2" 
+                                                 ItemsSource= "{Binding Answers}"
+                                                 HorizontalAlignment="Left" 
+                                                 VerticalAlignment="Top"
+                                                 BorderBrush="{x:Null}">
+
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        <!-- Стиль оформления ответа -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding Answer1}" Width="100"/>
+                                    <TextBox Text="{Binding Answer2}" Width="100"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}"/>
+
+                    <!-- Поле обязательности ответа -->
+                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}" IsEnabled="False"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="testingDataInputTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+                    <!-- Нумерация вопроса -->
+                    <TextBlock Text="Форма " 
+                                                       HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Margin="-5,-10,0,0">
+                        <Run Text ="{Binding Number}"/>
+                        <Run Text ="-"/>
+                        <Run Text ="{Binding Type}"/>
+                    </TextBlock>
+
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Требуемая информация" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введите данные" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding InputData}"/>
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+
+        </DataTemplate>
+
+        <classes:TestingQuestionTemplateSelector TestingOpenAnswerTemplate="{StaticResource testingOpenAnswerTemplate}"
+                                          TestingSelectiveAnswerOneTemplate="{StaticResource testingSelectiveAnswerOneTemplate}"
+                                          TestingSelectiveAnswerMultipleTemplate="{StaticResource testingSelectiveAnswerMultipleTemplate}"
+                                          TestingMatchingSearchTemplate="{StaticResource testingMatchingSearchTemplate}"
+                                          TestingDataInputTemplate="{StaticResource testingDataInputTemplate}"
+                                        x:Key="testingQuestionTemplateSelector"/>
 
     </Window.Resources>
 
@@ -392,7 +639,7 @@
         </Grid>
         
         <!-- Поверхность редактора -->
-        <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden">
+        <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden ">
             
             <Button Content="Сохранить" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -418,30 +665,33 @@
                 </Button.DataContext>
             </Button>
 
+            <!-- Время для решения теста -->
+            <StackPanel 
+                Orientation="Horizontal" 
+                Margin="20,60,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <TextBlock Text="Время для решения теста в минутах"/>
+                <TextBox x:Name="EditTextBoxTime" Text="0" 
+                         Width="30" Height="30"
+                         Margin="10,0,0,0"/>
+            </StackPanel>
+
             <!-- Поле, в котором находится тест -->
-            <Grid Margin="10,55,10,55">
+            <Grid Margin="10,85,10,55">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                     <StackPanel Margin="10">
                         
                         <!-- Название теста -->
-                        <TextBox x:Name="textBox1" Text="Название теста" 
+                        <TextBox x:Name="EditTextBox1" Text="Название теста" 
                                  MaxWidth="800" MinHeight="30" />
 
-                        <!-- Время для решения теста -->
-                        <StackPanel>
-                            <TextBox x:Name="textBoxTime" Text="0" 
-                                 Width="30" Height="30" 
-                                 HorizontalAlignment="Left"/>
-                            <TextBlock Text="Время для решения теста"/>
-                        </StackPanel>
-                        
-
                         <!-- Список вопросов: Начало -->
-                        <ListBox x:Name="listBox1"
+                        <ListBox x:Name="EditListBox1"
                                  MaxWidth="800"
                                  HorizontalContentAlignment="Center" 
                                  BorderBrush="{x:Null}"
-                                 ItemTemplateSelector="{StaticResource questionTemplateSelector}">
+                                 ItemTemplateSelector="{StaticResource editQuestionTemplateSelector}">
                             
                             <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
                             <ListBox.ItemContainerStyle>
@@ -460,7 +710,7 @@
                         <!-- Список вопросов: Конец -->
                         
                         <!-- Кнопка добавления вопроса -->
-                        <ComboBox x:Name="comboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed"/>
+                        <ComboBox x:Name="EditComboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed"/>
                         
                     </StackPanel>
                 </ScrollViewer>
@@ -470,12 +720,62 @@
         
         <!-- Поверхность тестирования -->
         <Grid x:Name="Test" IsEnabled="False" Visibility="Hidden">
-            <TextBlock Text="Это типо окно тестирования, но пока пустое"/>
+            <TextBlock x:Name="TestTextBoxTime" Text=""
+                       VerticalAlignment="Top" HorizontalAlignment="Left"
+                       Margin="10"/>
+
+            <Grid Margin="10,55,10,55">
+                <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                    <StackPanel Margin="10">
+
+                        <!-- Название теста -->
+                        <TextBlock x:Name="TestTextBox1" Text="Название теста" 
+                                 MaxWidth="800" MinHeight="30" TextAlignment="Center"/>
+
+                        <!-- Список вопросов: Начало -->
+                        <ListBox x:Name="TestListBox1"
+                                 MaxWidth="800"
+                                 HorizontalContentAlignment="Center" 
+                                 BorderBrush="{x:Null}"
+                                 ItemTemplateSelector="{StaticResource testingQuestionTemplateSelector}">
+
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                        </ListBox>
+                        <!-- Список вопросов: Конец -->
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <Button Content="Завершить" 
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Margin="10"
+                    Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
+                <Button.DataContext>
+                    <classes:FactoryExitFromTest/>
+                </Button.DataContext>
+            </Button>
         </Grid>
 
         <!-- Поверхность просмотра результатов -->
         <Grid x:Name="Result" IsEnabled="False" Visibility="Hidden">
-            <TextBlock Text="Это типо окно тестирования, но пока пустое"/>
+            <Button Content="Вернуться в меню" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="40" Width="120" Margin="10,10,0,0" 
+                    Click="Button_Click_Switch" Tag="{Binding ElementName=Main}">
+            </Button>
         </Grid>
     </Grid>
     

@@ -4,7 +4,7 @@ using System.Linq;
 namespace Приложение.Classes
 {
     //TODO: нужно организовать проведения тестирования, для того чтобы здесь определиться с заполнением результатов
-    public class DResults
+    public class DResult
     {
         private readonly IEnumerable<AbstractDResultsAnswer> _answers = Enumerable.Empty<AbstractDResultsAnswer>();
         public IEnumerable<AbstractDResultsAnswer> Answers => _answers;
