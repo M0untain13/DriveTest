@@ -1,29 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Documents;
 
 namespace Приложение.Classes
 {
     //TODO: нужно организовать проведения тестирования, для того чтобы здесь определиться с заполнением результатов
     public class DResult
     {
-        private readonly IEnumerable<AbstractDResultsAnswer> _answers = Enumerable.Empty<AbstractDResultsAnswer>();
-        public IEnumerable<AbstractDResultsAnswer> Answers => _answers;
+        private List<AbstractDResultsAnswer> _answers = new();
+        public List<AbstractDResultsAnswer> Answers { get => _answers; set => _answers = value; }
     }
     /// <summary>
     /// На вывод: Имя, баллы * процент_корректности, варианты ответов при необходимости, данный ответ
     /// </summary>
     public abstract class AbstractDResultsAnswer
     {
-        private readonly string _name;
-        private readonly double _score;
+        private string _name = ""; //Вопрос
+        private double _score = 0; //Баллы
         /// <summary>
         /// Название вопроса
         /// </summary>
-        public string Name => _name;
+        public string Name { get => _name; set => _name = value; }
         /// <summary>
         /// Кол-во баллов за ответ
         /// </summary>
-        public double Score { get { return _score * Сorrectness; } }
+        public double Score { get { return _score * Сorrectness; } set => _score = value; }
         /// <summary>
         /// Процент корректности данного ответа от 0 до 1
         /// </summary>
@@ -36,6 +38,13 @@ namespace Приложение.Classes
         /// Предполагается список ответов данных пользователем
         /// </summary>
         public virtual IEnumerable<string> ArrayOfString02 { get { return Enumerable.Empty<string>(); } }
+        public void SetObject(DQuest quest)
+        {
+            _name = quest.Name;
+            _score = quest.Price;
+            SetCorrectAnswers(quest.Answers);
+        }
+        public virtual void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers) { }
     }
     /// <summary>
     /// Несколько вариантов и все верные
@@ -64,6 +73,13 @@ namespace Приложение.Classes
         /// </summary>
         public override IEnumerable<string> ArrayOfString01 => base.ArrayOfString01;
         public override IEnumerable<string> ArrayOfString02 => _answerFromTesting.Split();
+        public override void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach(var answer in answers)
+            {
+                _correctAnswers.Add(answer.Answer1);
+            }
+        }
     }
     /// <summary>
     /// Несколько вариантов и один верный
@@ -73,6 +89,7 @@ namespace Приложение.Classes
     public class DResultsAnswerSelectiveOne : AbstractDResultsAnswer
     {
         private readonly List<string> _answers = new();
+        private string _correctAnswer = "";
         private readonly string _receivedAnswer = "";
         private readonly bool _correct;
         protected override double Сorrectness
@@ -85,6 +102,17 @@ namespace Приложение.Classes
         }
         public override IEnumerable<string> ArrayOfString01 => _answers;
         public override IEnumerable<string> ArrayOfString02 { get { yield return _receivedAnswer; }
+        }
+        public override void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach (var answer in answers)
+            {
+                _answers.Add(answer.Answer1);
+                if(answer.IsCorrect)
+                {
+                    _correctAnswer = answer.Answer1;
+                }
+            }
         }
     }
     /// <summary>
@@ -112,6 +140,17 @@ namespace Приложение.Classes
         }
         public override IEnumerable<string> ArrayOfString01 => _answers;
         public override IEnumerable<string> ArrayOfString02 => _receivedAnswers;
+        public override void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach (var answer in answers)
+            {
+                _answers.Add(answer.Answer1);
+                if (answer.IsCorrect)
+                {
+                    _correctAnswers.Add(answer.Answer1);
+                }
+            }
+        }
     }
     /// <summary>
     /// Пары ответов
@@ -142,6 +181,13 @@ namespace Приложение.Classes
         /// Возвращаем второй список данных ответов, которые являются парами ответам из первого списка
         /// </summary>
         public override IEnumerable<string> ArrayOfString02 => _receivedAnswers.Values;
+        public override void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach (var answer in answers)
+            {
+                _correctAnswers.Add(answer.Answer1, answer.Answer2);
+            }
+        }
     }
     /// <summary>
     /// Просто строка

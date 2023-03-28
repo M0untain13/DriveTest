@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
 
@@ -50,6 +51,7 @@ namespace Приложение.Windows
         {
             if(saveTest)
             {
+                test.time = Convert.ToInt32(textBoxTime.Text);
                 test.Save(mainWindow.mainDirectory.ToString());
             }
             test.quests.Clear();

@@ -182,8 +182,6 @@ namespace Приложение.Classes
         {
             get
             {
-                if (_type == EnumTypeQuestion.OPEN_ANSWER)
-                    return true;
                 return _answerRequired;
             }
             set { _answerRequired = value; }
@@ -314,8 +312,42 @@ namespace Приложение.Classes
     {
         [DataMember] private string _answer1 = "";
         [DataMember] private string _answer2 = "";
-        public override string Answer1 { get { return _answer1; } set { _answer1 = value; } }
-        public override string Answer2 { get { return _answer2; } set { _answer2 = value; } }
+        private string _answerUser2 = "";
+        private bool _isMixed = false;
+        public override bool IsMarkedByUser { get => _isMixed; set => _isMixed = value; }
+        public override string Answer1 
+        { 
+            get 
+            { 
+                return _answer1; 
+            } 
+            set 
+            {
+                _answer1 = value;
+            } 
+        }
+        public override string Answer2 
+        { 
+            get 
+            {
+                if (_isMixed)
+                {
+                    return _answerUser2;
+                }
+                return _answer2;
+            }
+            set
+            {
+                if (_isMixed)
+                {
+                    _answerUser2 = value;
+                }
+                else
+                {
+                    _answer2 = value;
+                }
+            }
+        }
         public override bool IsCorrect { get { return false; } set { } }
     }
 }

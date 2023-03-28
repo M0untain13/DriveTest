@@ -546,8 +546,8 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox Text="{Binding Answer1}" Width="100"/>
-                                    <TextBox Text="{Binding Answer2}" Width="100"/>
+                                    <TextBlock Text="{Binding Answer1}" Width="100"/>
+                                    <TextBlock Text="{Binding Answer2}" Width="100"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

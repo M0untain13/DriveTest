@@ -13,10 +13,6 @@ namespace Приложение.Windows
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
-    /// Напишу тут про известные баги
-    /// TODO: баг, кнопочки RadioButtons не хотят нормально группироваться
-    /// TODO: баг, инфа в форме данных не сохраняется
-    /// TODO: при выходе из редактора и нажатии кнопки "Сохранить и выйти" сохранение время для прохождения теста не сохраняется
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -96,6 +92,52 @@ namespace Приложение.Windows
                 window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, this); //Комманды, которое должны выполниться над элементами главного окна
                 if (window.GetType() == typeof(OpenTest))
                 {
+                    //Здесь происходит подготовка к проведению тестирования
+                    _result = new DResult();
+                    var correctAnswers = _result.Answers;
+
+                    foreach (var quest in _test.quests)
+                    {
+                        switch (quest.Type)
+                        {
+                            case EnumTypeQuestion.OPEN_ANSWER:
+                                correctAnswers.Add(new DResultsAnswerOpen());
+                                break;
+                            case EnumTypeQuestion.SELECTIVE_ANSWER_ONE:
+                                correctAnswers.Add(new DResultsAnswerSelectiveOne());
+                                break;
+                            case EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE:
+                                correctAnswers.Add(new DResultsAnswerSelectiveMultiple());
+                                break;
+                            case EnumTypeQuestion.MATCHING_SEARCH:
+                                correctAnswers.Add(new DResultsAnswerMatchingSearch());
+                                break;
+                            case EnumTypeQuestion.DATA_INPUT:
+                                correctAnswers.Add(new DResultsAnswerDataInput());
+                                break;
+                            default:
+                                throw new Exception("Что-то пошло не так...");
+                        }
+                        correctAnswers[correctAnswers.Count - 1].SetObject(quest);
+                        if (quest.Answers[0].GetType() == typeof(DAnswerPair))
+                        {
+                            var answers = quest.Answers;
+                            List<string> list = new();
+                            foreach(var answer in answers)
+                            {
+                                list.Add(answer.Answer2);
+                            }
+                            list = MixList(list);
+                            for(var i = 0; i < answers.Count; i++)
+                            {
+                                answers[i].IsMarkedByUser = true; //Пометка, что ответы перемешаны
+                                answers[i].Answer2 = list[i];
+                            }
+                            quest.Answers = answers;
+                        }
+                    }
+                    _result.Answers = correctAnswers;
+
                     TestTextBox1.Text = EditTextBox1.Text;
                     TestListBox1.ItemsSource = EditListBox1.ItemsSource;
 
@@ -160,6 +202,7 @@ namespace Приложение.Windows
             quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
             quest.Answers[0].Parrent = quest;
             quest.Number = _test.quests.Count + 1;
+            quest.ListBox = EditListBox1;
             _test.quests.Add(quest);
             EditListBox1.ItemsSource = _test.quests;
         }
@@ -289,6 +332,28 @@ namespace Приложение.Windows
                     textBox.Text = "0";
                 }
             }
+        }
+        public List<string> MixList(List<string> list)
+        {
+            var randizer = new Random();
+            var isMixed = false;
+            var result = new List<string>();
+
+            while (!isMixed)
+            {
+                result = list.OrderBy(v => randizer.Next()).ToList();
+                for (var i = 0; i < result.Count; i++)
+                {
+                    //Проверяем, перемешалась ли коллекция
+                    if (result[i] != list[i])
+                    {
+                        isMixed = true;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }
