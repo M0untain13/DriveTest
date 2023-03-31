@@ -138,6 +138,10 @@ namespace Приложение.Classes
             get { return _answers[0].Answer1; } 
             set { _answers[0].Answer1 = value; }
         }
+        /// <summary>
+        /// Это для открытого ответа
+        /// </summary>
+        public string OpenAnswer { get => _answers[0].Answer2; set => _answers[0].Answer2 = value; }
 
         #endregion Свойства
 
@@ -188,7 +192,7 @@ namespace Приложение.Classes
         [DataMember] private bool _isCorrect = false;
         private bool _isMarkedByUser = false;
         public override string Answer1 { get { return _answer; } set { _answer = value; } }
-        public override string Answer2 { get { return null; } set { } }
+        public override string Answer2 { get; set; }
 
         public override bool IsCorrect
         {

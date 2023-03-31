@@ -5,7 +5,6 @@ using System.Windows.Documents;
 
 namespace Приложение.Classes
 {
-    //TODO: нужно организовать проведения тестирования, для того чтобы здесь определиться с заполнением результатов
     public class DResult
     {
         private List<AbstractDResultsAnswer> _answers = new();
@@ -25,7 +24,7 @@ namespace Приложение.Classes
         /// <summary>
         /// Кол-во баллов за ответ
         /// </summary>
-        public double Score { get { return _score * Сorrectness; } set => _score = value; }
+        public double Score { get => _score * Сorrectness; set => _score = value; }
         /// <summary>
         /// Процент корректности данного ответа от 0 до 1
         /// </summary>
@@ -55,7 +54,7 @@ namespace Приложение.Classes
     public class DResultsAnswerOpen : AbstractDResultsAnswer
     {
         private readonly HashSet<string> _correctAnswers = new();
-        private readonly string _answerFromTesting = "";
+        private string _answerFromTesting = "";
         protected override double Сorrectness 
         { 
             get 
@@ -66,7 +65,7 @@ namespace Приложение.Classes
                                                                       select answer).Count();
                 var countOfCorrectAnswers = arrayOfAnswerFromTesting.Length-countOfErrors;
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
-                return countOfCorrectAnswers/ _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count); 
+                return 1.0 * countOfCorrectAnswers/ _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count); 
             } 
         }
         /// <summary>
@@ -81,13 +80,9 @@ namespace Приложение.Classes
                 _correctAnswers.Add(answer.Answer1);
             }
         }
-
         public override void SetTestingAnswers(IEnumerable<AbstractAnswer> answers)
         {
-            foreach (var answer in answers)
-            {
-                _correctAnswers.Add(answer.Answer2);
-            }
+            _answerFromTesting = answers.ToArray()[0].Answer2;
         }
     }
     /// <summary>
@@ -99,16 +94,8 @@ namespace Приложение.Classes
     {
         private readonly List<string> _answers = new();
         private string _correctAnswer = "";
-        private readonly string _receivedAnswer = "";
-        private readonly bool _correct;
-        protected override double Сorrectness
-        {
-            get
-            {
-                if (_correct) return 1;
-                return 0;
-            }
-        }
+        private string _receivedAnswer = "";
+        protected override double Сorrectness => _correctAnswer == _receivedAnswer ? 1 : 0;
         public override IEnumerable<string> ArrayOfString01 => _answers;
         public override IEnumerable<string> ArrayOfString02 { get { yield return _receivedAnswer; }
         }
@@ -121,6 +108,13 @@ namespace Приложение.Classes
                 {
                     _correctAnswer = answer.Answer1;
                 }
+            }
+        }
+        public override void SetTestingAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach (var answer in answers.Where(answer => answer.IsMarkedByUser))
+            {
+                _receivedAnswer = answer.Answer1;
             }
         }
     }
@@ -144,7 +138,7 @@ namespace Приложение.Classes
                 var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
 
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
-                return countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _answers.Count);
+                return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _answers.Count);
             }
         }
         public override IEnumerable<string> ArrayOfString01 => _answers;
@@ -158,6 +152,13 @@ namespace Приложение.Classes
                 {
                     _correctAnswers.Add(answer.Answer1);
                 }
+            }
+        }
+        public override void SetTestingAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach (var answer in answers.Where(answer => answer.IsMarkedByUser))
+            {
+                _receivedAnswers.Add(answer.Answer1);
             }
         }
     }
@@ -179,7 +180,7 @@ namespace Приложение.Classes
                 var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
 
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
-                return countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count);
+                return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count);
             }
         }
         /// <summary>
@@ -197,6 +198,14 @@ namespace Приложение.Classes
                 _correctAnswers.Add(answer.Answer1, answer.Answer2);
             }
         }
+
+        public override void SetTestingAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach (var answer in answers)
+            {
+                _receivedAnswers.Add(answer.Answer1, answer.Answer2);
+            }
+        }
     }
     /// <summary>
     /// Просто строка
@@ -204,9 +213,11 @@ namespace Приложение.Classes
     /// </summary>
     public class DResultsAnswerDataInput : AbstractDResultsAnswer
     {
-        private readonly string _info = "";
-        protected override double Сorrectness => base.Сorrectness;
+        private string _info = "";
         public override IEnumerable<string> ArrayOfString01 { get { yield return _info; } }
-        public override IEnumerable<string> ArrayOfString02 => base.ArrayOfString02;
+        public override void SetTestingAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            _info = answers.ToArray()[0].Answer1;
+        }
     }
 }

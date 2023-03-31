@@ -159,7 +159,6 @@ namespace Приложение.Windows
             }
             else if (window.GetType() == typeof(ExitFromTest))
             {
-                //TODO: Прежде чем очищать, нужно ответы занести в _result
                 var correctAnswers = _result.Answers;
                 for (var i = 0; i < _test.quests.Count; i++)
                 {
@@ -372,7 +371,6 @@ namespace Приложение.Windows
             {
                 (textBlock.Text, _textBlock.Text) = (_textBlock.Text, textBlock.Text);
                 _textBlock = null;
-                    //TestListBox1.Items.Refresh();
             }
         }
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -380,6 +378,5 @@ namespace Приложение.Windows
             if (sender is ListBox listBox && _textBlock == null) listBox.SelectedIndex = -1;
         }
         #endregion
-
     }
 }

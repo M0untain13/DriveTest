@@ -366,8 +366,7 @@
 
                     <!-- Поля для ввода ответа -->
                     <TextBlock Text="Введите ответ(ы) через пробел" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <!-- TODO: тут надо что-то придумать с выводом ответа -->
-                    <TextBox Width="200" HorizontalAlignment="Left"/>
+                    <TextBox Text="{Binding OpenAnswer}" Width="200" HorizontalAlignment="Left"/>
 
                     <!-- Поле с ценностью ответа -->
                     <TextBlock Text="Ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
