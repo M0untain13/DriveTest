@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml;
+﻿using System.IO;
 using System.Runtime.Serialization;
-using System.Windows.Media;
+using System.Xml;
 
-namespace Приложение.Classes
+namespace Приложение.Classes.Services
 {
     internal static class Loader
     {

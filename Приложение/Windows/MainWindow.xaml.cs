@@ -8,6 +8,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Приложение.Classes;
+using Приложение.Classes.Enums;
+using Приложение.Classes.FactoryMethods;
+using Приложение.Classes.Services;
+using Приложение.Windows.InterWindows;
 
 namespace Приложение.Windows
 {

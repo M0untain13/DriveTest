@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using Приложение.Windows;
+using Приложение.Windows.InterWindows;
 
-namespace Приложение.Classes
+namespace Приложение.Classes.FactoryMethods
 {
     /// <summary>
     /// Да это же фабричный метод!!!

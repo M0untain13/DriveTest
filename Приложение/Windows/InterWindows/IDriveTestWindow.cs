@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using Приложение.Windows;
+using Приложение.Classes;
 
-namespace Приложение.Classes
+namespace Приложение.Windows.InterWindows
 {
     /// <summary>
     /// Интерфейс взаимодействия с окнами

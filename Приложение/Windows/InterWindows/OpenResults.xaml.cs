@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
 
-namespace Приложение.Windows
+namespace Приложение.Windows.InterWindows
 {
     /// <summary>
     /// Логика взаимодействия для OpenResults.xaml

@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:Приложение"
         xmlns:Properties="clr-namespace:Приложение.Properties"
         xmlns:classes="clr-namespace:Приложение.Classes"
+        xmlns:factoryMethods="clr-namespace:Приложение.Classes.FactoryMethods"
+        xmlns:services="clr-namespace:Приложение.Classes.Services"
         x:Class="Приложение.Windows.MainWindow"
         mc:Ignorable="d"
         Title="Главное меню" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
@@ -339,7 +341,7 @@
             
         </DataTemplate>
 
-        <classes:EditQuestionTemplateSelector EditOpenAnswerTemplate="{StaticResource editOpenAnswerTemplate}"
+        <services:EditQuestionTemplateSelector EditOpenAnswerTemplate="{StaticResource editOpenAnswerTemplate}"
                                         EditSelectiveAnswerOneTemplate="{StaticResource editSelectiveAnswerOneTemplate}"
                                         EditSelectiveAnswerMultipleTemplate="{StaticResource editSelectiveAnswerMultipleTemplate}"
                                         EditMatchingSearchTemplate="{StaticResource editMatchingSearchTemplate}"
@@ -596,7 +598,7 @@
 
         </DataTemplate>
 
-        <classes:TestingQuestionTemplateSelector TestingOpenAnswerTemplate="{StaticResource testingOpenAnswerTemplate}"
+        <services:TestingQuestionTemplateSelector TestingOpenAnswerTemplate="{StaticResource testingOpenAnswerTemplate}"
                                           TestingSelectiveAnswerOneTemplate="{StaticResource testingSelectiveAnswerOneTemplate}"
                                           TestingSelectiveAnswerMultipleTemplate="{StaticResource testingSelectiveAnswerMultipleTemplate}"
                                           TestingMatchingSearchTemplate="{StaticResource testingMatchingSearchTemplate}"
@@ -613,7 +615,7 @@
                     Height="40" Width="120" Margin="10,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
-                    <classes:FactoryCreateTest/>
+                    <factoryMethods:FactoryCreateTest/>
                 </Button.DataContext>
             </Button>
             
@@ -622,7 +624,7 @@
                     Height="40" Width="120" Margin="135,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
-                    <classes:FactoryOpenTestForEdit/>
+                    <factoryMethods:FactoryOpenTestForEdit/>
                 </Button.DataContext>
             </Button>
             
@@ -631,7 +633,7 @@
                     Height="40" Width="120" Margin="260,10,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Test}">
                 <Button.DataContext>
-                    <classes:FactoryOpenTest/>
+                    <factoryMethods:FactoryOpenTest/>
                 </Button.DataContext>
             </Button>
             
@@ -640,7 +642,7 @@
                     Height="40" Width="140" Margin="385,10,0,0"
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
                 <Button.DataContext>
-                    <classes:FactoryOpenResults/>
+                    <factoryMethods:FactoryOpenResults/>
                 </Button.DataContext>
             </Button>
         </Grid>
@@ -668,7 +670,7 @@
                     Height="40" Width="120" Margin="10,0,0,10" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Main}">
                 <Button.DataContext>
-                    <classes:FactoryExitFromEdit/>
+                    <factoryMethods:FactoryExitFromEdit/>
                 </Button.DataContext>
             </Button>
 
@@ -771,7 +773,7 @@
                     Margin="10"
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
                 <Button.DataContext>
-                    <classes:FactoryExitFromTest/>
+                    <factoryMethods:FactoryExitFromTest/>
                 </Button.DataContext>
             </Button>
         </Grid>

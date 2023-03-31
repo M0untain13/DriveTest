@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Приложение.Classes
+namespace Приложение.Classes.FactoryMethods
 {
     public abstract class AbstractAnswerFactoryMethod
     {

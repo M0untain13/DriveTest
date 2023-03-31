@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
+using Приложение.Classes.Enums;
 
-namespace Приложение.Windows
+namespace Приложение.Windows.InterWindows
 {
     /// <summary>
     /// Логика взаимодействия для CreateTest.xaml

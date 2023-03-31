@@ -1,4 +1,6 @@
-﻿namespace Приложение.Classes
+﻿using Приложение.Classes.Enums;
+
+namespace Приложение.Classes.Services
 {
     /// <summary>
     /// Селектор для шаблонов вопросов в окне редактора

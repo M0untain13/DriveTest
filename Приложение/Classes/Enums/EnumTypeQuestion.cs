@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Приложение.Classes
+namespace Приложение.Classes.Enums
 {
     /// <summary>
     /// Описание перечисления форм вопросов

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Приложение.Classes
+namespace Приложение.Classes.Enums
 {
     public static class EnumIncorrectCharacters
     {

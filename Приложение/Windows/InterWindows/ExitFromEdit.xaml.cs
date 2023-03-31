@@ -2,8 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
+using Приложение.Classes.Services;
 
-namespace Приложение.Windows
+namespace Приложение.Windows.InterWindows
 {
     /// <summary>
     /// Логика взаимодействия для ExitFromEdit.xaml
