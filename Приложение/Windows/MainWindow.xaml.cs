@@ -23,8 +23,8 @@ namespace Приложение.Windows
         public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
         public readonly DirectoryInfo mainDirectory = new("Tests");                         //Главный каталог, где будут лежать тесты.
         private readonly ObservableCollection<string> _addQuestion = EnumTypeQuestion.strings;    //Строки для добавления вопросов в тест.
-        private DTest _test = null;
-        private DResult _result = null;
+        private DTest _test;
+        private DResult _result;
 
         private DispatcherTimer _timer;
         private TimeSpan _time;
@@ -36,7 +36,6 @@ namespace Приложение.Windows
             EditComboBox1.ItemsSource = _addQuestion;
         }
 
-        
 
         /// <summary>
         /// Сменить поверхности\сетки\grid.
@@ -58,27 +57,16 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void Button_Click_Switch(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            Grid nextGrid = button.Tag as Grid;
-            switch (nextGrid.Name)
+            if (sender is not Button { Tag: Grid nextGrid, Parent: Grid currentGrid }) return;
+            Title = nextGrid.Name switch
             {
-                case "Main":
-                    Title = "Главное меню";
-                    break;
-                case "Editor":
-                    Title = "Редактор тестов";
-                    break;
-                case "Test":
-                    Title = "Тестирование";
-                    break;
-                case "Result":
-                    Title = "Результаты";
-                    break;
-                default:
-                    Title = "А что это за окно?";
-                    break;
-            }
-            Switching(button.Parent as Grid, nextGrid);
+                "Main" => "Главное меню",
+                "Editor" => "Редактор тестов",
+                "Test" => "Тестирование",
+                "Result" => "Результаты",
+                _ => throw new Exception("Неизвестное окно")
+            };
+            Switching(currentGrid, nextGrid);
         }
 
         /// <summary>
@@ -90,16 +78,19 @@ namespace Приложение.Windows
         {
             //Внимание! В этом методе некоторые блоки условия выполняют выход из метода или из блока цикла, это сделано для уменьшения уровня вложенности
 
-            Button button = sender as Button;
-            IWindowFactoryMethod windowFactoryMethod = button.DataContext as IWindowFactoryMethod;
-            windowFactoryMethod.SetDirectory = mainDirectory; //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
-            IDriveTestWindow window = windowFactoryMethod.Window();
-            bool isButtonClick = window.ShowDialog() ?? false;
+            //Если вдруг sender не является кнопкой или в данных нет фабричного метода, то нас просто посылают подальше
+            if (sender is not Button { DataContext: IWindowFactoryMethod windowFactoryMethod }) return;
+            //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
+            windowFactoryMethod.SetDirectory = mainDirectory; 
+            var window = windowFactoryMethod.Window();
+            var isButtonClick = window.ShowDialog() ?? false;
 
             if (!isButtonClick) return; //Если не была нажата кнопка, то ничего не должно произойти
-            window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, this); //Комманды, которое должны выполниться над элементами главного окна
+            window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, this); //Операции, которое должны выполниться над элементами главного окна
+            //Некоторая часть операций вынесена ниже
+            
             if (window.GetType() == typeof(OpenTest))
-            {
+            { 
                 //Здесь происходит подготовка к проведению тестирования
                 _result = new DResult();
                 var correctAnswers = _result.Answers;
@@ -166,6 +157,18 @@ namespace Приложение.Windows
                     quest.ListBox = TestListBox1;
                 }
             }
+            else if (window.GetType() == typeof(ExitFromTest))
+            {
+                //TODO: Прежде чем очищать, нужно ответы занести в _result
+                var correctAnswers = _result.Answers;
+                for (var i = 0; i < _test.quests.Count; i++)
+                {
+                    correctAnswers[i].SetTestingAnswers(_test.quests[i].Answers);
+                }
+                _test.quests.Clear();
+                TestTextBox1.Text = string.Empty;
+                TestTextBoxTime.Text = string.Empty;
+            }
             else
             {
                 foreach (var quest in _test.quests)
@@ -218,7 +221,7 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scv = sender as ScrollViewer;
+            if(sender is not ScrollViewer scv) return;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
@@ -269,13 +272,11 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            DQuest quest = button.DataContext as DQuest;
-            AbstractAnswerFactoryMethod factoryMethod = quest.FactoryMethod;
-            AbstractAnswer abstractAnswer = factoryMethod.Answer();
+            if(sender is not Button {DataContext: DQuest quest, Tag: int number}) return;
+            var factoryMethod = quest.FactoryMethod;
+            var abstractAnswer = factoryMethod.Answer();
             abstractAnswer.Parrent = quest;
-            int number = (int)button.Tag;
-            ObservableCollection<AbstractAnswer> answers = _test.quests[number - 1].Answers;
+            var answers = _test.quests[number - 1].Answers;
             if (answers.Count < 10)
             {
                 answers.Add(abstractAnswer);
@@ -290,9 +291,8 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void Button_Click_AnswerDelete(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            int number = (int)button.Tag;
-            ObservableCollection<AbstractAnswer> answers = _test.quests[number - 1].Answers;
+            if(sender is not Button {Tag: int number})return;
+            var answers = _test.quests[number - 1].Answers;
             if(answers.Count > 1)
             {
                 answers.RemoveAt(answers.Count - 1);
@@ -307,10 +307,9 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void Button_Click_QuestionDelete(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            int number = (int)button.Tag;
+            if (sender is not Button { Tag: int number }) return;
             _test.quests.RemoveAt(number - 1);
-            for(int i = 0; i < _test.quests.Count; i++)
+            for(var i = 0; i < _test.quests.Count; i++)
             {
                 _test.quests[i].Number = i + 1;
             }
@@ -325,17 +324,17 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-
-            foreach (char c in textBox.Text)
-            {
-                if (c is < '0' or > '9')
-                {
-                    MessageBox.Show("Ошибка: Ввод нечисленных символов недопустим!");
-                    textBox.Text = "0";
-                }
-            }
+            if(sender is not TextBox textBox) return;
+            if (!textBox.Text.Any(c => c is < '0' or > '9')) return;
+            MessageBox.Show("Ошибка: Ввод нечисленных символов недопустим!");
+            textBox.Text = "0";
         }
+
+        /// <summary>
+        /// Метод для перемешивания элементов коллекции
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public List<string> MixList(List<string> list)
         {
             var randizer = new Random();
@@ -345,7 +344,7 @@ namespace Приложение.Windows
             //TODO: если содержиться только один элемент, то происходит зацикливание, так что нужно будет обязательно сделать проверку, чтобы в тесте не было вопросов с одним вариантом ответа (кроме открытого)
             while (!isMixed)
             {
-                result = list.OrderBy(v => randizer.Next()).ToList();
+                result = list.OrderBy(k => randizer.Next()).ToList();
                 for (var i = 0; i < result.Count; i++)
                 {
                     //Проверяем, перемешалась ли коллекция
@@ -360,6 +359,7 @@ namespace Приложение.Windows
             return result;
         }
 
+        #region Перемещение элементов соответствия
         private TextBlock _textBlock;
         private void Label_MouseClick(object sender, MouseButtonEventArgs e)
         {
@@ -370,15 +370,16 @@ namespace Приложение.Windows
             }
             else
             {
-                var box = textBlock.Parent as ListBox;
                 (textBlock.Text, _textBlock.Text) = (_textBlock.Text, textBlock.Text);
                 _textBlock = null;
+                    //TestListBox1.Items.Refresh();
             }
         }
-
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(sender is ListBox listBox && _textBlock == null) listBox.SelectedIndex = -1;
+            if (sender is ListBox listBox && _textBlock == null) listBox.SelectedIndex = -1;
         }
+        #endregion
+
     }
 }

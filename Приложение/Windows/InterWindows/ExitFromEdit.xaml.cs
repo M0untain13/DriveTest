@@ -11,7 +11,7 @@ namespace Приложение.Windows.InterWindows
     /// </summary>
     public partial class ExitFromEdit : Window, IDriveTestWindow
     {
-        public bool saveTest = false;
+        public bool isSaveTest = false;
         public ExitFromEdit()
         {
             InitializeComponent();
@@ -44,13 +44,13 @@ namespace Приложение.Windows.InterWindows
         /// <param name="e"></param>
         private void ExitWithSave(object sender, RoutedEventArgs e)
         {
-            saveTest = true;
+            isSaveTest = true;
             DialogResult = true;
         }
 
         void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, MainWindow mainWindow)
         {
-            if(saveTest)
+            if(isSaveTest)
             {
                 test.time = Convert.ToInt32(textBoxTime.Text);
                 Loader.SaveTest(test, mainWindow.mainDirectory + "\\" + test.name);

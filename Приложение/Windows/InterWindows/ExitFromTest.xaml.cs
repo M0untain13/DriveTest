@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
+using Приложение.Classes.Services;
 
 namespace Приложение.Windows.InterWindows
 {
@@ -9,7 +11,7 @@ namespace Приложение.Windows.InterWindows
     /// </summary>
     public partial class ExitFromTest : Window, IDriveTestWindow
     {
-        public bool saveTest = false;
+        public bool isSaveResult = false;
         public ExitFromTest()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace Приложение.Windows.InterWindows
         /// <param name="e"></param>
         private void Exit(object sender, RoutedEventArgs e)
         {
-            saveTest = true;
+            isSaveResult = true;
             DialogResult = true;
         }
 

@@ -45,6 +45,7 @@ namespace Приложение.Classes
             SetCorrectAnswers(quest.Answers);
         }
         public virtual void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers) { }
+        public virtual void SetTestingAnswers(IEnumerable<AbstractAnswer> answers) { }
     }
     /// <summary>
     /// Несколько вариантов и все верные
@@ -78,6 +79,14 @@ namespace Приложение.Classes
             foreach(var answer in answers)
             {
                 _correctAnswers.Add(answer.Answer1);
+            }
+        }
+
+        public override void SetTestingAnswers(IEnumerable<AbstractAnswer> answers)
+        {
+            foreach (var answer in answers)
+            {
+                _correctAnswers.Add(answer.Answer2);
             }
         }
     }

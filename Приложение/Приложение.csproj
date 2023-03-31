@@ -94,7 +94,7 @@
       <DependentUpon>CreateTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\InterWindows\IDriveTestWindow.cs" />
-    <Compile Include="Classes\Services\EditQuestionTemplateSelector.cs" />
+    <Compile Include="Classes\Services\QuestionTemplateSelector.cs" />
     <Compile Include="Classes\Enums\EnumTypeQuestion.cs" />
     <Compile Include="Windows\InterWindows\ExitFromEdit.xaml.cs">
       <DependentUpon>ExitFromEdit.xaml</DependentUpon>

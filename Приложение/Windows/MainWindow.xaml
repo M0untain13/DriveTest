@@ -553,11 +553,9 @@
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}" SelectionChanged="ListBox_SelectionChanged">
-
-                            <!-- Стиль оформления ответа -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Answer2}" Width="100" MouseDown="Label_MouseClick"/>
+                                    <TextBlock Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" MouseDown="Label_MouseClick"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>

@@ -4,6 +4,9 @@ using System.Xml;
 
 namespace Приложение.Classes.Services
 {
+    /// <summary>
+    /// Класс в который выносится логика загрузки и сохранения файлов
+    /// </summary>
     internal static class Loader
     {
         private static DataContractSerializerSettings _settings;
