@@ -26,79 +26,20 @@ namespace Приложение.Classes
         [DataMember] public string name = "";
         [DataMember] public ObservableCollection<DQuest> quests = new();
         [DataMember] public int time = 0; //Время для решения теста, в минутах, если 0 - то время неограничено
-        [DataMember] private readonly string _password = "";
+        [DataMember] private readonly string _password;
 
-        private static readonly DataContractSerializerSettings _settings = new DataContractSerializerSettings
-        {
-            KnownTypes = new List<Type> { typeof(DQuest), typeof(MatrixTransform)}.Concat(AbstractAnswerFactoryMethod.listOfTypesFactory),
-            PreserveObjectReferences = true,
-        };
-        private readonly DataContractSerializer _serializer =
-            new(typeof(DTest), _settings);
-        //TODO: надо бы изучить момент, при успешном открытии _isOpened становиться true, остаётся ли он true, при сохранении?
-        private readonly bool _isOpened = false; //Индикатор того, что тест создан правильно или открыт из файла
+        /// <summary>
+        /// Коллекция известных типов для сериализации
+        /// </summary>
+        public static IEnumerable<Type> listOfTypes = new List<Type> { typeof(DQuest), typeof(MatrixTransform) }.Concat(AbstractAnswerFactoryMethod.listOfTypesFactory);
 
         #endregion
 
-        public bool IsOpened
-        {
-            get { return _isOpened; }
-        }
-
-        #region Конструкторы
-
-        /// <summary>
-        /// Конструктор для создания нового теста
-        /// </summary>
-        /// <param name="password"></param>
         public DTest(string password)
         {
             _password = Encryption(password);
-            _isOpened = true;
         }
 
-        /// <summary>
-        /// Конструктор для открытия существующего теста
-        /// </summary>
-        /// <param name="password"></param>
-        /// <param name="path"></param>
-        public DTest(string password, string path)
-        {
-            FileStream fs = new FileStream(path, FileMode.Open);
-            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-            DTest deserialized = _serializer.ReadObject(reader, true) as DTest;
-            if (Encryption(password) == deserialized._password)
-            {
-                _password = deserialized._password;
-                name = deserialized.name;
-                quests = deserialized.quests;
-                time = deserialized.time;
-                _isOpened = true;
-            }
-
-            reader.Close();
-            fs.Close();
-        }
-
-        public DTest()
-        {
-        }
-
-        public void OpenTestForTesting(string path)
-        {
-            FileStream fs = new FileStream(path, FileMode.Open);
-            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-            DTest deserialized = _serializer.ReadObject(reader, true) as DTest;
-            name = deserialized.name;
-            quests = deserialized.quests;
-            time = deserialized.time;
-            reader.Close();
-            fs.Close();
-        }
-
-        #endregion
-
-        #region Методы
 
         /// <summary>
         /// Метод для шифровки пароля
@@ -117,23 +58,14 @@ namespace Приложение.Classes
         }
 
         /// <summary>
-        /// Метод для сохранения теста
+        /// Метод для сверки пароля
         /// </summary>
-        /// <param name="pathToMainDirectory"></param>
-        public void Save(string pathToMainDirectory)
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool CheckPass(string password)
         {
-            string path = pathToMainDirectory + "\\" + name;
-            Directory.CreateDirectory(path);
-            path += "\\Test.XML";
-            FileStream fs = new FileStream(path, FileMode.Create);
-            XmlWriter reader = XmlWriter.Create(fs);
-            _serializer.WriteObject(reader,
-                this);
-            reader.Close();
-            fs.Close();
+            return Encryption(password) == _password;
         }
-
-        #endregion
     }
 
     [DataContract]
@@ -242,9 +174,14 @@ namespace Приложение.Classes
     [DataContract]
     public abstract class AbstractAnswer
     {
-        public static List<Type> ListOfTypesAnswer = new List<Type> { typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) };
+        /// <summary>
+        /// Коллекция известных типов для сериализации
+        /// </summary>
+        public static List<Type> listOfTypesAnswer = new List<Type> { typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) };
         public virtual string Answer1 { get; set;}
         public virtual string Answer2 { get; set; }
+        public virtual string Index1 { get; set; }
+        public virtual string Index2 { get; set; }
         public virtual bool IsCorrect { get; set; }
         public virtual bool IsMarkedByUser { get; set; }
         public virtual DQuest Parrent { get; set; }
@@ -312,6 +249,7 @@ namespace Приложение.Classes
     {
         [DataMember] private string _answer1 = "";
         [DataMember] private string _answer2 = "";
+        [DataMember] private int index = -1;
         private string _answerUser2 = "";
         private bool _isMixed = false;
         public override bool IsMarkedByUser { get => _isMixed; set => _isMixed = value; }

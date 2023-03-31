@@ -31,7 +31,9 @@ namespace Приложение.Windows
             EditListBox1.ItemsSource = new ObservableCollection<DQuest>();
             EditComboBox1.ItemsSource = _addQuestion;
         }
+
         
+
         /// <summary>
         /// Сменить поверхности\сетки\grid.
         /// </summary>
@@ -82,95 +84,92 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
+            //Внимание! В этом методе некоторые блоки условия выполняют выход из метода или из блока цикла, это сделано для уменьшения уровня вложенности
+
             Button button = sender as Button;
             IWindowFactoryMethod windowFactoryMethod = button.DataContext as IWindowFactoryMethod;
             windowFactoryMethod.SetDirectory = mainDirectory; //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
             IDriveTestWindow window = windowFactoryMethod.Window();
             bool isButtonClick = window.ShowDialog() ?? false;
-            if (isButtonClick)
+
+            if (!isButtonClick) return; //Если не была нажата кнопка, то ничего не должно произойти
+            window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, this); //Комманды, которое должны выполниться над элементами главного окна
+            if (window.GetType() == typeof(OpenTest))
             {
-                window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, this); //Комманды, которое должны выполниться над элементами главного окна
-                if (window.GetType() == typeof(OpenTest))
+                //Здесь происходит подготовка к проведению тестирования
+                _result = new DResult();
+                var correctAnswers = _result.Answers;
+
+                foreach (var quest in _test.quests)
                 {
-                    //Здесь происходит подготовка к проведению тестирования
-                    _result = new DResult();
-                    var correctAnswers = _result.Answers;
+                    switch (quest.Type)
+                    {
+                        case EnumTypeQuestion.OPEN_ANSWER:
+                            correctAnswers.Add(new DResultsAnswerOpen());
+                            break;
+                        case EnumTypeQuestion.SELECTIVE_ANSWER_ONE:
+                            correctAnswers.Add(new DResultsAnswerSelectiveOne());
+                            break;
+                        case EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE:
+                            correctAnswers.Add(new DResultsAnswerSelectiveMultiple());
+                            break;
+                        case EnumTypeQuestion.MATCHING_SEARCH:
+                            correctAnswers.Add(new DResultsAnswerMatchingSearch());
+                            break;
+                        case EnumTypeQuestion.DATA_INPUT:
+                            correctAnswers.Add(new DResultsAnswerDataInput());
+                            break;
+                        default:
+                            throw new Exception("Что-то пошло не так...");
+                    }
+                    correctAnswers[correctAnswers.Count - 1].SetObject(quest);
 
-                    foreach (var quest in _test.quests)
+                    if (quest.Answers[0].GetType() != typeof(DAnswerPair)) continue; //Если вопрос является соответствием, то необходимо перемешать варианты, иначе пропускаем
+                    var answers = quest.Answers;
+                    List<string> list = answers.Select(answer => answer.Answer2).ToList();
+                    list = MixList(list);
+                    for(var i = 0; i < answers.Count; i++)
                     {
-                        switch (quest.Type)
-                        {
-                            case EnumTypeQuestion.OPEN_ANSWER:
-                                correctAnswers.Add(new DResultsAnswerOpen());
-                                break;
-                            case EnumTypeQuestion.SELECTIVE_ANSWER_ONE:
-                                correctAnswers.Add(new DResultsAnswerSelectiveOne());
-                                break;
-                            case EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE:
-                                correctAnswers.Add(new DResultsAnswerSelectiveMultiple());
-                                break;
-                            case EnumTypeQuestion.MATCHING_SEARCH:
-                                correctAnswers.Add(new DResultsAnswerMatchingSearch());
-                                break;
-                            case EnumTypeQuestion.DATA_INPUT:
-                                correctAnswers.Add(new DResultsAnswerDataInput());
-                                break;
-                            default:
-                                throw new Exception("Что-то пошло не так...");
-                        }
-                        correctAnswers[correctAnswers.Count - 1].SetObject(quest);
-                        if (quest.Answers[0].GetType() == typeof(DAnswerPair))
-                        {
-                            var answers = quest.Answers;
-                            List<string> list = new();
-                            foreach(var answer in answers)
-                            {
-                                list.Add(answer.Answer2);
-                            }
-                            list = MixList(list);
-                            for(var i = 0; i < answers.Count; i++)
-                            {
-                                answers[i].IsMarkedByUser = true; //Пометка, что ответы перемешаны
-                                answers[i].Answer2 = list[i];
-                            }
-                            quest.Answers = answers;
-                        }
+                        answers[i].IsMarkedByUser = true; //Пометка, что ответы перемешаны
+                        answers[i].Answer2 = list[i];
                     }
-                    _result.Answers = correctAnswers;
+                    quest.Answers = answers;
+                }
+                _result.Answers = correctAnswers;
 
-                    TestTextBox1.Text = EditTextBox1.Text;
-                    TestListBox1.ItemsSource = EditListBox1.ItemsSource;
+                TestTextBox1.Text = EditTextBox1.Text;
+                TestListBox1.ItemsSource = EditListBox1.ItemsSource;
 
-                    if (Convert.ToInt32(EditTextBoxTime.Text) == 0)
-                    {
-                        TestTextBoxTime.Text = "Время выполнения неограничено";
-                    }
-                    else
-                    {
-                        _time = TimeSpan.FromMinutes(Convert.ToInt32(EditTextBoxTime.Text));
-                        _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
-                        {
-                            //TODO: при завершении обратного отсчёта тест должен завершиться принудительно
-                            TestTextBoxTime.Text = _time.ToString("c");
-                            if (_time == TimeSpan.Zero) _timer.Stop();
-                            _time = _time.Add(TimeSpan.FromSeconds(-1));
-                        }, Application.Current.Dispatcher);
-                        _timer.Start();
-                    }
-                    foreach (var quest in _test.quests)
-                    {
-                        quest.ListBox = TestListBox1;
-                    }
+                if (Convert.ToInt32(EditTextBoxTime.Text) == 0)
+                {
+                    TestTextBoxTime.Text = "Время выполнения неограничено";
                 }
                 else
                 {
-                    foreach (var quest in _test.quests)
+                    //Установка таймера
+                    _time = TimeSpan.FromMinutes(Convert.ToInt32(EditTextBoxTime.Text));
+                    _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
                     {
-                        quest.ListBox = EditListBox1;
-                    }
+                        //TODO: при завершении обратного отсчёта тест должен завершиться принудительно
+                        TestTextBoxTime.Text = _time.ToString("c");
+                        if (_time == TimeSpan.Zero) _timer.Stop();
+                        _time = _time.Add(TimeSpan.FromSeconds(-1));
+                    }, Application.Current.Dispatcher);
+                    _timer.Start();
                 }
-                Button_Click_Switch(sender, e);
+                foreach (var quest in _test.quests)
+                {
+                    quest.ListBox = TestListBox1;
+                }
             }
+            else
+            {
+                foreach (var quest in _test.quests)
+                {
+                    quest.ListBox = EditListBox1;
+                }
+            }
+            Button_Click_Switch(sender, e);
         }
 
         /// <summary>
@@ -254,7 +253,7 @@ namespace Приложение.Windows
             {
                 _test.time = Convert.ToInt32(EditTextBoxTime.Text);
                 _test.name = EditTextBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
-                _test.Save(mainDirectory.ToString());
+                Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
                 MessageBox.Show("Тест сохранён!");
             }
         }
@@ -339,6 +338,7 @@ namespace Приложение.Windows
             var isMixed = false;
             var result = new List<string>();
 
+            //TODO: если содержиться только один элемент, то происходит зацикливание, так что нужно будет обязательно сделать проверку, чтобы в тесте не было вопросов с одним вариантом ответа (кроме открытого)
             while (!isMixed)
             {
                 result = list.OrderBy(v => randizer.Next()).ToList();
@@ -354,6 +354,27 @@ namespace Приложение.Windows
             }
 
             return result;
+        }
+
+        private TextBlock _textBlock;
+        private void Label_MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not TextBlock textBlock) return;
+            if (_textBlock == null)
+            {
+                _textBlock = textBlock;
+            }
+            else
+            {
+                var box = textBlock.Parent as ListBox;
+                (textBlock.Text, _textBlock.Text) = (_textBlock.Text, textBlock.Text);
+                _textBlock = null;
+            }
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(sender is ListBox listBox && _textBlock == null) listBox.SelectedIndex = -1;
         }
     }
 }

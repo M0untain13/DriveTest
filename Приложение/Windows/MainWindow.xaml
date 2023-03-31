@@ -523,36 +523,43 @@
 
                     <!-- Поля для ввода ответа -->
                     <TextBlock Text="Соотнесите верные ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ListBox x:Name="listBox2" 
-                                                 ItemsSource= "{Binding Answers}"
-                                                 HorizontalAlignment="Left" 
-                                                 VerticalAlignment="Top"
-                                                 BorderBrush="{x:Null}">
-
-                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <ContentPresenter/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-
-                        <!-- Стиль оформления ответа -->
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox ItemsSource="{Binding Answers}"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 BorderBrush="{x:Null}">
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <!-- Стиль оформления ответа -->
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
                                     <TextBlock Text="{Binding Answer1}" Width="100"/>
-                                    <TextBlock Text="{Binding Answer2}" Width="100"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <ListBox ItemsSource="{Binding Answers}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}" SelectionChanged="ListBox_SelectionChanged">
 
-                    </ListBox>
+                            <!-- Стиль оформления ответа -->
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Answer2}" Width="100" MouseDown="Label_MouseClick"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
 
                     <!-- Поле с ценностью ответа -->
                     <TextBlock Text="Ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>

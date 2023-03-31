@@ -52,7 +52,7 @@ namespace Приложение.Windows
             if(saveTest)
             {
                 test.time = Convert.ToInt32(textBoxTime.Text);
-                test.Save(mainWindow.mainDirectory.ToString());
+                Loader.SaveTest(test, mainWindow.mainDirectory + "\\" + test.name);
             }
             test.quests.Clear();
             textBoxText.Clear();

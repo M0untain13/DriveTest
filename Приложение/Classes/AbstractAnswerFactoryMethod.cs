@@ -6,7 +6,10 @@ namespace Приложение.Classes
 {
     public abstract class AbstractAnswerFactoryMethod
     {
-        public static List<Type> listOfTypesFactory = new List<Type> { typeof(FactoryAnswer), typeof(FactoryAnswerOne), typeof(FactoryAnswerPair) }.Concat(AbstractAnswer.ListOfTypesAnswer).ToList();
+        /// <summary>
+        /// Коллекция известных типов для сериализации
+        /// </summary>
+        public static List<Type> listOfTypesFactory = new List<Type> { typeof(FactoryAnswer), typeof(FactoryAnswerOne), typeof(FactoryAnswerPair) }.Concat(AbstractAnswer.listOfTypesAnswer).ToList();
         public abstract AbstractAnswer Answer();
     }
 

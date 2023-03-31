@@ -83,6 +83,7 @@
     <Compile Include="Classes\IWindowFactoryMethod.cs" />
     <Compile Include="Classes\DResult.cs" />
     <Compile Include="Classes\EnumIncorrectCharacters.cs" />
+    <Compile Include="Classes\Loader.cs" />
     <Compile Include="Windows\ExitFromTest.xaml.cs">
       <DependentUpon>ExitFromTest.xaml</DependentUpon>
     </Compile>
