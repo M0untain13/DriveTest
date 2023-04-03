@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
+using Приложение.Classes.Models;
 using Приложение.Classes.Services;
 
 namespace Приложение.Windows.InterWindows

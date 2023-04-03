@@ -75,8 +75,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Classes\FactoryMethods\AbstractAnswerFactoryMethod.cs" />
+    <Compile Include="Classes\FactoryMethods\AbstractResultFactoryMethod.cs" />
     <Compile Include="Classes\FactoryMethods\IWindowFactoryMethod.cs" />
-    <Compile Include="Classes\DResult.cs" />
+    <Compile Include="Classes\Models\DResult.cs" />
     <Compile Include="Classes\Enums\EnumIncorrectCharacters.cs" />
     <Compile Include="Classes\Services\Loader.cs" />
     <Compile Include="Windows\InterWindows\ExitFromTest.xaml.cs">
@@ -89,7 +90,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\DTest.cs" />
+    <Compile Include="Classes\Models\DTest.cs" />
     <Compile Include="Windows\InterWindows\CreateTest.xaml.cs">
       <DependentUpon>CreateTest.xaml</DependentUpon>
     </Compile>

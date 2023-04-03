@@ -1,4 +1,5 @@
 ﻿using Приложение.Classes.Enums;
+using Приложение.Classes.Models;
 
 namespace Приложение.Classes.Services
 {

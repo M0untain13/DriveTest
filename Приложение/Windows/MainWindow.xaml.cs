@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using Приложение.Classes;
 using Приложение.Classes.Enums;
 using Приложение.Classes.FactoryMethods;
+using Приложение.Classes.Models;
 using Приложение.Classes.Services;
 using Приложение.Windows.InterWindows;
 
@@ -97,26 +98,7 @@ namespace Приложение.Windows
 
                 foreach (var quest in _test.quests)
                 {
-                    switch (quest.Type)
-                    {
-                        case EnumTypeQuestion.OPEN_ANSWER:
-                            correctAnswers.Add(new DResultsAnswerOpen());
-                            break;
-                        case EnumTypeQuestion.SELECTIVE_ANSWER_ONE:
-                            correctAnswers.Add(new DResultsAnswerSelectiveOne());
-                            break;
-                        case EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE:
-                            correctAnswers.Add(new DResultsAnswerSelectiveMultiple());
-                            break;
-                        case EnumTypeQuestion.MATCHING_SEARCH:
-                            correctAnswers.Add(new DResultsAnswerMatchingSearch());
-                            break;
-                        case EnumTypeQuestion.DATA_INPUT:
-                            correctAnswers.Add(new DResultsAnswerDataInput());
-                            break;
-                        default:
-                            throw new Exception("Что-то пошло не так...");
-                    }
+                    correctAnswers.Add(quest.FactoryAbstractResultMethod.Result());
                     correctAnswers[correctAnswers.Count - 1].SetObject(quest);
 
                     if (quest.Answers[0].GetType() != typeof(DAnswerPair)) continue; //Если вопрос является соответствием, то необходимо перемешать варианты, иначе пропускаем
@@ -199,12 +181,15 @@ namespace Приложение.Windows
         {
             DQuest quest = type switch
             {
-                EnumTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryAnswerPair()),
-                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactoryAnswerOne()),
-                _ => new DQuest(new FactoryAnswer()),
+                EnumTypeQuestion.OPEN_ANSWER => new DQuest(new FactoryAnswer(), new FactoryAbstractResultsOpen()),
+                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactoryAnswerOne(), new FactoryAbstractResultsSelectiveOne()),
+                EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE => new DQuest(new FactoryAnswer(), new FactoryAbstractResultsSelectiveMultiple()),
+                EnumTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryAnswerPair(), new FactoryAbstractResultsMatchingSearch()),
+                EnumTypeQuestion.DATA_INPUT => new DQuest(new FactoryAnswer(), new FactoryAbstractResultsDataInput()),
+                _ => throw new Exception("Неизвестный тип")
             };
             quest.Type = type;
-            quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
+            quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryAnswerMethod.Answer() };
             quest.Answers[0].Parrent = quest;
             quest.Number = _test.quests.Count + 1;
             quest.ListBox = EditListBox1;
@@ -272,7 +257,7 @@ namespace Приложение.Windows
         private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
         {
             if(sender is not Button {DataContext: DQuest quest, Tag: int number}) return;
-            var factoryMethod = quest.FactoryMethod;
+            var factoryMethod = quest.FactoryAnswerMethod;
             var abstractAnswer = factoryMethod.Answer();
             abstractAnswer.Parrent = quest;
             var answers = _test.quests[number - 1].Answers;

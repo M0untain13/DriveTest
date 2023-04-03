@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Приложение.Classes;
 using Приложение.Classes.Enums;
+using Приложение.Classes.Models;
 
 namespace Приложение.Windows.InterWindows
 {

@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Приложение.Classes.FactoryMethods;
 
-namespace Приложение.Classes
+namespace Приложение.Classes.Models
 {
     /// <summary>
     /// Описание структуры теста
@@ -25,7 +25,10 @@ namespace Приложение.Classes
         /// <summary>
         /// Коллекция известных типов для сериализации
         /// </summary>
-        public static IEnumerable<Type> listOfTypes = new List<Type> { typeof(DQuest), typeof(MatrixTransform) }.Concat(AbstractAnswerFactoryMethod.listOfTypesFactory);
+        public static IEnumerable<Type> listOfTypes = 
+            new List<Type> { typeof(DQuest), typeof(MatrixTransform) }
+            .Concat(AbstractAnswerFactoryMethod.listOfTypesFactory)
+            .Concat(AbstractResultFactoryMethod.listOfTypesFactory);
 
         #endregion
 
@@ -73,7 +76,8 @@ namespace Приложение.Classes
         [DataMember] private int _number = -1;
         [DataMember] private bool _answerRequired = true;
         [DataMember] private double _price = 0;
-        [DataMember] private AbstractAnswerFactoryMethod _factoryMethod;
+        [DataMember] private AbstractAnswerFactoryMethod _factoryAnswerMethod;
+        [DataMember] private AbstractResultFactoryMethod _factoryAbstractResultMethod;
         private ListBox _listBox;
 
         #endregion Поля
@@ -125,10 +129,9 @@ namespace Приложение.Classes
             set => _listBox = value;
         }
 
-        public AbstractAnswerFactoryMethod FactoryMethod
-        {
-            get { return _factoryMethod; }
-        }
+        public AbstractAnswerFactoryMethod FactoryAnswerMethod => _factoryAnswerMethod;
+
+        public AbstractResultFactoryMethod FactoryAbstractResultMethod => _factoryAbstractResultMethod;
 
         /// <summary>
         /// Это для формы ввода данных
@@ -145,9 +148,10 @@ namespace Приложение.Classes
 
         #endregion Свойства
 
-        public DQuest(AbstractAnswerFactoryMethod factoryMethod)
+        public DQuest(AbstractAnswerFactoryMethod factoryAnswerMethod, AbstractResultFactoryMethod factoryAbstractResultMethod)
         {
-            _factoryMethod = factoryMethod;
+            _factoryAnswerMethod = factoryAnswerMethod;
+            _factoryAbstractResultMethod = factoryAbstractResultMethod;
         }
 
         public void ResetCorrect()
@@ -170,7 +174,7 @@ namespace Приложение.Classes
     }
 
     [DataContract]
-    public abstract class AbstractAnswer
+    public abstract class AbstractAnswer //TODO: Да, я знаю, что этот класс перегружен связями. Мне лень писать отдельный класс для конвертации, слишком много времени сожрёт, а инпакта будет мало.
     {
         /// <summary>
         /// Коллекция известных типов для сериализации

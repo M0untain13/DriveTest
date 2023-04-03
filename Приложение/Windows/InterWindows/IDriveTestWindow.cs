@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using Приложение.Classes;
+using Приложение.Classes.Models;
 
 namespace Приложение.Windows.InterWindows
 {
