@@ -86,41 +86,38 @@ namespace Приложение.Classes.Models
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get => name;
+            set => name = value;
         }
 
         public string Type
         {
-            get { return _type; }
-            set { _type = value; }
+            get => _type;
+            set => _type = value;
         }
 
         public ObservableCollection<AbstractAnswer> Answers
         {
-            get { return _answers; }
-            set { _answers = value; }
+            get => _answers;
+            set => _answers = value;
         }
 
         public int Number
         {
-            get { return _number; }
-            set { _number = value; }
+            get => _number;
+            set => _number = value;
         }
 
         public bool AnswerRequired
         {
-            get
-            {
-                return _answerRequired;
-            }
-            set { _answerRequired = value; }
+            get => _answerRequired; 
+            set => _answerRequired = value;
         }
 
         public double Price
         {
-            get { return _price; }
-            set { _price = value; }
+            get => _price;
+            set => _price = value;
         }
 
         public ListBox ListBox
@@ -138,8 +135,8 @@ namespace Приложение.Classes.Models
         /// </summary>
         public string InputData
         {
-            get { return _answers[0].Answer1; } 
-            set { _answers[0].Answer1 = value; }
+            get => _answers[0].Answer1; 
+            set => _answers[0].Answer1 = value;
         }
         /// <summary>
         /// Это для открытого ответа
@@ -200,13 +197,13 @@ namespace Приложение.Classes.Models
 
         public override bool IsCorrect
         {
-            get { return _isCorrect; } 
-            set { _isCorrect = value; }
+            get => _isCorrect; 
+            set => _isCorrect = value;
         }
         public override bool IsMarkedByUser
         {
-            get { return _isMarkedByUser; }
-            set { _isMarkedByUser = value; }
+            get => _isMarkedByUser;
+            set => _isMarkedByUser = value;
         }
     }
 
@@ -222,7 +219,7 @@ namespace Приложение.Classes.Models
         public override string Answer2 { get { return null; } set { } }
         public override bool IsCorrect 
         { 
-            get { return _isCorrect; }
+            get => _isCorrect;
             set
             {
                 if (value)
@@ -234,7 +231,7 @@ namespace Приложение.Classes.Models
         }
         public override bool IsMarkedByUser
         {
-            get { return _isMarkedByUser; }
+            get => _isMarkedByUser;
             set
             {
                 if (value)
@@ -251,20 +248,13 @@ namespace Приложение.Classes.Models
     {
         [DataMember] private string _answer1 = "";
         [DataMember] private string _answer2 = "";
-        [DataMember] private int index = -1;
         private string _answerUser2 = "";
         private bool _isMixed = false;
         public override bool IsMarkedByUser { get => _isMixed; set => _isMixed = value; }
         public override string Answer1 
         { 
-            get 
-            { 
-                return _answer1; 
-            } 
-            set 
-            {
-                _answer1 = value;
-            } 
+            get => _answer1;
+            set => _answer1 = value;
         }
         public override string Answer2 
         { 
@@ -288,6 +278,10 @@ namespace Приложение.Classes.Models
                 }
             }
         }
-        public override bool IsCorrect { get { return false; } set { } }
+        public override bool IsCorrect 
+        { 
+            get => false;
+            set { }
+        }
     }
 }

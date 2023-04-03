@@ -544,7 +544,7 @@
                             <!-- Стиль оформления ответа -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Answer1}" Width="100"/>
+                                    <TextBlock Text="{Binding Answer1}" Width="100" Height="30"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
@@ -554,7 +554,7 @@
                              BorderBrush="{x:Null}" SelectionChanged="ListBox_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" MouseDown="Label_MouseClick"/>
+                                    <TextBlock Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="25" MouseDown="Label_MouseClick"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
@@ -601,6 +601,250 @@
                                           TestingMatchingSearchTemplate="{StaticResource testingMatchingSearchTemplate}"
                                           TestingDataInputTemplate="{StaticResource testingDataInputTemplate}"
                                         x:Key="testingQuestionTemplateSelector"/>
+
+        <DataTemplate x:Key="resultOpenAnswerTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Поля с вопросом -->
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString02}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="resultSelectiveAnswerOneTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Поля для ввода вопроса -->
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString01}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString02}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="resultSelectiveAnswerMultipleTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Поля для ввода вопроса -->
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString01}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString02}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="resultMatchingSearchTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+
+                    <!-- Поля для ввода вопроса -->
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+
+                    <!-- Поля для ввода ответа -->
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox ItemsSource="{Binding ArrayOfString01}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                        <ListBox ItemsSource="{Binding ArrayOfString02}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </StackPanel>
+
+                    <!-- Поле с ценностью ответа -->
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
+
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="resultDataInputTemplate">
+            <Grid Margin="5">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Форма данных" 
+                               HorizontalAlignment="Left" VerticalAlignment="Top" 
+                               Margin="-5,-10,0,0">
+                    </TextBlock>
+
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Требуемая информация:" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введённые данные:" VerticalAlignment="Top"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString01}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+
+        </DataTemplate>
+
+        <services:ResultQuestionTemplateSelector ResultOpenAnswerTemplate="{StaticResource resultOpenAnswerTemplate}"
+                                                  ResultSelectiveAnswerOneTemplate="{StaticResource resultSelectiveAnswerOneTemplate}"
+                                                  ResultSelectiveAnswerMultipleTemplate="{StaticResource resultSelectiveAnswerMultipleTemplate}"
+                                                  ResultMatchingSearchTemplate="{StaticResource resultMatchingSearchTemplate}"
+                                                  ResultDataInputTemplate="{StaticResource resultDataInputTemplate}"
+                                                  x:Key="resultQuestionTemplateSelector"/>
 
     </Window.Resources>
 
@@ -782,6 +1026,39 @@
                     Height="40" Width="120" Margin="10,10,0,0" 
                     Click="Button_Click_Switch" Tag="{Binding ElementName=Main}">
             </Button>
+
+            <Grid Margin="10,55,10,55">
+                <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                    <StackPanel Margin="10">
+
+                        <!-- Название теста -->
+                        <TextBlock x:Name="ResultTextBox1" Text="Название теста" 
+                                   MaxWidth="800" MinHeight="30" TextAlignment="Center"/>
+
+                        <!-- Список результатов -->
+                        <ListBox x:Name="ResultListBox1"
+                                 MaxWidth="800"
+                                 HorizontalContentAlignment="Center" 
+                                 BorderBrush="{x:Null}"
+                                 ItemTemplateSelector="{StaticResource resultQuestionTemplateSelector}">
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
         </Grid>
     </Grid>
     

@@ -147,6 +147,8 @@ namespace Приложение.Windows
                     correctAnswers[i].SetTestingAnswers(_test.quests[i].Answers);
                 }
                 _test.quests.Clear();
+                ResultTextBox1.Text = TestTextBox1.Text;
+                ResultListBox1.ItemsSource = _result.Answers;
                 TestTextBox1.Text = string.Empty;
                 TestTextBoxTime.Text = string.Empty;
             }

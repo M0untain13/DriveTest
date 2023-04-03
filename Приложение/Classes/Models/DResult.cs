@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Приложение.Classes.Enums;
 
 namespace Приложение.Classes.Models
 {
@@ -22,7 +24,8 @@ namespace Приложение.Classes.Models
         /// <summary>
         /// Кол-во баллов за ответ
         /// </summary>
-        public double Score { get => _score * Сorrectness; set => _score = value; }
+        public string Score => (_score * Сorrectness).ToString("f2");
+
         /// <summary>
         /// Процент корректности данного ответа от 0 до 1
         /// </summary>
@@ -30,11 +33,11 @@ namespace Приложение.Classes.Models
         /// <summary>
         /// Предполагается список вариантов ответа
         /// </summary>
-        public virtual IEnumerable<string> ArrayOfString01 { get { return Enumerable.Empty<string>();} }
+        public virtual IEnumerable<string> ArrayOfString01 { get { return Enumerable.Empty<string>();} set {} }
         /// <summary>
         /// Предполагается список ответов данных пользователем
         /// </summary>
-        public virtual IEnumerable<string> ArrayOfString02 { get { return Enumerable.Empty<string>(); } }
+        public virtual IEnumerable<string> ArrayOfString02 { get { return Enumerable.Empty<string>(); } set {} }
         public void SetObject(DQuest quest)
         {
             _name = quest.Name;
@@ -70,7 +73,13 @@ namespace Приложение.Classes.Models
         /// Возвращает пустой список, т.к. все ответы из списка являются корректными, а значит их палить нельзя
         /// </summary>
         public override IEnumerable<string> ArrayOfString01 => base.ArrayOfString01;
-        public override IEnumerable<string> ArrayOfString02 => _answerFromTesting.Split();
+        public override IEnumerable<string> ArrayOfString02
+        {
+            get
+            {
+                return _answerFromTesting.Split();
+            }
+        }
         public override void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers)
         {
             foreach(var answer in answers)
