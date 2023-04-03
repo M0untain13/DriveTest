@@ -17,6 +17,7 @@ namespace Приложение.Classes.Models
     {
         private string _name = ""; //Вопрос
         private double _score = 0; //Баллы
+        private string _type = "";
         /// <summary>
         /// Название вопроса
         /// </summary>
@@ -25,6 +26,7 @@ namespace Приложение.Classes.Models
         /// Кол-во баллов за ответ
         /// </summary>
         public string Score => (_score * Сorrectness).ToString("f2");
+        public string Type => _type;
 
         /// <summary>
         /// Процент корректности данного ответа от 0 до 1
@@ -42,6 +44,7 @@ namespace Приложение.Classes.Models
         {
             _name = quest.Name;
             _score = quest.Price;
+            _type = quest.Type;
             SetCorrectAnswers(quest.Answers);
         }
         public virtual void SetCorrectAnswers(IEnumerable<AbstractAnswer> answers) { }

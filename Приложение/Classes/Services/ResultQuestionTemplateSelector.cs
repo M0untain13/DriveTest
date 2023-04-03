@@ -27,12 +27,15 @@ namespace Приложение.Classes.Services
         public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
         {
             if (item is not AbstractDResultsAnswer result) throw new Exception();
-            if (result.GetType() == typeof(DResultsAnswerOpen)) return ResultOpenAnswerTemplate;
-            if (result.GetType() == typeof(DResultsAnswerSelectiveOne)) return ResultSelectiveAnswerOneTemplate;
-            if (result.GetType() == typeof(DResultsAnswerSelectiveMultiple)) return ResultSelectiveAnswerMultipleTemplate;
-            if (result.GetType() == typeof(DResultsAnswerMatchingSearch)) return ResultMatchingSearchTemplate;
-            if (result.GetType() == typeof(DResultsAnswerDataInput)) return ResultDataInputTemplate;
-            throw new Exception();
+            return result.Type switch
+            {
+                EnumTypeQuestion.OPEN_ANSWER => ResultOpenAnswerTemplate,
+                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => ResultSelectiveAnswerOneTemplate,
+                EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE => ResultSelectiveAnswerMultipleTemplate,
+                EnumTypeQuestion.MATCHING_SEARCH => ResultMatchingSearchTemplate,
+                EnumTypeQuestion.DATA_INPUT => ResultDataInputTemplate,
+                _ => throw new Exception()
+            };
         }
     }
 }
