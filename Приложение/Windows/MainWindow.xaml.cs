@@ -87,7 +87,7 @@ namespace Приложение.Windows
             var isButtonClick = window.ShowDialog() ?? false;
 
             if (!isButtonClick) return; //Если не была нажата кнопка, то ничего не должно произойти
-            window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, this); //Операции, которое должны выполниться над элементами главного окна
+            window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, ref _result, this); //Операции, которое должны выполниться над элементами главного окна
             //Некоторая часть операций вынесена ниже
             
             if (window.GetType() == typeof(OpenTest))
@@ -149,6 +149,8 @@ namespace Приложение.Windows
                 _test.quests.Clear();
                 ResultTextBox1.Text = TestTextBox1.Text;
                 ResultListBox1.ItemsSource = _result.Answers;
+                Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+
                 TestTextBox1.Text = string.Empty;
                 TestTextBoxTime.Text = string.Empty;
             }

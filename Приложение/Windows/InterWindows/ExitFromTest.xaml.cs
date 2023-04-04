@@ -12,7 +12,6 @@ namespace Приложение.Windows.InterWindows
     /// </summary>
     public partial class ExitFromTest : Window, IDriveTestWindow
     {
-        public bool isSaveResult = false;
         public ExitFromTest()
         {
             InitializeComponent();
@@ -30,11 +29,10 @@ namespace Приложение.Windows.InterWindows
         /// <param name="e"></param>
         private void Exit(object sender, RoutedEventArgs e)
         {
-            isSaveResult = true;
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, MainWindow mainWindow)
+        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, ref DResult result, MainWindow mainWindow)
         {
             //Nothing
         }

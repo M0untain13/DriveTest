@@ -1,20 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 using Приложение.Classes.Enums;
+using Приложение.Classes.FactoryMethods;
 
 namespace Приложение.Classes.Models
 {
     public class DResult
     {
+        public static IEnumerable<Type> listOfTypes = AbstractDResultsAnswer.listOfTypes;
+
         private List<AbstractDResultsAnswer> _answers = new();
+        private string _nameOfPeople = "";
+
         public List<AbstractDResultsAnswer> Answers { get => _answers; set => _answers = value; }
+        public string NameOfPeople { get => _nameOfPeople; set => _nameOfPeople = value; }
     }
     /// <summary>
     /// На вывод: Имя, баллы * процент_корректности, варианты ответов при необходимости, данный ответ
     /// </summary>
     public abstract class AbstractDResultsAnswer
     {
+        public static IEnumerable<Type> listOfTypes =
+            new List<Type> 
+            { 
+                typeof(DResultsAnswerOpen), 
+                typeof(DResultsAnswerSelectiveOne), 
+                typeof(DResultsAnswerSelectiveMultiple), 
+                typeof(DResultsAnswerMatchingSearch), 
+                typeof(DResultsAnswerDataInput) 
+            };
         private string _name = ""; //Вопрос
         private double _score = 0; //Баллы
         private string _type = "";

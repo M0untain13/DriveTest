@@ -35,7 +35,7 @@ namespace Приложение.Windows.InterWindows
             testsDir.ToList().ForEach(dir => { choseTest.Items.Add($"{dir.Name}"); });
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, MainWindow w)
+        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, ref DResult result, MainWindow w)
         {
             //Пока ничего нет, но тут должно что-то быть
         }
