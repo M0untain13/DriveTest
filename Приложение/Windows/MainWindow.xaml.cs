@@ -129,8 +129,6 @@ namespace Приложение.Windows
             }
             else if (window.GetType() == typeof(OpenTest))
             {
-                _result = new DResult();
-
                 TestTextBox1.Text = _test.name;
                 TestTextBoxTime.Text = _test.time.ToString();
                 TestListBox1.ItemsSource = _test.quests;
