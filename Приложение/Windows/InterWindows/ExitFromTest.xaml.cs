@@ -32,7 +32,7 @@ namespace Приложение.Windows.InterWindows
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, ref DResult result, MainWindow mainWindow)
+        void IDriveTestWindow.Commands(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
             //Nothing
         }

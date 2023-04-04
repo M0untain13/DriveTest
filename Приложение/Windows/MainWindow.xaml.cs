@@ -87,13 +87,54 @@ namespace Приложение.Windows
             var isButtonClick = window.ShowDialog() ?? false;
 
             if (!isButtonClick) return; //Если не была нажата кнопка, то ничего не должно произойти
-            window.Commands(ref EditTextBox1, ref EditTextBoxTime, ref EditListBox1, ref _test, ref _result, this); //Операции, которое должны выполниться над элементами главного окна
-            //Некоторая часть операций вынесена ниже
-            
-            if (window.GetType() == typeof(OpenTest))
-            { 
-                //Здесь происходит подготовка к проведению тестирования
+            var isSaveTest = false;
+            window.Commands(ref _test, ref _result, ref isSaveTest); //Операции, которое должны выполниться над элементами главного окна
+            //Большая часть логики вынесена ниже
+            if (window.GetType() == typeof(CreateTest))
+            {
+                EditTextBox1.Text = _test.name;
+                EditTextBoxTime.Text = _test.time.ToString();
+                EditListBox1.ItemsSource = _test.quests;
+            }
+            else if (window.GetType() == typeof(ExitFromEdit))
+            {
+                if (isSaveTest)
+                {
+                    _test.time = Convert.ToInt32(EditTextBoxTime.Text);
+                    Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
+                }
+                _test.quests.Clear();
+                EditTextBox1.Clear();
+                EditTextBoxTime.Clear();
+            }
+            else if (window.GetType() == typeof(ExitFromTest))
+            {
+                var correctAnswers = _result.Answers;
+                for (var i = 0; i < _test.quests.Count; i++)
+                {
+                    correctAnswers[i].SetTestingAnswers(_test.quests[i].Answers);
+                }
+                _test.quests.Clear();
+                ResultTextBox1.Text = TestTextBox1.Text;
+                ResultListBox1.ItemsSource = _result.Answers;
+                Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+
+                TestTextBox1.Text = string.Empty;
+                TestTextBoxTime.Text = string.Empty;
+            }
+            else if (window.GetType() == typeof(OpenResults))
+            {
+                ResultTextBox1.Text = _result.NameOfPeople;
+                ResultListBox1.ItemsSource = _result.Answers;
+            }
+            else if (window.GetType() == typeof(OpenTest))
+            {
                 _result = new DResult();
+
+                TestTextBox1.Text = _test.name;
+                TestTextBoxTime.Text = _test.time.ToString();
+                TestListBox1.ItemsSource = _test.quests;
+
                 var correctAnswers = _result.Answers;
 
                 foreach (var quest in _test.quests)
@@ -139,23 +180,12 @@ namespace Приложение.Windows
                     quest.ListBox = TestListBox1;
                 }
             }
-            else if (window.GetType() == typeof(ExitFromTest))
+            else if (window.GetType() == typeof(OpenTestForEdit))
             {
-                var correctAnswers = _result.Answers;
-                for (var i = 0; i < _test.quests.Count; i++)
-                {
-                    correctAnswers[i].SetTestingAnswers(_test.quests[i].Answers);
-                }
-                _test.quests.Clear();
-                ResultTextBox1.Text = TestTextBox1.Text;
-                ResultListBox1.ItemsSource = _result.Answers;
-                Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+                EditTextBox1.Text = _test.name;
+                EditTextBoxTime.Text = _test.time.ToString();
+                EditListBox1.ItemsSource = _test.quests;
 
-                TestTextBox1.Text = string.Empty;
-                TestTextBoxTime.Text = string.Empty;
-            }
-            else
-            {
                 foreach (var quest in _test.quests)
                 {
                     quest.ListBox = EditListBox1;

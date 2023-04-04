@@ -49,16 +49,9 @@ namespace Приложение.Windows.InterWindows
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, ref DResult result, MainWindow mainWindow)
+        void IDriveTestWindow.Commands(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
-            if(isSaveTest)
-            {
-                test.time = Convert.ToInt32(textBoxTime.Text);
-                Loader.SaveTest(test, mainWindow.mainDirectory + "\\" + test.name);
-            }
-            test.quests.Clear();
-            textBoxText.Clear();
-            textBoxTime.Clear();
+            isSaveTest = this.isSaveTest;
         }
     }
 }

@@ -8,7 +8,7 @@
         Title="Открыть результаты" Height="260" Width="390" ResizeMode="NoResize" Activated="Window_Activated">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Выбор теста"/>
-        <ComboBox x:Name="choseTest" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="choseTest" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="120" DropDownClosed="choseTest_DropDownClosed"/>
         <TextBlock HorizontalAlignment="Left" Margin="250,10,0,0" TextWrapping="Wrap" Text="Выбор чела" VerticalAlignment="Top"/>
         <ComboBox x:Name="choseStudent" HorizontalAlignment="Left" Margin="250,31,0,0" VerticalAlignment="Top" Width="120" Height="24"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,130,0,0" TextWrapping="Wrap" Text="Пароль от теста" VerticalAlignment="Top"/>

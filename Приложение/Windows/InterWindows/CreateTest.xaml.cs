@@ -62,12 +62,9 @@ namespace Приложение.Windows.InterWindows
             warningBlock.Text = "Прежде чем создать тест, введите название и пароль!";
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBoxText, ref TextBox textBoxTime, ref ListBox listBox, ref DTest test, ref DResult result, MainWindow w)
+        void IDriveTestWindow.Commands(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
             test = this.test;
-            textBoxText.Text = test.name;
-            textBoxTime.Text = test.time.ToString();
-            listBox.ItemsSource = test.quests;
         }
     }
 }
