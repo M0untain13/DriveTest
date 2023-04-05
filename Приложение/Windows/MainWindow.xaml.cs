@@ -112,7 +112,7 @@ namespace Приложение.Windows
                 var correctAnswers = _result.Answers;
                 for (var i = 0; i < _test.quests.Count; i++)
                 {
-                    correctAnswers[i].SetTestingAnswers(_test.quests[i].Answers);
+                    correctAnswers[i].SetTestingAnswers(_test.quests[i]);
                 }
                 _test.quests.Clear();
                 ResultTextBox1.Text = TestTextBox1.Text;
@@ -153,9 +153,7 @@ namespace Приложение.Windows
                 }
                 _result.Answers = correctAnswers;
 
-                TestTextBox1.Text = EditTextBox1.Text;
-                TestListBox1.ItemsSource = EditListBox1.ItemsSource;
-
+                if (EditTextBoxTime.Text == string.Empty) EditTextBoxTime.Text = "0";
                 if (Convert.ToInt32(EditTextBoxTime.Text) == 0)
                 {
                     TestTextBoxTime.Text = "Время выполнения неограничено";
@@ -395,5 +393,20 @@ namespace Приложение.Windows
             if (sender is ListBox listBox && _textBlock == null) listBox.SelectedIndex = -1;
         }
         #endregion
+
+        private void Button_Click_ShowCorrectAnswers(object sender, RoutedEventArgs e)
+        {
+            _test = Loader.LoadTest($"{mainDirectory}\\{_result.NameOfTest}");
+            if (_test.CheckPass(resPassBox.Password))
+            {
+                //TODO: верные ответы должны быть показаны
+                _test = null;
+            }
+            else
+            {
+                _test = null;
+                MessageBox.Show("Неверный пароль!");
+            }
+        }
     }
 }

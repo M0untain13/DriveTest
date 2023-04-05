@@ -605,13 +605,12 @@
         <DataTemplate x:Key="resultOpenAnswerTemplate">
             <Grid Margin="5">
                 <StackPanel Margin="10">
-
                     <!-- Поля с вопросом -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <ListBox ItemsSource="{Binding ArrayOfString02}"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -630,8 +629,30 @@
                         </ListBox.ItemContainerStyle>
                     </ListBox>
 
+                    <Grid>
+                        <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                        <ListBox ItemsSource="{Binding ArrayOfString03}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Grid>
+                    
+
                     <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
 
                 </StackPanel>
@@ -644,11 +665,11 @@
                 <StackPanel Margin="10">
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <ListBox ItemsSource="{Binding ArrayOfString01}"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -666,8 +687,26 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <ListBox ItemsSource="{Binding ArrayOfString02}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                    <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString03}"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -686,7 +725,7 @@
                     </ListBox>
 
                     <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
 
                 </StackPanel>
@@ -699,11 +738,11 @@
                 <StackPanel Margin="10">
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <ListBox ItemsSource="{Binding ArrayOfString01}"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -721,8 +760,26 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <ListBox ItemsSource="{Binding ArrayOfString02}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                        <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                    <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString03}"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -741,7 +798,7 @@
                     </ListBox>
 
                     <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
 
                 </StackPanel>
@@ -754,11 +811,11 @@
                 <StackPanel Margin="10">
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <StackPanel Orientation="Horizontal">
                         <ListBox ItemsSource="{Binding ArrayOfString01}"
                              HorizontalAlignment="Left"
@@ -796,8 +853,46 @@
                         </ListBox>
                     </StackPanel>
 
+                    <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox ItemsSource="{Binding ArrayOfString01}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                        <ListBox ItemsSource="{Binding ArrayOfString03}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             BorderBrush="{x:Null}">
+                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </StackPanel>
+
                     <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
 
                 </StackPanel>
@@ -813,9 +908,9 @@
                                Margin="-5,-10,0,0">
                     </TextBlock>
 
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Требуемая информация:" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Требуемая информация:" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <TextBlock HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Name}"/>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введённые данные:" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введённые данные:" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
                     <ListBox ItemsSource="{Binding ArrayOfString01}"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -859,7 +954,7 @@
                     <factoryMethods:FactoryCreateTest/>
                 </Button.DataContext>
             </Button>
-            
+
             <Button Content="Редактировать тест" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="135,10,0,0" 
@@ -868,7 +963,7 @@
                     <factoryMethods:FactoryOpenTestForEdit/>
                 </Button.DataContext>
             </Button>
-            
+
             <Button Content="Запустить тест" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="260,10,0,0" 
@@ -877,7 +972,7 @@
                     <factoryMethods:FactoryOpenTest/>
                 </Button.DataContext>
             </Button>
-            
+
             <Button Content="Посмотреть результаты" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="140" Margin="385,10,0,0"
@@ -887,20 +982,20 @@
                 </Button.DataContext>
             </Button>
         </Grid>
-        
+
         <!-- Поверхность редактора -->
         <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden ">
-            
+
             <Button Content="Сохранить" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="10,10,0,0" 
                     Click="SaveTest"/>
-            
+
             <Button Content="Сохранить как..." 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="135,10,0,0" 
                     Click="Заглушка"/>
-            
+
             <Button Content="Проверить" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="260,10,0,0" 
@@ -931,7 +1026,7 @@
             <Grid Margin="10,85,10,55">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                     <StackPanel Margin="10">
-                        
+
                         <!-- Название теста -->
                         <TextBox x:Name="EditTextBox1" Text="Название теста" 
                                  MaxWidth="800" MinHeight="30" />
@@ -942,7 +1037,7 @@
                                  HorizontalContentAlignment="Center" 
                                  BorderBrush="{x:Null}"
                                  ItemTemplateSelector="{StaticResource editQuestionTemplateSelector}">
-                            
+
                             <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
@@ -958,16 +1053,16 @@
 
                         </ListBox>
                         <!-- Список вопросов: Конец -->
-                        
+
                         <!-- Кнопка добавления вопроса -->
                         <ComboBox x:Name="EditComboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed"/>
-                        
+
                     </StackPanel>
                 </ScrollViewer>
-                
+
             </Grid>
         </Grid>
-        
+
         <!-- Поверхность тестирования -->
         <Grid x:Name="Test" IsEnabled="False" Visibility="Hidden">
             <TextBlock x:Name="TestTextBoxTime" Text=""
@@ -1027,6 +1122,15 @@
                     Click="Button_Click_Switch" Tag="{Binding ElementName=Main}">
             </Button>
 
+            <Button Content="Показать верные ответы"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="40" Width="120" Margin="135,10,0,0" 
+                    Click="Button_Click_ShowCorrectAnswers">
+            </Button>
+
+            <PasswordBox x:Name="resPassBox" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="20" Width="80" Margin="260,10,0,0" />
+
             <Grid Margin="10,55,10,55">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                     <StackPanel Margin="10">
@@ -1061,5 +1165,4 @@
 
         </Grid>
     </Grid>
-    
 </Window>
