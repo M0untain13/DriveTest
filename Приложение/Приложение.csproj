@@ -102,8 +102,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Classes\FactoryMethods\AbstractAnswerFactoryMethod.cs" />
-    <Compile Include="Classes\FactoryMethods\AbstractResultFactoryMethod.cs" />
+    <Compile Include="Classes\FactoryMethods\AbstractFactoryMethod.cs" />
     <Compile Include="Classes\FactoryMethods\IWindowFactoryMethod.cs" />
     <Compile Include="Classes\Models\DResult.cs" />
     <Compile Include="Classes\Enums\EnumIncorrectCharacters.cs" />

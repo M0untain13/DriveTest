@@ -13,7 +13,17 @@
         Title="Главное меню" Height="450" Width="800" ResizeMode="CanResizeWithGrip" MinHeight="400" MinWidth="550">
     
     <Window.Resources>
-        
+
+        <Style TargetType="Grid" x:Key="StyleForVis">
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=VisCheck, Path=IsChecked}"
+                             Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <DataTemplate x:Key="editOpenAnswerTemplate">
             <Grid>
                 <Grid Margin="5">
@@ -629,31 +639,37 @@
                         </ListBox.ItemContainerStyle>
                     </ListBox>
 
-                    <Grid>
-                        <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                        <ListBox ItemsSource="{Binding ArrayOfString03}"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             BorderBrush="{x:Null}">
-                            <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListBoxItem">
-                                                <ContentPresenter/>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
+                    <Grid Margin="10" Style="{StaticResource StyleForVis}">
+                        <StackPanel >
+                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                            <ListBox ItemsSource="{Binding ArrayOfString03}"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Top"
+                                     BorderBrush="{x:Null}">
+                                <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <ContentPresenter/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </StackPanel>
                     </Grid>
                     
 
                     <!-- Поле с ценностью ответа -->
                     <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <TextBlock Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Score}"/>
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" >
+                        <Run Text="{Binding Score}"/>
+                        <Run Text="из"/>
+                        <Run Text="{Binding MaxScore}"/>
+                    </TextBlock>
 
                 </StackPanel>
                 <Border BorderBrush="Black" BorderThickness="1"/>
@@ -1122,23 +1138,35 @@
                     Click="Button_Click_Switch" Tag="{Binding ElementName=Main}">
             </Button>
 
-            <Button Content="Показать верные ответы"
+            <Button Content="Показать верные ответы" x:Name="ButtonShowCorAns"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="135,10,0,0" 
                     Click="Button_Click_ShowCorrectAnswers">
             </Button>
 
-            <PasswordBox x:Name="resPassBox" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Height="20" Width="80" Margin="260,10,0,0" />
+            <TextBlock Text="Пароль"
+                       HorizontalAlignment="Left" VerticalAlignment="Top"
+                       Height="20" Width="80"
+                       Margin="260,10,0,0"/>
 
-            <Grid Margin="10,55,10,55">
+            <PasswordBox x:Name="resPassBox" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="20" Width="80" 
+                    Margin="260,30,0,0" />
+
+            <CheckBox x:Name="VisCheck" IsChecked="False" IsEnabled="False"
+                      HorizontalAlignment="Left" VerticalAlignment="Top" 
+                      Margin="324, 10, 0, 0"/>
+
+            <!-- Название теста -->
+            <TextBlock x:Name="ResultTextBox1" Text="Название теста" 
+                       MaxWidth="800" MinHeight="30" 
+                       TextAlignment="Center"
+                       HorizontalAlignment="Center" VerticalAlignment="Top"
+                       Margin="0,60,0,0"/>
+
+            <Grid Margin="10,75,10,55">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                     <StackPanel Margin="10">
-
-                        <!-- Название теста -->
-                        <TextBlock x:Name="ResultTextBox1" Text="Название теста" 
-                                   MaxWidth="800" MinHeight="30" TextAlignment="Center"/>
-
                         <!-- Список результатов -->
                         <ListBox x:Name="ResultListBox1"
                                  MaxWidth="800"
@@ -1158,7 +1186,6 @@
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
-
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

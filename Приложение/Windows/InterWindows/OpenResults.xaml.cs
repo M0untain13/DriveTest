@@ -59,6 +59,8 @@ namespace Приложение.Windows.InterWindows
 
         private void choseTest_DropDownClosed(object sender, EventArgs e)
         {
+            choseStudent.Items.Clear();
+            students.Clear();
             try
             {
                 if (sender is not ComboBox comboBox)

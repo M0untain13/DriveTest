@@ -27,8 +27,7 @@ namespace Приложение.Classes.Models
         /// </summary>
         public static IEnumerable<Type> listOfTypes = 
             new List<Type> { typeof(DQuest), typeof(MatrixTransform) }
-            .Concat(AbstractAnswerFactoryMethod.listOfTypesFactory)
-            .Concat(AbstractResultFactoryMethod.listOfTypesFactory);
+            .Concat(AbstractFactoryMethod.listOfTypesFactory);
 
         #endregion
 
@@ -76,8 +75,7 @@ namespace Приложение.Classes.Models
         [DataMember] private int _number = -1;
         [DataMember] private bool _answerRequired = true;
         [DataMember] private double _price = 0;
-        [DataMember] private AbstractAnswerFactoryMethod _factoryAnswerMethod;
-        [DataMember] private AbstractResultFactoryMethod _factoryAbstractResultMethod;
+        [DataMember] private AbstractFactoryMethod _factoryMethod;
         private ListBox _listBox;
 
         #endregion Поля
@@ -126,9 +124,7 @@ namespace Приложение.Classes.Models
             set => _listBox = value;
         }
 
-        public AbstractAnswerFactoryMethod FactoryAnswerMethod => _factoryAnswerMethod;
-
-        public AbstractResultFactoryMethod FactoryAbstractResultMethod => _factoryAbstractResultMethod;
+        public AbstractFactoryMethod FactoryMethod => _factoryMethod;
 
         /// <summary>
         /// Это для формы ввода данных
@@ -145,10 +141,9 @@ namespace Приложение.Classes.Models
 
         #endregion Свойства
 
-        public DQuest(AbstractAnswerFactoryMethod factoryAnswerMethod, AbstractResultFactoryMethod factoryAbstractResultMethod)
+        public DQuest(AbstractFactoryMethod factoryMethod)
         {
-            _factoryAnswerMethod = factoryAnswerMethod;
-            _factoryAbstractResultMethod = factoryAbstractResultMethod;
+            _factoryMethod = factoryMethod;
         }
 
         public void ResetCorrect()
@@ -171,7 +166,7 @@ namespace Приложение.Classes.Models
     }
 
     [DataContract]
-    public abstract class AbstractAnswer //TODO: Да, я знаю, что этот класс перегружен связями. Мне лень писать отдельный класс для конвертации, слишком много времени сожрёт, а инпакта будет мало.
+    public abstract class AbstractAnswer
     {
         /// <summary>
         /// Коллекция известных типов для сериализации

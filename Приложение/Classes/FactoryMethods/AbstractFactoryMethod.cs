@@ -7,56 +7,77 @@ using Приложение.Classes.Models;
 
 namespace Приложение.Classes.FactoryMethods
 {
-    public abstract class AbstractResultFactoryMethod
+    public abstract class AbstractFactoryMethod
     {
         /// <summary>
         /// Коллекция известных типов для сериализации
         /// </summary>
         public static List<Type> listOfTypesFactory = new List<Type>
         {
-            typeof(FactoryAbstractResultsOpen), 
-            typeof(FactoryAbstractResultsSelectiveOne), 
-            typeof(FactoryAbstractResultsSelectiveMultiple), 
-            typeof(FactoryAbstractResultsMatchingSearch), 
-            typeof(FactoryAbstractResultsDataInput)
-        };
+            typeof(FactoryOpen), 
+            typeof(FactorySelectiveOne), 
+            typeof(FactorySelectiveMultiple), 
+            typeof(FactoryMatchingSearch), 
+            typeof(FactoryDataInput)
+        }.Concat(AbstractAnswer.listOfTypesAnswer).ToList();
         public abstract AbstractDResultsAnswer Result();
+        public abstract AbstractAnswer Answer();
     }
 
-    public class FactoryAbstractResultsOpen : AbstractResultFactoryMethod
+    public class FactoryOpen : AbstractFactoryMethod
     {
         public override AbstractDResultsAnswer Result()
         {
             return new DResultsAnswerOpen();
         }
+        public override AbstractAnswer Answer()
+        {
+            return new DAnswer();
+        }
     }
 
-    public class FactoryAbstractResultsSelectiveOne : AbstractResultFactoryMethod
+    public class FactorySelectiveOne : AbstractFactoryMethod
     {
         public override AbstractDResultsAnswer Result()
         {
             return new DResultsAnswerSelectiveOne();
         }
+        public override AbstractAnswer Answer()
+        {
+            return new DAnswerOne();
+        }
     }
-    public class FactoryAbstractResultsSelectiveMultiple : AbstractResultFactoryMethod
+    public class FactorySelectiveMultiple : AbstractFactoryMethod
     {
         public override AbstractDResultsAnswer Result()
         {
             return new DResultsAnswerSelectiveMultiple();
         }
+        public override AbstractAnswer Answer()
+        {
+            return new DAnswer();
+        }
     }
-    public class FactoryAbstractResultsMatchingSearch : AbstractResultFactoryMethod
+    public class FactoryMatchingSearch : AbstractFactoryMethod
     {
         public override AbstractDResultsAnswer Result()
         {
             return new DResultsAnswerMatchingSearch();
         }
+        public override AbstractAnswer Answer()
+        {
+            return new DAnswerPair();
+        }
     }
-    public class FactoryAbstractResultsDataInput : AbstractResultFactoryMethod
+    public class FactoryDataInput : AbstractFactoryMethod
     {
         public override AbstractDResultsAnswer Result()
         {
             return new DResultsAnswerDataInput();
+        }
+        public override AbstractAnswer Answer()
+        {
+            return new DAnswer();
         }
     }
 }

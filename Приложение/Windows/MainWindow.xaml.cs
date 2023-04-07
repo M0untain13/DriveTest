@@ -22,8 +22,8 @@ namespace Приложение.Windows
     public partial class MainWindow : Window
     {
         public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
-        public readonly DirectoryInfo mainDirectory = new("Tests");                         //Главный каталог, где будут лежать тесты.
-        private readonly ObservableCollection<string> _addQuestion = EnumTypeQuestion.strings;    //Строки для добавления вопросов в тест.
+        public readonly DirectoryInfo mainDirectory = new("Tests");
+        private readonly ObservableCollection<string> _addQuestion = EnumTypeQuestion.strings;
         private DTest _test;
         private DResult _result;
 
@@ -115,7 +115,7 @@ namespace Приложение.Windows
                     correctAnswers[i].SetTestingAnswers(_test.quests[i]);
                 }
                 _test.quests.Clear();
-                ResultTextBox1.Text = TestTextBox1.Text;
+                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople}";
                 ResultListBox1.ItemsSource = _result.Answers;
                 Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
 
@@ -124,7 +124,7 @@ namespace Приложение.Windows
             }
             else if (window.GetType() == typeof(OpenResults))
             {
-                ResultTextBox1.Text = _result.NameOfPeople;
+                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople}";
                 ResultListBox1.ItemsSource = _result.Answers;
             }
             else if (window.GetType() == typeof(OpenTest))
@@ -137,7 +137,7 @@ namespace Приложение.Windows
 
                 foreach (var quest in _test.quests)
                 {
-                    correctAnswers.Add(quest.FactoryAbstractResultMethod.Result());
+                    correctAnswers.Add(quest.FactoryMethod.Result());
                     correctAnswers[correctAnswers.Count - 1].SetObject(quest);
 
                     if (quest.Answers[0].GetType() != typeof(DAnswerPair)) continue; //Если вопрос является соответствием, то необходимо перемешать варианты, иначе пропускаем
@@ -211,15 +211,15 @@ namespace Приложение.Windows
         {
             DQuest quest = type switch
             {
-                EnumTypeQuestion.OPEN_ANSWER => new DQuest(new FactoryAnswer(), new FactoryAbstractResultsOpen()),
-                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactoryAnswerOne(), new FactoryAbstractResultsSelectiveOne()),
-                EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE => new DQuest(new FactoryAnswer(), new FactoryAbstractResultsSelectiveMultiple()),
-                EnumTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryAnswerPair(), new FactoryAbstractResultsMatchingSearch()),
-                EnumTypeQuestion.DATA_INPUT => new DQuest(new FactoryAnswer(), new FactoryAbstractResultsDataInput()),
+                EnumTypeQuestion.OPEN_ANSWER => new DQuest(new FactoryOpen()),
+                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactorySelectiveOne()),
+                EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE => new DQuest(new FactorySelectiveMultiple()),
+                EnumTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryMatchingSearch()),
+                EnumTypeQuestion.DATA_INPUT => new DQuest(new FactoryDataInput()),
                 _ => throw new Exception("Неизвестный тип")
             };
             quest.Type = type;
-            quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryAnswerMethod.Answer() };
+            quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
             quest.Answers[0].Parrent = quest;
             quest.Number = _test.quests.Count + 1;
             quest.ListBox = EditListBox1;
@@ -287,7 +287,7 @@ namespace Приложение.Windows
         private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
         {
             if(sender is not Button {DataContext: DQuest quest, Tag: int number}) return;
-            var factoryMethod = quest.FactoryAnswerMethod;
+            var factoryMethod = quest.FactoryMethod;
             var abstractAnswer = factoryMethod.Answer();
             abstractAnswer.Parrent = quest;
             var answers = _test.quests[number - 1].Answers;
@@ -396,11 +396,17 @@ namespace Приложение.Windows
 
         private void Button_Click_ShowCorrectAnswers(object sender, RoutedEventArgs e)
         {
+            if (VisCheck.IsChecked ?? false) return;
             _test = Loader.LoadTest($"{mainDirectory}\\{_result.NameOfTest}");
             if (_test.CheckPass(resPassBox.Password))
             {
-                //TODO: верные ответы должны быть показаны
+                VisCheck.IsChecked = true;
+                // _result.GetVisible();
+                // ResultListBox1.ItemsSource = _result.Answers;
+                ResultListBox1.Items.Refresh();
                 _test = null;
+                ButtonShowCorAns.IsEnabled = false;
+                resPassBox.IsEnabled = false;
             }
             else
             {
