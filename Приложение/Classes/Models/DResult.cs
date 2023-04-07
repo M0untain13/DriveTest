@@ -141,8 +141,9 @@ namespace Приложение.Classes.Models
                                                                       where _correctAnswers.Contains(answer)
                                                                       select answer).Count();
                 var countOfCorrectAnswers = arrayOfAnswerFromTesting.Length-countOfErrors;
-                //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
+
                 if (countOfCorrectAnswers == 0) return 0.0;
+                //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
                 return 1.0 * countOfCorrectAnswers/ _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count); 
             } 
         }
@@ -226,9 +227,9 @@ namespace Приложение.Classes.Models
                                              where _correctAnswers.Contains(answer)
                                              select answer).Count();
                 var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
-
-                //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
+                
                 if (countOfCorrectAnswers == 0) return 0.0;
+                //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
                 return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _answers.Count);
             }
         }
@@ -273,9 +274,9 @@ namespace Приложение.Classes.Models
                                              where _correctAnswers[answer.Key] == _receivedAnswers[answer.Key]
                                              select answer).Count();
                 var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
-
-                //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
+                
                 if (countOfCorrectAnswers == 0) return 0.0;
+                //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
                 return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count);
             }
         }

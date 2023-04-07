@@ -86,7 +86,8 @@
 
                         <!-- Поле с ценностью ответа -->
                         <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" TextChanged="TextBox_TextChanged" />
+                        <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
+                                 TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus" />
 
                         <!-- Поле обязательности ответа -->
                         <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -163,7 +164,8 @@
 
                     <!-- Поле с ценностью ответа -->
                     <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" TextChanged="TextBox_TextChanged" />
+                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
+                             TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"/>
 
                     <!-- Поле обязательности ответа -->
                     <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -239,7 +241,8 @@
 
                     <!-- Поле с ценностью ответа -->
                     <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" TextChanged="TextBox_TextChanged" />
+                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
+                             TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"/>
 
                     <!-- Поле обязательности ответа -->
                     <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -314,7 +317,8 @@
 
                     <!-- Поле с ценностью ответа -->
                     <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" TextChanged="TextBox_TextChanged" />
+                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
+                             TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"/>
 
                     <!-- Поле обязательности ответа -->
                     <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -1025,12 +1029,7 @@
             <Button Content="Сохранить как..." 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="40" Width="120" Margin="135,10,0,0" 
-                    Click="Заглушка"/>
-
-            <Button Content="Проверить" 
-                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Height="40" Width="120" Margin="260,10,0,0" 
-                    Click="Заглушка"/>
+                    Click="SaveTestAsNew"/>
 
             <Button Content="Вернуться назад" 
                     HorizontalAlignment="Left" VerticalAlignment="Bottom" 
@@ -1042,13 +1041,13 @@
             </Button>
 
             <!-- Время для решения теста -->
-            <StackPanel 
-                Orientation="Horizontal" 
+            <StackPanel
+                Orientation="Horizontal"
                 Margin="20,60,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top">
                 <TextBlock Text="Время для решения теста в минутах"/>
-                <TextBox x:Name="EditTextBoxTime" Text="0" 
+                <TextBox x:Name="EditTextBoxTime" Text="0" TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"
                          Width="30" Height="30"
                          Margin="10,0,0,0"/>
             </StackPanel>

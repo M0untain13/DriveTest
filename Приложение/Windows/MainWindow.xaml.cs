@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using Приложение.Classes;
 using Приложение.Classes.Enums;
@@ -15,11 +16,10 @@ using Приложение.Classes.Services;
 using Приложение.Windows.InterWindows;
 
 //TODO: Заметка для следующих задач
-//В результатах, при отсутствии выбора ответа в вопросе с несколькими вариантам, не показывает правильные ответы, скорее всего они не записываются в модель
-//Таймер стоит на 6 секунд для тестирования правильности работы прохождения тестов
-//Надо заняться ограничениями в редакторе
-//Поправить кнопки "Сохранить" и "Сохранить как..."
-//При отсутствии ответов на вопросы, где ответ требуется, тест не должен завершаться
+//(Не смог возпроизвести данную ошибку, но на всякий оставлю в заметках) В результатах, при отсутствии выбора ответа в вопросе с несколькими вариантам, не показывает правильные ответы, скорее всего они не записываются в модель
+//(Потом убрать) Таймер стоит на 6 секунд для тестирования правильности работы прохождения тестов
+//(Вроде как сделал, но мог что-то забыть) Надо заняться ограничениями в редакторе. Кстати, при выходе с сохранением, если есть ошибка, тест не сохраняется, и по факту утрачиваются все изменения, ибо происходит выход из редактора в меню бех сохранения по итогу
+//При отсутствии ответов на вопросы, где ответ требуется, тест не может быть завершён пользователем, хотя по истечению времени он офк завершится
 
 namespace Приложение.Windows
 {
@@ -43,7 +43,6 @@ namespace Приложение.Windows
             EditListBox1.ItemsSource = new ObservableCollection<DQuest>();
             EditComboBox1.ItemsSource = _addQuestion;
         }
-
 
         /// <summary>
         /// Сменить поверхности\сетки\grid.
@@ -105,7 +104,7 @@ namespace Приложение.Windows
 
             if (!isButtonClick) return; //Если не была нажата кнопка, то ничего не должно произойти
             var isSaveTest = false;
-            window.Commands(ref _test, ref _result, ref isSaveTest); //Операции, которое должны выполниться над элементами главного окна
+            window.Commands(ref _test, ref _result, ref isSaveTest); //Передача экземпляров теста и резултата между окнами TODO: в принципе можно заменить на статический класс и просто обращаться к его полям
             //Большая часть логики вынесена ниже
             if (window.GetType() == typeof(CreateTest))
             {
@@ -117,8 +116,7 @@ namespace Приложение.Windows
             {
                 if (isSaveTest)
                 {
-                    _test.time = Convert.ToInt32(EditTextBoxTime.Text);
-                    Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
+                    SaveTest(sender, e);
                 }
                 _test.quests.Clear();
                 EditTextBox1.Clear();
@@ -183,7 +181,7 @@ namespace Приложение.Windows
                         if (_time == TimeSpan.Zero) 
                         {
                             _timer.Stop();
-                            var correctAnswers = _result.Answers;
+                            correctAnswers = _result.Answers;
                             for (var i = 0; i < _test.quests.Count; i++)
                             {
                                 correctAnswers[i].SetTestingAnswers(_test.quests[i]);
@@ -240,6 +238,59 @@ namespace Приложение.Windows
         }
 
         /// <summary>
+        /// Нажатие кнопки, приводящее к добавлению поля для ответа в вопросе в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { DataContext: DQuest quest, Tag: int number }) return;
+            var factoryMethod = quest.FactoryMethod;
+            var abstractAnswer = factoryMethod.Answer();
+            if(quest.Type is EnumTypeQuestion.DATA_INPUT or EnumTypeQuestion.OPEN_ANSWER) abstractAnswer.IsCorrect = true;
+            abstractAnswer.Parrent = quest;
+            var answers = _test.quests[number - 1].Answers;
+            if (answers.Count < 10)
+            {
+                answers.Add(abstractAnswer);
+                EditListBox1.ItemsSource = _test.quests;
+            }
+        }
+
+        /// <summary>
+        /// Нажатие кнопки, приводящее к удалению поля ответа в вопросе в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_AnswerDelete(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { Tag: int number }) return;
+            var answers = _test.quests[number - 1].Answers;
+            if (answers.Count > 1)
+            {
+                answers.RemoveAt(answers.Count - 1);
+                EditListBox1.ItemsSource = _test.quests;
+            }
+        }
+
+        /// <summary>
+        /// Нажатие кнопки, приводящее к удалению вопроса в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_QuestionDelete(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { Tag: int number }) return;
+            _test.quests.RemoveAt(number - 1);
+            for (var i = 0; i < _test.quests.Count; i++)
+            {
+                _test.quests[i].Number = i + 1;
+            }
+            EditListBox1.ItemsSource = _test.quests;
+            EditListBox1.Items.Refresh();
+        }
+
+        /// <summary>
         /// Добавить вопрос в редакторе
         /// </summary>
         private void AddQuestion(string type)
@@ -255,6 +306,7 @@ namespace Приложение.Windows
             };
             quest.Type = type;
             quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
+            if (quest.Type is EnumTypeQuestion.DATA_INPUT or EnumTypeQuestion.OPEN_ANSWER) quest.Answers[0].IsCorrect = true;
             quest.Answers[0].Parrent = quest;
             quest.Number = _test.quests.Count + 1;
             quest.ListBox = EditListBox1;
@@ -275,15 +327,45 @@ namespace Приложение.Windows
             e.Handled = true;
         }
 
-        /// <summary>
-        /// Заглушка, от которой необходимо избавиться
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Заглушка(object sender, RoutedEventArgs e)
+        private void SaveTest(object sender, RoutedEventArgs e) //TODO: сюда надо тоже забабахать проверку
         {
-            //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
-            MessageBox.Show("Эта кнопка пока не работает :(");
+            if ((from char sym in EditTextBox1.Text
+                    where incorrectChars.Contains(sym)
+                    select sym).Count() != 0)
+            {
+                MessageBox.Show("Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
+            }
+            else
+            {
+                var tempName = _test.name;
+                _test.name = EditTextBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
+                if ((from char sym in EditTextBoxTime.Text
+                        where !char.IsDigit(sym)
+                        select sym).Count() != 0)
+                {
+                    MessageBox.Show("Время выполнения содержит нечисленные символы!");
+                }
+                else if (!Loader.CheckTest(_test, out var message))
+                {
+                    MessageBox.Show($"{message}!");
+                }
+                else
+                {
+                    if (tempName != EditTextBox1.Text)
+                    {
+                        if (Directory.Exists($"{mainDirectory}\\{tempName}\\Results"))
+                        {
+                            //Переносим результаты в новую папку
+                            Directory.CreateDirectory($"{mainDirectory}\\{EditTextBox1.Text}");
+                            Directory.Move($"{mainDirectory}\\{tempName}\\Results", $"{mainDirectory}\\{EditTextBox1.Text}\\Results");
+                        }
+                        Directory.Delete($"{mainDirectory}\\{tempName}", true);
+                    }
+                    _test.time = Convert.ToInt32(EditTextBoxTime.Text);
+                    Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
+                    MessageBox.Show("Тест сохранён!");
+                }
+            }
         }
 
         /// <summary>
@@ -291,79 +373,34 @@ namespace Приложение.Windows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveTest(object sender, RoutedEventArgs e)
+        private void SaveTestAsNew(object sender, RoutedEventArgs e)
         {
             if ((from char sym in EditTextBox1.Text
                  where incorrectChars.Contains(sym)
                  select sym).Count() != 0)
             {
-                MessageBox.Show("Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
-            }
-            else if((from char sym in EditTextBoxTime.Text
-                    where !char.IsDigit(sym)
-                    select sym).Count() != 0)
-            {
-                MessageBox.Show("Время выполнения содержит нечисленные символы!");
+                MessageBox.Show("Имя теста не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
             }
             else
             {
-                _test.time = Convert.ToInt32(EditTextBoxTime.Text);
                 _test.name = EditTextBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
-                Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
-                MessageBox.Show("Тест сохранён!");
+                if ((from char sym in EditTextBoxTime.Text
+                        where !char.IsDigit(sym)
+                        select sym).Count() != 0)
+                {
+                    MessageBox.Show("Время выполнения содержит нечисленные символы!");
+                }
+                else if (!Loader.CheckTest(_test, out var message))
+                {
+                    MessageBox.Show($"{message}!");
+                }
+                else
+                {
+                    _test.time = Convert.ToInt32(EditTextBoxTime.Text);
+                    Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
+                    MessageBox.Show("Тест сохранён!");
+                }
             }
-        }
-
-        /// <summary>
-        /// Нажатие кнопки, приводящее к добавлению поля для ответа в вопросе в редакторе
-        /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
-        /// <param name="e"></param>
-        private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
-        {
-            if(sender is not Button {DataContext: DQuest quest, Tag: int number}) return;
-            var factoryMethod = quest.FactoryMethod;
-            var abstractAnswer = factoryMethod.Answer();
-            abstractAnswer.Parrent = quest;
-            var answers = _test.quests[number - 1].Answers;
-            if (answers.Count < 10)
-            {
-                answers.Add(abstractAnswer);
-                EditListBox1.ItemsSource = _test.quests;
-            }
-        }
-
-        /// <summary>
-        /// Нажатие кнопки, приводящее к удалению поля ответа в вопросе в редакторе
-        /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
-        /// <param name="e"></param>
-        private void Button_Click_AnswerDelete(object sender, RoutedEventArgs e)
-        {
-            if(sender is not Button {Tag: int number})return;
-            var answers = _test.quests[number - 1].Answers;
-            if(answers.Count > 1)
-            {
-                answers.RemoveAt(answers.Count - 1);
-                EditListBox1.ItemsSource = _test.quests;
-            }
-        }
-
-        /// <summary>
-        /// Нажатие кнопки, приводящее к удалению вопроса в редакторе
-        /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
-        /// <param name="e"></param>
-        private void Button_Click_QuestionDelete(object sender, RoutedEventArgs e)
-        {
-            if (sender is not Button { Tag: int number }) return;
-            _test.quests.RemoveAt(number - 1);
-            for(var i = 0; i < _test.quests.Count; i++)
-            {
-                _test.quests[i].Number = i + 1;
-            }
-            EditListBox1.ItemsSource = _test.quests;
-            EditListBox1.Items.Refresh();
         }
 
         /// <summary>
@@ -447,6 +484,12 @@ namespace Приложение.Windows
                 _test = null;
                 MessageBox.Show("Неверный пароль!");
             }
+        }
+
+        private void EditTextBoxTime_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (sender is not TextBox textBox) throw new Exception();
+            if (textBox.Text == string.Empty) textBox.Text = "0";
         }
     }
 }
