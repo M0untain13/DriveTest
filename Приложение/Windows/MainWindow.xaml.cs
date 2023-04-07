@@ -14,6 +14,13 @@ using Приложение.Classes.Models;
 using Приложение.Classes.Services;
 using Приложение.Windows.InterWindows;
 
+//TODO: Заметка для следующих задач
+//В результатах, при отсутствии выбора ответа в вопросе с несколькими вариантам, не показывает правильные ответы, скорее всего они не записываются в модель
+//Таймер стоит на 6 секунд для тестирования правильности работы прохождения тестов
+//Надо заняться ограничениями в редакторе
+//Поправить кнопки "Сохранить" и "Сохранить как..."
+//При отсутствии ответов на вопросы, где ответ требуется, тест не должен завершаться
+
 namespace Приложение.Windows
 {
     /// <summary>
@@ -69,6 +76,16 @@ namespace Приложение.Windows
             };
             Switching(currentGrid, nextGrid);
         }
+        private void Button_Click_FromResToMain(object sender, RoutedEventArgs e)
+        {
+            VisCheck.IsChecked = false;
+            ButtonShowCorAns.IsEnabled = true;
+            resPassBox.IsEnabled = true;
+            resPassBox.Clear();
+            _result = null;
+            ResultListBox1.ItemsSource = null;
+            Button_Click_Switch(sender, e);
+        }
 
         /// <summary>
         /// Нажатие какой-либо кнопки, приводящее к открытию промежуточного окна.
@@ -115,7 +132,7 @@ namespace Приложение.Windows
                     correctAnswers[i].SetTestingAnswers(_test.quests[i]);
                 }
                 _test.quests.Clear();
-                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople}";
+                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
                 ResultListBox1.ItemsSource = _result.Answers;
                 Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
 
@@ -124,13 +141,12 @@ namespace Приложение.Windows
             }
             else if (window.GetType() == typeof(OpenResults))
             {
-                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople}";
+                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
                 ResultListBox1.ItemsSource = _result.Answers;
             }
             else if (window.GetType() == typeof(OpenTest))
             {
                 TestTextBox1.Text = _test.name;
-                TestTextBoxTime.Text = _test.time.ToString();
                 TestListBox1.ItemsSource = _test.quests;
 
                 var correctAnswers = _result.Answers;
@@ -153,21 +169,40 @@ namespace Приложение.Windows
                 }
                 _result.Answers = correctAnswers;
 
-                if (EditTextBoxTime.Text == string.Empty) EditTextBoxTime.Text = "0";
-                if (Convert.ToInt32(EditTextBoxTime.Text) == 0)
+                if (_test.time == 0)
                 {
                     TestTextBoxTime.Text = "Время выполнения неограничено";
                 }
                 else
                 {
                     //Установка таймера
-                    _time = TimeSpan.FromMinutes(Convert.ToInt32(EditTextBoxTime.Text));
+                    _time = TimeSpan.FromMinutes(0.1);//_test.time);
                     _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
                     {
-                        //TODO: при завершении обратного отсчёта тест должен завершиться принудительно
                         TestTextBoxTime.Text = _time.ToString("c");
-                        if (_time == TimeSpan.Zero) _timer.Stop();
+                        if (_time == TimeSpan.Zero) 
+                        {
+                            _timer.Stop();
+                            var correctAnswers = _result.Answers;
+                            for (var i = 0; i < _test.quests.Count; i++)
+                            {
+                                correctAnswers[i].SetTestingAnswers(_test.quests[i]);
+                            }
+                            _test.quests.Clear();
+                            ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
+                            ResultListBox1.ItemsSource = _result.Answers;
+                            Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+
+                            TestTextBox1.Text = string.Empty;
+                            TestTextBoxTime.Text = string.Empty;
+                            Test.Visibility = Visibility.Hidden;
+                            Test.IsEnabled = false;
+                            Result.Visibility = Visibility.Visible;
+                            Result.IsEnabled = true;
+                            MessageBox.Show("Время закончилось!");
+                        }
                         _time = _time.Add(TimeSpan.FromSeconds(-1));
+
                     }, Application.Current.Dispatcher);
                     _timer.Start();
                 }
@@ -401,12 +436,11 @@ namespace Приложение.Windows
             if (_test.CheckPass(resPassBox.Password))
             {
                 VisCheck.IsChecked = true;
-                // _result.GetVisible();
-                // ResultListBox1.ItemsSource = _result.Answers;
-                ResultListBox1.Items.Refresh();
-                _test = null;
                 ButtonShowCorAns.IsEnabled = false;
                 resPassBox.IsEnabled = false;
+                resPassBox.Clear();
+                ResultListBox1.Items.Refresh();
+                _test = null;
             }
             else
             {

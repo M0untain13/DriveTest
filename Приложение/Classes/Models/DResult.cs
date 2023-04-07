@@ -30,17 +30,33 @@ namespace Приложение.Classes.Models
         [DataMember] private List<AbstractDResultsAnswer> _answers = new();
         [DataMember] private string _nameOfTest = "";
         [DataMember] private string _nameOfPeople = "";
-
-        public void GetVisible()
-        {
-            foreach (var answer in Answers)
-            {
-                answer.IsVisible = true;
-            }
-        }
         public List<AbstractDResultsAnswer> Answers { get => _answers; set => _answers = value; }
         public string NameOfTest { get => _nameOfTest; set => _nameOfTest = value; }
         public string NameOfPeople { get => _nameOfPeople; set => _nameOfPeople = value; }
+        public string Score
+        {
+            get
+            {
+                double score = 0;
+                foreach(var answer in _answers)
+                {
+                    score += Convert.ToDouble(answer.Score);
+                }
+                return score.ToString("f2");
+            }
+        }
+        public string MaxScore
+        {
+            get
+            {
+                double score = 0;
+                foreach (var answer in _answers)
+                {
+                    score += Convert.ToDouble(answer.MaxScore);
+                }
+                return score.ToString("f2");
+            }
+        }
     }
     [DataContract]
     public abstract class AbstractDResultsAnswer
@@ -57,12 +73,7 @@ namespace Приложение.Classes.Models
         [DataMember] private string _name = ""; //Вопрос
         [DataMember] private double _score = 0; //Баллы
         [DataMember] private string _type = "";
-        public bool isVisible = false;
-        public bool IsVisible
-        {
-            get => isVisible; 
-            set => isVisible = value;
-        }
+
         /// <summary>
         /// Название вопроса
         /// </summary>
@@ -131,6 +142,7 @@ namespace Приложение.Classes.Models
                                                                       select answer).Count();
                 var countOfCorrectAnswers = arrayOfAnswerFromTesting.Length-countOfErrors;
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
+                if (countOfCorrectAnswers == 0) return 0.0;
                 return 1.0 * countOfCorrectAnswers/ _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count); 
             } 
         }
@@ -153,7 +165,7 @@ namespace Приложение.Classes.Models
         public override void SetTestingAnswers(DQuest quest)
         {
             var answers = quest.Answers;
-            _answerFromTesting = answers.ToArray()[0].Answer2;
+            _answerFromTesting = answers.ToArray()[0].Answer2 ?? string.Empty;
         }
     }
 
@@ -216,6 +228,7 @@ namespace Приложение.Classes.Models
                 var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
 
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
+                if (countOfCorrectAnswers == 0) return 0.0;
                 return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _answers.Count);
             }
         }
@@ -262,6 +275,7 @@ namespace Приложение.Classes.Models
                 var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
 
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
+                if (countOfCorrectAnswers == 0) return 0.0;
                 return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count);
             }
         }

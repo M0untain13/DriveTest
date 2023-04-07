@@ -5,16 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Приложение"
         mc:Ignorable="d"
-        Title="Открыть результаты" Height="260" Width="390" ResizeMode="NoResize" Activated="Window_Activated">
+        Title="Открыть результаты" Height="179" Width="390" ResizeMode="NoResize" Activated="Window_Activated">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Выбор теста"/>
-        <ComboBox x:Name="choseTest" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="120" DropDownClosed="choseTest_DropDownClosed"/>
-        <TextBlock HorizontalAlignment="Left" Margin="250,10,0,0" TextWrapping="Wrap" Text="Выбор чела" VerticalAlignment="Top"/>
-        <ComboBox x:Name="choseStudent" HorizontalAlignment="Left" Margin="250,31,0,0" VerticalAlignment="Top" Width="120" Height="24"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,130,0,0" TextWrapping="Wrap" Text="Пароль от теста" VerticalAlignment="Top"/>
-        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="button" Content="Открыть" HorizontalAlignment="Center" Margin="0,200,0,0" VerticalAlignment="Top" Click="button_Click"/>
-        <TextBlock x:Name="warning" HorizontalAlignment="Center" Margin="0,106,0,0" TextWrapping="Wrap" Text="Выберите тест, чела и введите пароль от теста." VerticalAlignment="Top"/>
+        <TextBlock Text="Выбор теста"
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="10,10,0,0"/>
+        
+        <ComboBox x:Name="choseTest" DropDownClosed="choseTest_DropDownClosed"
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Margin="10,31,0,0" Width="120" />
+        
+        <TextBlock Text="Выбор чела"
+                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                   Margin="10,58,0,0"/>
+        
+        <ComboBox x:Name="choseStudent" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top"
+                  Margin="10,79,0,0"
+                  Width="120" Height="24"/>
+        
+        <Button x:Name="button" Content="Открыть" Click="button_Click"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,0,10,10"/>
 
+        <TextBlock x:Name="warning" Text="Выберите тест, чела и введите пароль от теста."  VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left" 
+                   Margin="10,0,0,10"/>
     </Grid>
 </Window>

@@ -22,12 +22,10 @@ namespace Приложение.Windows.InterWindows
         public OpenResults()
         {
             InitializeComponent();
-            passwordBox.MaxLength = 20;
         }
         public OpenResults(DirectoryInfo mainDirectory)
         {
             InitializeComponent();
-            passwordBox.MaxLength = 20;
             mainDirectory.GetDirectories().ToList().ForEach(directory => { testsDir.Add(directory); });
             this.mainDirectory = mainDirectory.ToString();
         }
