@@ -113,11 +113,15 @@ namespace Приложение.Classes.Services
                     return false;
                 }
 
-                var correctCheck = false; //TODO: нужно ещё сделать проверку на повторы
+                var correctCheck = false; 
+                var incorrectCheck = false; //Проверка для вопроса с несколькими вариантами ответа, чтобы не было случая, когда нет неверных ответов
 
                 if (quest.Type != EnumTypeQuestion.DATA_INPUT) foreach (var answer in quest.Answers)
                 {
-                    if(answer.IsCorrect || answer is DAnswerPair) correctCheck = true;
+                    if (answer is DAnswerPair || answer.IsCorrect) 
+                        correctCheck = true;
+                    if (quest.Type == EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE && !answer.IsCorrect)
+                        incorrectCheck = true;
                     switch (answer)
                     {
                         case DAnswer concreteAnswer:
@@ -175,6 +179,12 @@ namespace Приложение.Classes.Services
                 if (!correctCheck)
                 {
                     message = "В каком-то вопросе отсутствует пометка правильного ответа";
+                    return false;
+                }
+
+                if (quest.Type == EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE && !incorrectCheck)
+                {
+                    message = "В каком-то вопросе с несколькими вариантами ответа отсутствует неверный ответ";
                     return false;
                 }
 
