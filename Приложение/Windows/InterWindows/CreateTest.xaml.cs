@@ -32,13 +32,12 @@ namespace Приложение.Windows.InterWindows
         {
             if(textBox1.Text.Length < 5)
             {
-                warningBlock.Text = "Название должно содержать 5 или более символов!"; //TODO: сделать проверку на занятость названия, или не делать, если мы в название будем добавлять время создания?
+                warningBlock.Text = "Название должно содержать 5 или более символов!"; //TODO: сделать проверку на занятость названия.
             }
             else if(passBox1.Password.Length < 3)
             {
                 warningBlock.Text = "Пароль должен содержать 3 или более символов!";
             }
-            //TODO: проверка названия работает некорректно со слэшами, причем в отладке вроде все в порядке, странная херня
             else if ((from char sym in textBox1.Text
                      where incorrectChars.Contains(sym)
                      select sym).Count() != 0)
@@ -62,7 +61,7 @@ namespace Приложение.Windows.InterWindows
             warningBlock.Text = "Прежде чем создать тест, введите название и пароль!";
         }
 
-        void IDriveTestWindow.Commands(ref DTest test, ref DResult result, ref bool isSaveTest)
+        void IDriveTestWindow.Transfer(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
             test = this.test;
         }

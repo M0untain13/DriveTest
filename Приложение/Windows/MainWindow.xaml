@@ -1137,7 +1137,7 @@
             <Button Content="Завершить" 
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Margin="10"
-                    Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
+                    Click="Button_Click_FromTestToRes" Tag="{Binding ElementName=Result}">
                 <Button.DataContext>
                     <factoryMethods:FactoryExitFromTest/>
                 </Button.DataContext>

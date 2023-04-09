@@ -6,9 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using Приложение.Classes;
 using Приложение.Classes.Enums;
 using Приложение.Classes.FactoryMethods;
 using Приложение.Classes.Models;
@@ -16,11 +14,7 @@ using Приложение.Classes.Services;
 using Приложение.Windows.InterWindows;
 
 //TODO: Заметка для следующих задач
-//(Не смог возпроизвести данную ошибку, но на всякий оставлю в заметках) В результатах, при отсутствии выбора ответа в вопросе с несколькими вариантам, не показывает правильные ответы, скорее всего они не записываются в модель
-//(Потом убрать) Таймер стоит на 6 секунд для тестирования правильности работы прохождения тестов
-//(Вроде как сделал, но мог что-то забыть) Надо заняться ограничениями в редакторе. Кстати, при выходе с сохранением, если есть ошибка, тест не сохраняется, и по факту утрачиваются все изменения, ибо происходит выход из редактора в меню бех сохранения по итогу
-//При отсутствии ответов на вопросы, где ответ требуется, тест не может быть завершён пользователем, хотя по истечению времени он офк завершится
-//В вопросе с несколькими вариантами ответа нет проверки на то, что все ответы помечены как верные
+//Если есть пробел после названия теста, то он не сохраняется и выдаёт ошибку
 
 namespace Приложение.Windows
 {
@@ -87,6 +81,35 @@ namespace Приложение.Windows
             Button_Click_Switch(sender, e);
         }
 
+        private void Button_Click_FromTestToRes(object sender, RoutedEventArgs e)
+        {
+            foreach (var quest in _test.quests)
+            {
+                if (!quest.AnswerRequired) //Если ответ не требуется, то пропускаем такой вопрос
+                    continue;
+
+                var isMarked = false; //Если ответ требуется, то ожидаем ответа
+                foreach (var answer in quest.Answers)
+                {
+                    if (answer.IsMarkedByUser 
+                        || (quest.Type == EnumTypeQuestion.OPEN_ANSWER && quest.OpenAnswer != string.Empty) 
+                        || quest.Type == EnumTypeQuestion.DATA_INPUT) //Если был дан ответ, то делаем пометку, что ответ был дан
+                    {
+                        isMarked = true;
+                        break;
+                    }
+                }
+
+                if (!isMarked) //Если ответ не был дан в вопросе с обязательным ответом, то нужно указать на это
+                {
+                    MessageBox.Show("На какой-то вопрос с обязательным ответом, не был дан ответ!");
+                    return;
+                }
+            }
+
+            Button_Click_IntermediateWindow(sender, e);
+        }
+
         /// <summary>
         /// Нажатие какой-либо кнопки, приводящее к открытию промежуточного окна.
         /// </summary>
@@ -94,133 +117,127 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
         {
-            //Внимание! В этом методе некоторые блоки условия выполняют выход из метода или из блока цикла, это сделано для уменьшения уровня вложенности
-
             //Если вдруг sender не является кнопкой или в данных нет фабричного метода, то нас просто посылают подальше
-            if (sender is not Button { DataContext: IWindowFactoryMethod windowFactoryMethod }) return;
+            if (sender is not Button { DataContext: IWindowFactoryMethod windowFactoryMethod }) 
+                return;
             //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
             windowFactoryMethod.SetDirectory = mainDirectory; 
             var window = windowFactoryMethod.Window();
             var isButtonClick = window.ShowDialog() ?? false;
 
-            if (!isButtonClick) return; //Если не была нажата кнопка, то ничего не должно произойти
+            if (!isButtonClick) 
+                return; //Если не была нажата кнопка, то ничего не должно произойти
+
             var isSaveTest = false;
-            window.Commands(ref _test, ref _result, ref isSaveTest); //Передача экземпляров теста и резултата между окнами TODO: в принципе можно заменить на статический класс и просто обращаться к его полям
+            window.Transfer(ref _test, ref _result, ref isSaveTest); //Передача экземпляров теста и резултата между окнами TODO: в принципе можно заменить на статический класс и просто обращаться к его полям
+
             //Большая часть логики вынесена ниже
-            if (window.GetType() == typeof(CreateTest))
-            {
-                EditTextBox1.Text = _test.name;
-                EditTextBoxTime.Text = _test.time.ToString();
-                EditListBox1.ItemsSource = _test.quests;
-            }
-            else if (window.GetType() == typeof(ExitFromEdit))
-            {
-                if (isSaveTest)
-                {
-                    SaveTest(sender, e);
-                }
-                _test.quests.Clear();
-                EditTextBox1.Clear();
-                EditTextBoxTime.Clear();
-            }
-            else if (window.GetType() == typeof(ExitFromTest))
-            {
-                var correctAnswers = _result.Answers;
-                for (var i = 0; i < _test.quests.Count; i++)
-                {
-                    correctAnswers[i].SetTestingAnswers(_test.quests[i]);
-                }
-                _test.quests.Clear();
-                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
-                ResultListBox1.ItemsSource = _result.Answers;
-                Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
-
-                TestTextBox1.Text = string.Empty;
-                TestTextBoxTime.Text = string.Empty;
-            }
-            else if (window.GetType() == typeof(OpenResults))
-            {
-                ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
-                ResultListBox1.ItemsSource = _result.Answers;
-            }
-            else if (window.GetType() == typeof(OpenTest))
-            {
-                TestTextBox1.Text = _test.name;
-                TestListBox1.ItemsSource = _test.quests;
-
-                var correctAnswers = _result.Answers;
-
-                foreach (var quest in _test.quests)
-                {
-                    correctAnswers.Add(quest.FactoryMethod.Result());
-                    correctAnswers[correctAnswers.Count - 1].SetObject(quest);
-
-                    if (quest.Answers[0].GetType() != typeof(DAnswerPair)) continue; //Если вопрос является соответствием, то необходимо перемешать варианты, иначе пропускаем
-                    var answers = quest.Answers;
-                    List<string> list = answers.Select(answer => answer.Answer2).ToList();
-                    list = MixList(list);
-                    for(var i = 0; i < answers.Count; i++)
-                    {
-                        answers[i].IsMarkedByUser = true; //Пометка, что ответы перемешаны
-                        answers[i].Answer2 = list[i];
+            Dictionary<Type, Action> actions = new()
+            { //Почему не использовал switch? А потому что там в кейсах требуются константные значения, typeof(%Class%) не является константным
+                //Почему не использовал if else? А потому что захотелось реализовать словарь анонимных методов
+                {typeof(CreateTest),
+                    delegate{
+                        EditTextBox1.Text = _test.name;
+                        EditTextBoxTime.Text = _test.time.ToString();
+                        EditListBox1.ItemsSource = _test.quests;
                     }
-                    quest.Answers = answers;
-                }
-                _result.Answers = correctAnswers;
+                },
+                {typeof(ExitFromEdit),
+                    delegate{
+                        if (isSaveTest)
+                            SaveTest(sender, e);
+                        _test.quests.Clear();
+                        EditTextBox1.Clear();
+                        EditTextBoxTime.Clear();
+                    }
+                },
+                {typeof(ExitFromTest),
+                    delegate{
+                        var correctAnswers = _result.Answers;
+                        for (var i = 0; i < _test.quests.Count; i++)
+                            correctAnswers[i].SetTestingAnswers(_test.quests[i]);
+                        _test.quests.Clear();
+                        ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
+                        ResultListBox1.ItemsSource = _result.Answers;
+                        Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+                        TestTextBox1.Text = string.Empty;
+                        TestTextBoxTime.Text = string.Empty;
+                    }
+                },
+                {typeof(OpenResults), 
+                    delegate{ 
+                        ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
+                        ResultListBox1.ItemsSource = _result.Answers;
+                    }
+                },
+                {typeof(OpenTest),
+                    delegate{
+                        TestTextBox1.Text = _test.name;
+                        TestListBox1.ItemsSource = _test.quests;
 
-                if (_test.time == 0)
-                {
-                    TestTextBoxTime.Text = "Время выполнения неограничено";
-                }
-                else
-                {
-                    //Установка таймера
-                    _time = TimeSpan.FromMinutes(0.1);//_test.time);
-                    _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
-                    {
-                        TestTextBoxTime.Text = _time.ToString("c");
-                        if (_time == TimeSpan.Zero) 
-                        {
-                            _timer.Stop();
-                            correctAnswers = _result.Answers;
-                            for (var i = 0; i < _test.quests.Count; i++)
-                            {
-                                correctAnswers[i].SetTestingAnswers(_test.quests[i]);
+                        var correctAnswers = _result.Answers;
+                        foreach (var quest in _test.quests) {
+                            correctAnswers.Add(quest.FactoryMethod.Result());
+                            correctAnswers[correctAnswers.Count - 1].SetObject(quest);
+                            if (quest.Answers[0].GetType() != typeof(DAnswerPair))
+
+                                continue; //Если вопрос является соответствием, то необходимо перемешать варианты, иначе пропускаем
+
+                            var answers = quest.Answers;
+                            List<string> list = answers.Select(answer => answer.Answer2).ToList();
+                            list = MixList(list);
+                            for (var i = 0; i < answers.Count; i++){
+                                answers[i].IsMarkedByUser = true; //Пометка, что ответы перемешаны
+                                answers[i].Answer2 = list[i];
                             }
-                            _test.quests.Clear();
-                            ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
-                            ResultListBox1.ItemsSource = _result.Answers;
-                            Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
-
-                            TestTextBox1.Text = string.Empty;
-                            TestTextBoxTime.Text = string.Empty;
-                            Test.Visibility = Visibility.Hidden;
-                            Test.IsEnabled = false;
-                            Result.Visibility = Visibility.Visible;
-                            Result.IsEnabled = true;
-                            MessageBox.Show("Время закончилось!");
+                            quest.Answers = answers;
                         }
-                        _time = _time.Add(TimeSpan.FromSeconds(-1));
+                        _result.Answers = correctAnswers;
+                        if (_test.time == 0) {
+                            TestTextBoxTime.Text = "Время выполнения неограничено";
+                        }
+                        else {
+                            //Установка таймера
+                            _time = TimeSpan.FromMinutes(_test.time);
+                            _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate{
+                                TestTextBoxTime.Text = _time.ToString("c");
+                                if (_time == TimeSpan.Zero){
+                                    _timer.Stop();
+                                    correctAnswers = _result.Answers;
+                                    for (var i = 0; i < _test.quests.Count; i++)
+                                        correctAnswers[i].SetTestingAnswers(_test.quests[i]);
+                                    _test.quests.Clear();
+                                    ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
+                                    ResultListBox1.ItemsSource = _result.Answers;
+                                    Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+                                    TestTextBox1.Text = string.Empty;
+                                    TestTextBoxTime.Text = string.Empty;
+                                    Test.Visibility = Visibility.Hidden;
+                                    Test.IsEnabled = false;
+                                    Result.Visibility = Visibility.Visible;
+                                    Result.IsEnabled = true;
+                                    MessageBox.Show("Время закончилось!");
+                                }
+                                _time = _time.Add(TimeSpan.FromSeconds(-1));
+                            }, Application.Current.Dispatcher);
+                            _timer.Start();
+                        }
 
-                    }, Application.Current.Dispatcher);
-                    _timer.Start();
+                        foreach (var quest in _test.quests)
+                            quest.ListBox = TestListBox1;
+                    }
+                },
+                {typeof(OpenTestForEdit),
+                    delegate{
+                        EditTextBox1.Text = _test.name;
+                        EditTextBoxTime.Text = _test.time.ToString();
+                        EditListBox1.ItemsSource = _test.quests;
+                        foreach (var quest in _test.quests)
+                            quest.ListBox = EditListBox1;
+                    }
                 }
-                foreach (var quest in _test.quests)
-                {
-                    quest.ListBox = TestListBox1;
-                }
-            }
-            else if (window.GetType() == typeof(OpenTestForEdit))
-            {
-                EditTextBox1.Text = _test.name;
-                EditTextBoxTime.Text = _test.time.ToString();
-                EditListBox1.ItemsSource = _test.quests;
-
-                foreach (var quest in _test.quests)
-                {
-                    quest.ListBox = EditListBox1;
-                }
-            }
+            };
+            actions[window.GetType()].Invoke();
             Button_Click_Switch(sender, e);
         }
 
@@ -307,7 +324,10 @@ namespace Приложение.Windows
             };
             quest.Type = type;
             quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
-            if (quest.Type is EnumTypeQuestion.DATA_INPUT or EnumTypeQuestion.OPEN_ANSWER) quest.Answers[0].IsCorrect = true;
+            if (quest.Type is EnumTypeQuestion.DATA_INPUT)
+                quest.Answers[0].IsMarkedByUser = true;
+            if (quest.Type is EnumTypeQuestion.DATA_INPUT or EnumTypeQuestion.OPEN_ANSWER) 
+                quest.Answers[0].IsCorrect = true;
             quest.Answers[0].Parrent = quest;
             quest.Number = _test.quests.Count + 1;
             quest.ListBox = EditListBox1;
@@ -328,7 +348,7 @@ namespace Приложение.Windows
             e.Handled = true;
         }
 
-        private void SaveTest(object sender, RoutedEventArgs e) //TODO: сюда надо тоже забабахать проверку
+        private void SaveTest(object sender, RoutedEventArgs e) //TODO: сделать проверку на занятость названия
         {
             if ((from char sym in EditTextBox1.Text
                     where incorrectChars.Contains(sym)
@@ -339,7 +359,7 @@ namespace Приложение.Windows
             else
             {
                 var tempName = _test.name;
-                _test.name = EditTextBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
+                _test.name = EditTextBox1.Text;
                 if ((from char sym in EditTextBoxTime.Text
                         where !char.IsDigit(sym)
                         select sym).Count() != 0)
@@ -374,7 +394,7 @@ namespace Приложение.Windows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveTestAsNew(object sender, RoutedEventArgs e)
+        private void SaveTestAsNew(object sender, RoutedEventArgs e) //TODO: сделать проверку на занятость названия
         {
             if ((from char sym in EditTextBox1.Text
                  where incorrectChars.Contains(sym)
@@ -384,7 +404,7 @@ namespace Приложение.Windows
             }
             else
             {
-                _test.name = EditTextBox1.Text; //TODO: Тут нужно добавить время сохранения наверное в название? А может и нет, а может уже стоит наконец решить проблему с коллизией названий
+                _test.name = EditTextBox1.Text;
                 if ((from char sym in EditTextBoxTime.Text
                         where !char.IsDigit(sym)
                         select sym).Count() != 0)
@@ -424,11 +444,12 @@ namespace Приложение.Windows
         /// <returns></returns>
         public List<string> MixList(List<string> list)
         {
+            if (list.Count < 2) throw new Exception("Элементов в коллекции должно быть хотя бы 2");
+
             var randizer = new Random();
             var isMixed = false;
             var result = new List<string>();
 
-            //TODO: если содержиться только один элемент, то происходит зацикливание, так что нужно будет обязательно сделать проверку, чтобы в тесте не было вопросов с одним вариантом ответа (кроме открытого)
             while (!isMixed)
             {
                 result = list.OrderBy(k => randizer.Next()).ToList();

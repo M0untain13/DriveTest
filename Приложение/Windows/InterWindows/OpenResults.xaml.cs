@@ -83,7 +83,7 @@ namespace Приложение.Windows.InterWindows
             }
         }
 
-        void IDriveTestWindow.Commands(ref DTest test, ref DResult result, ref bool isSaveTest)
+        void IDriveTestWindow.Transfer(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
             result = this.result;
         }

@@ -49,7 +49,7 @@ namespace Приложение.Windows.InterWindows
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref DTest test, ref DResult result, ref bool isSaveTest)
+        void IDriveTestWindow.Transfer(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
             isSaveTest = this.isSaveTest;
         }

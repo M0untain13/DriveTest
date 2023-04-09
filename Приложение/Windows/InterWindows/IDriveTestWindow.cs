@@ -13,7 +13,7 @@ namespace Приложение.Windows.InterWindows
         /// <summary>
         /// Набор комманд, которые должны выполниться над элементами главного окна
         /// </summary>
-        public void Commands(ref DTest test, ref DResult result, ref bool isSaveTest);
+        public void Transfer(ref DTest test, ref DResult result, ref bool isSaveTest);
 
         /// <summary>
         /// Функция вызова окна

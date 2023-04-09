@@ -9,23 +9,10 @@ using Приложение.Classes.FactoryMethods;
 
 namespace Приложение.Classes.Models
 {
-    public class Kostil
-    {
-        public static Kostil instant;
-        private Kostil()
-        {
-            instant = new Kostil();
-        }
-        public static Kostil Instant => instant ??= new Kostil();
-
-        public bool isVisible = false;
-    }
-
     [DataContract]
     public class DResult
     {
         public static IEnumerable<Type> listOfTypes = AbstractDResultsAnswer.listOfTypes;
-        public Kostil kostil = Kostil.instant;
 
         [DataMember] private List<AbstractDResultsAnswer> _answers = new();
         [DataMember] private string _nameOfTest = "";
@@ -73,6 +60,7 @@ namespace Приложение.Classes.Models
         [DataMember] private string _name = ""; //Вопрос
         [DataMember] private double _score = 0; //Баллы
         [DataMember] private string _type = "";
+        [DataMember] private bool _answerRequired = false;
 
         /// <summary>
         /// Название вопроса
@@ -96,6 +84,8 @@ namespace Приложение.Classes.Models
 
         public string Type => _type;
 
+        public bool AnswerRequired => _answerRequired;
+
         /// <summary>
         /// Процент корректности данного ответа от 0 до 1
         /// </summary>
@@ -103,20 +93,21 @@ namespace Приложение.Classes.Models
         /// <summary>
         /// Предполагается список вариантов ответа
         /// </summary>
-        public virtual IEnumerable<string> ArrayOfString01 { get { return Enumerable.Empty<string>();} set {} }
+        public virtual IEnumerable<string> ArrayOfString01 { get => Enumerable.Empty<string>(); set {} }
         /// <summary>
         /// Предполагается список ответов данных пользователем
         /// </summary>
-        public virtual IEnumerable<string> ArrayOfString02 { get { return Enumerable.Empty<string>(); } set {} }
+        public virtual IEnumerable<string> ArrayOfString02 { get => Enumerable.Empty<string>(); set {} }
         /// <summary>
         /// Предполагается список верных ответов
         /// </summary>
-        public virtual IEnumerable<string> ArrayOfString03 { get { return Enumerable.Empty<string>(); } set {} }
+        public virtual IEnumerable<string> ArrayOfString03 { get => Enumerable.Empty<string>(); set {} }
         public void SetObject(DQuest quest)
         {
             _name = quest.Name;
             _score = quest.Price;
             _type = quest.Type;
+            _answerRequired = quest.AnswerRequired;
             SetCorrectAnswers(quest);
         }
         public virtual void SetCorrectAnswers(DQuest quest) { }
