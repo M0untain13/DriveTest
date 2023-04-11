@@ -3,6 +3,22 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <LangVersion>9.0</LangVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Danil\Desktop\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,7 +26,7 @@
     <ProjectGuid>{C6BA249A-FA2A-4465-9811-464D5B954002}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Приложение</RootNamespace>
-    <AssemblyName>Приложение</AssemblyName>
+    <AssemblyName>ADAF</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,16 +53,23 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3EC6B0F55FCF986F330861E0C5184588766C50E2</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Приложение_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -59,11 +82,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Windows\CreateTest.xaml">
+    <Page Include="Windows\InterWindows\ExitFromTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\ExitFromEdit.xaml">
+    <Page Include="Windows\InterWindows\OpenResults.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\InterWindows\CreateTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\InterWindows\ExitFromEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,38 +102,51 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Classes\FactoryMethods\AbstractFactoryMethod.cs" />
+    <Compile Include="Classes\FactoryMethods\IWindowFactoryMethod.cs" />
+    <Compile Include="Classes\Models\DResult.cs" />
+    <Compile Include="Classes\Enums\EnumIncorrectCharacters.cs" />
+    <Compile Include="Classes\Services\ResultQuestionTemplateSelector.cs" />
+    <Compile Include="Classes\Services\TestingQuestionTemplateSelector.cs" />
+    <Compile Include="Classes\Services\Loader.cs" />
+    <Compile Include="Windows\InterWindows\ExitFromTest.xaml.cs">
+      <DependentUpon>ExitFromTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\InterWindows\OpenResults.xaml.cs">
+      <DependentUpon>OpenResults.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\DTest.cs" />
-    <Compile Include="Windows\CreateTest.xaml.cs">
+    <Compile Include="Classes\Models\DTest.cs" />
+    <Compile Include="Windows\InterWindows\CreateTest.xaml.cs">
       <DependentUpon>CreateTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\IDriveTestWindow.cs" />
-    <Compile Include="Classes\QuestionTemplateSelector.cs" />
-    <Compile Include="Classes\StringTypeQuestion.cs" />
-    <Compile Include="Windows\ExitFromEdit.xaml.cs">
+    <Compile Include="Windows\InterWindows\IDriveTestWindow.cs" />
+    <Compile Include="Classes\Services\EditQuestionTemplateSelector.cs" />
+    <Compile Include="Classes\Enums\EnumTypeQuestion.cs" />
+    <Compile Include="Windows\InterWindows\ExitFromEdit.xaml.cs">
       <DependentUpon>ExitFromEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\OpenTest.xaml">
+    <Page Include="Windows\InterWindows\OpenTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\OpenTestForEdit.xaml">
+    <Page Include="Windows\InterWindows\OpenTestForEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Windows\OpenTest.xaml.cs">
+    <Compile Include="Windows\InterWindows\OpenTest.xaml.cs">
       <DependentUpon>OpenTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\OpenTestForEdit.xaml.cs">
+    <Compile Include="Windows\InterWindows\OpenTestForEdit.xaml.cs">
       <DependentUpon>OpenTestForEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -130,6 +174,17 @@
   <ItemGroup>
     <None Include="Windows\App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

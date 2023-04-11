@@ -1,8 +1,8 @@
-﻿<Application x:Class="Приложение.App"
+﻿<Application x:Class="Приложение.Windows.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Приложение"
-             StartupUri="MainWindow.xaml"
+             StartupUri="/Windows/MainWindow.xaml"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         

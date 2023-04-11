@@ -3,92 +3,133 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
+using Приложение.Classes.Enums;
+using Приложение.Classes.FactoryMethods;
+using Приложение.Classes.Models;
+using Приложение.Classes.Services;
+using Приложение.Windows.InterWindows;
 
-namespace Приложение
+//TODO: Заметка для следующих задач
+//Если есть пробел после названия теста, то он не сохраняется и выдаёт ошибку
+
+namespace Приложение.Windows
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly public DirectoryInfo mainDirectory = new DirectoryInfo("Tests");                       //Главный каталог, где будут лежать тесты.
-        private DTest test = null;                                                                      //Объект теста
-        readonly private ObservableCollection<string> addQuestion = StringTypeQuestion.List;            //Строки для добавления вопросов в тест.
+        public HashSet<char> incorrectChars = EnumIncorrectCharacters.characters.ToHashSet();
+        public readonly DirectoryInfo mainDirectory = new("Tests");
+        private readonly ObservableCollection<string> _addQuestion = EnumTypeQuestion.strings;
+        private DTest _test;
+        private DResult _result;
+
+        private DispatcherTimer _timer;
+        private TimeSpan _time;
+
         public MainWindow()
         {
             InitializeComponent();
-            listBox1.ItemsSource = new ObservableCollection<DQuest>();
-            comboBox1.ItemsSource = addQuestion;
-        }
-        
-        /// <summary>
-        /// Сменить поверхности\сетки\grid.
-        /// </summary>
-        /// <param name="current"> Данная поверхность </param>
-        /// <param name="next"> Новая поверхность </param>
-        private void Switching(Grid current, Grid next)
-        {
-            current.Visibility = Visibility.Hidden;
-            current.IsEnabled = false;
-            next.Visibility = Visibility.Visible;
-            next.IsEnabled = true;
+            EditListBox1.ItemsSource = new ObservableCollection<DQuest>();
+            EditComboBox1.ItemsSource = _addQuestion;
         }
 
-        /// <summary>
-        /// Нажатие какой-либо кнопки, приводящее к смене поверхностей.
-        /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
-        /// <param name="e"></param>
-        private void Button_Click_Switch(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            Switching(button.Parent as Grid, button.Tag as Grid);
-        }
 
+        #region Редактор
         /// <summary>
-        /// Нажатие какой-либо кнопки, приводящее к открытию промежуточного окна.
+        /// Выбор типа вопроса в выпадающем списке, приводящее к созданию нового вопроса в тесте
         /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="sender"> Объект выпадающего списка </param>
         /// <param name="e"></param>
-        private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
+        private void СomboBox1_DropDownClosed(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-            IDriveTestWindow window = button.DataContext as IDriveTestWindow; //Из DataContext мы получаем тип окна.
-            window = window.Init(mainDirectory); //Инициируем окно согласно его типу.
-            bool isButtonClick = window.ShowDialog() ?? false;
-            if (isButtonClick)
+            if (EditComboBox1.Text != string.Empty)
             {
-                window.Commands(ref textBox1, ref listBox1, ref test); //Комманды, которое должны выполниться над элементами главного окна
-                Button_Click_Switch(sender, e);
+                AddQuestion(EditComboBox1.Text);
+                EditComboBox1.Text = string.Empty;
             }
         }
-
+        /// <summary>
+        /// Нажатие кнопки, приводящее к добавлению поля для ответа в вопросе в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { DataContext: DQuest quest, Tag: int number }) return;
+            var factoryMethod = quest.FactoryMethod;
+            var abstractAnswer = factoryMethod.Answer();
+            if (quest.Type is EnumTypeQuestion.DATA_INPUT or EnumTypeQuestion.OPEN_ANSWER) abstractAnswer.IsCorrect = true;
+            abstractAnswer.Parrent = quest;
+            var answers = _test.quests[number - 1].Answers;
+            if (answers.Count < 10)
+            {
+                answers.Add(abstractAnswer);
+                EditListBox1.ItemsSource = _test.quests;
+            }
+        }
+        /// <summary>
+        /// Нажатие кнопки, приводящее к удалению поля ответа в вопросе в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_AnswerDelete(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { Tag: int number }) return;
+            var answers = _test.quests[number - 1].Answers;
+            if (answers.Count > 1)
+            {
+                answers.RemoveAt(answers.Count - 1);
+                EditListBox1.ItemsSource = _test.quests;
+            }
+        }
         /// <summary>
         /// Добавить вопрос в редакторе
         /// </summary>
         private void AddQuestion(string type)
         {
-            //questions.Add(DTest.GetTest().quests); //TODO: это надо будет потом поменять, когда будут готовы конструкции разных вопросов.
-            //testList.ItemsSource = questions;
-            DQuest quest = new();
+            DQuest quest = type switch
+            {
+                EnumTypeQuestion.OPEN_ANSWER => new DQuest(new FactoryOpen()),
+                EnumTypeQuestion.SELECTIVE_ANSWER_ONE => new DQuest(new FactorySelectiveOne()),
+                EnumTypeQuestion.SELECTIVE_ANSWER_MULTIPLE => new DQuest(new FactorySelectiveMultiple()),
+                EnumTypeQuestion.MATCHING_SEARCH => new DQuest(new FactoryMatchingSearch()),
+                EnumTypeQuestion.DATA_INPUT => new DQuest(new FactoryDataInput()),
+                _ => throw new Exception("Неизвестный тип")
+            };
             quest.Type = type;
-            quest.Answers = new ObservableCollection<DAnswer> { new DAnswer() };
-            quest.Number = test.quests.Count + 1;
-            test.quests.Add(quest);
-            listBox1.ItemsSource = test.quests;
+            quest.Answers = new ObservableCollection<AbstractAnswer> { quest.FactoryMethod.Answer() };
+            if (quest.Type is EnumTypeQuestion.DATA_INPUT)
+                quest.Answers[0].IsMarkedByUser = true;
+            if (quest.Type is EnumTypeQuestion.DATA_INPUT or EnumTypeQuestion.OPEN_ANSWER)
+                quest.Answers[0].IsCorrect = true;
+            quest.Answers[0].Parrent = quest;
+            quest.Number = _test.quests.Count + 1;
+            quest.ListBox = EditListBox1;
+            _test.quests.Add(quest);
+            EditListBox1.ItemsSource = _test.quests;
         }
-
+        /// <summary>
+        /// Нажатие кнопки, приводящее к удалению вопроса в редакторе
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_QuestionDelete(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { Tag: int number }) return;
+            _test.quests.RemoveAt(number - 1);
+            for (var i = 0; i < _test.quests.Count; i++)
+            {
+                _test.quests[i].Number = i + 1;
+            }
+            EditListBox1.ItemsSource = _test.quests;
+            EditListBox1.Items.Refresh();
+        }
         /// <summary>
         /// Прокрутка колёсиком мышки.
         /// Без этого события, прокрутка не происходит при наводке на lixtBox.
@@ -97,100 +138,84 @@ namespace Приложение
         /// <param name="e"></param>
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scv = (ScrollViewer)sender;
+            if (sender is not ScrollViewer scv) return;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
-
-        /// <summary>
-        /// Выбор типа вопроса в выпадающем списке, приводящее к созданию нового вопроса в тесте
-        /// </summary>
-        /// <param name="sender"> Объект выпадающего списка </param>
-        /// <param name="e"></param>
-        private void comboBox1_DropDownClosed(object sender, EventArgs e)
+        private void SaveTest(object sender, RoutedEventArgs e) //TODO: сделать проверку на занятость названия
         {
-            if(comboBox1.Text != string.Empty)
+            if ((from char sym in EditTextBox1.Text
+                 where incorrectChars.Contains(sym)
+                 select sym).Count() != 0)
             {
-                AddQuestion(comboBox1.Text);
-                comboBox1.Text = string.Empty;
+                MessageBox.Show("Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
+            }
+            else
+            {
+                var tempName = _test.name;
+                _test.name = EditTextBox1.Text;
+                if ((from char sym in EditTextBoxTime.Text
+                     where !char.IsDigit(sym)
+                     select sym).Count() != 0)
+                {
+                    MessageBox.Show("Время выполнения содержит нечисленные символы!");
+                }
+                else if (!Loader.CheckTest(_test, out var message))
+                {
+                    MessageBox.Show($"{message}!");
+                }
+                else
+                {
+                    if (tempName != EditTextBox1.Text)
+                    {
+                        if (Directory.Exists($"{mainDirectory}\\{tempName}\\Results"))
+                        {
+                            //Переносим результаты в новую папку
+                            Directory.CreateDirectory($"{mainDirectory}\\{EditTextBox1.Text}");
+                            Directory.Move($"{mainDirectory}\\{tempName}\\Results", $"{mainDirectory}\\{EditTextBox1.Text}\\Results");
+                        }
+                        Directory.Delete($"{mainDirectory}\\{tempName}", true);
+                    }
+                    _test.time = Convert.ToInt32(EditTextBoxTime.Text);
+                    Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
+                    MessageBox.Show("Тест сохранён!");
+                }
             }
         }
-
-        /// <summary>
-        /// Заглушка, от которой необходимо избавиться
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Заглушка(object sender, RoutedEventArgs e)
-        {
-            //TODO: везде, где используется заглушка, нужно разработать необходимый функционал
-            MessageBox.Show("Эта кнопка пока не работает :(");
-        }
-
         /// <summary>
         /// Нажатие кнопки "Сохранить" сохраняет тест
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveTest(object sender, RoutedEventArgs e)
+        private void SaveTestAsNew(object sender, RoutedEventArgs e) //TODO: сделать проверку на занятость названия
         {
-            test.name = textBox1.Text;
-            test.Save(mainDirectory.ToString());
-            MessageBox.Show("Тест сохранён!");
-        }
-
-        /// <summary>
-        /// Нажатие кнопки, приводящее к добавлению поля для ответа в вопросе в редакторе
-        /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
-        /// <param name="e"></param>
-        private void Button_Click_AnswerAdd(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
-            if (answers.Count < 10)
+            if ((from char sym in EditTextBox1.Text
+                 where incorrectChars.Contains(sym)
+                 select sym).Count() != 0)
             {
-                answers.Add(new DAnswer());
-                listBox1.ItemsSource = test.quests;
+                MessageBox.Show("Имя теста не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
+            }
+            else
+            {
+                _test.name = EditTextBox1.Text;
+                if ((from char sym in EditTextBoxTime.Text
+                     where !char.IsDigit(sym)
+                     select sym).Count() != 0)
+                {
+                    MessageBox.Show("Время выполнения содержит нечисленные символы!");
+                }
+                else if (!Loader.CheckTest(_test, out var message))
+                {
+                    MessageBox.Show($"{message}!");
+                }
+                else
+                {
+                    _test.time = Convert.ToInt32(EditTextBoxTime.Text);
+                    Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
+                    MessageBox.Show("Тест сохранён!");
+                }
             }
         }
-
-        /// <summary>
-        /// Нажатие кнопки, приводящее к удалению поля ответа в вопросе в редакторе
-        /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
-        /// <param name="e"></param>
-        private void Button_Click_AnswerDelete(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            int number = (int)button.Tag;
-            ObservableCollection<DAnswer> answers = test.quests[number - 1].Answers;
-            if(answers.Count > 1)
-            {
-                answers.RemoveAt(answers.Count - 1);
-                listBox1.ItemsSource = test.quests;
-            }
-        }
-
-        /// <summary>
-        /// Нажатие кнопки, приводящее к удалению вопроса в редакторе
-        /// </summary>
-        /// <param name="sender"> Объект кнопки </param>
-        /// <param name="e"></param>
-        private void Button_Click_QuestionDelete(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            int number = (int)button.Tag;
-            test.quests.RemoveAt(number - 1);
-            for(int i = 0; i < test.quests.Count; i++)
-            {
-                test.quests[i].Number = i + 1;
-            }
-            listBox1.ItemsSource = test.quests;
-            listBox1.Items.Refresh();
-        }
-
         /// <summary>
         /// Проверка ввода баллов на содержание нечисленных символов в вводе
         /// </summary>
@@ -198,15 +223,296 @@ namespace Приложение
         /// <param name="e"></param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            foreach (char c in textBox.Text)
+            if (sender is not TextBox textBox) return;
+            if (!textBox.Text.Any(c => c is < '0' or > '9')) return;
+            MessageBox.Show("Ошибка: Ввод нечисленных символов недопустим!");
+            textBox.Text = "0";
+        }
+        private void EditTextBoxTime_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (sender is not TextBox textBox) throw new Exception();
+            if (textBox.Text == string.Empty) textBox.Text = "0";
+        }
+        #endregion
+
+
+
+        #region Тестирование
+        /// <summary>
+        /// Метод для перемешивания элементов коллекции
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public List<string> MixList(List<string> list)
+        {
+            if (list.Count < 2) throw new Exception("Элементов в коллекции должно быть хотя бы 2");
+
+            var randizer = new Random();
+            var isMixed = false;
+            var result = new List<string>();
+
+            while (!isMixed)
             {
-                if (c < '0' || c > '9')
+                result = list.OrderBy(k => randizer.Next()).ToList();
+                for (var i = 0; i < result.Count; i++)
                 {
-                    MessageBox.Show("Ошибка: Ввод нечисленных символов недопустим!");
-                    textBox.Text = "0";
+                    //Проверяем, перемешалась ли коллекция
+                    if (result[i] != list[i])
+                    {
+                        isMixed = true;
+                        break;
+                    }
                 }
             }
+
+            return result;
         }
+        private TextBlock _textBlock;
+        private void Label_MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not TextBlock textBlock) return;
+            if (_textBlock == null)
+            {
+                _textBlock = textBlock;
+            }
+            else
+            {
+                (textBlock.Text, _textBlock.Text) = (_textBlock.Text, textBlock.Text);
+                _textBlock = null;
+            }
+        }
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListBox listBox && _textBlock == null) listBox.SelectedIndex = -1;
+        }
+        #endregion
+
+
+
+        #region Просмотр результатов
+        private void Button_Click_ShowCorrectAnswers(object sender, RoutedEventArgs e)
+        {
+            if (VisCheck.IsChecked ?? false) return;
+            _test = Loader.LoadTest($"{mainDirectory}\\{_result.NameOfTest}");
+            if (_test.CheckPass(resPassBox.Password))
+            {
+                VisCheck.IsChecked = true;
+                ButtonShowCorAns.IsEnabled = false;
+                resPassBox.IsEnabled = false;
+                resPassBox.Clear();
+                ResultListBox1.Items.Refresh();
+                _test = null;
+            }
+            else
+            {
+                _test = null;
+                MessageBox.Show("Неверный пароль!");
+            }
+        }
+        #endregion
+
+
+
+        #region Общее
+        /// <summary>
+        /// Сменить поверхности\сетки\grid.
+        /// </summary>
+        /// <param name="current"> Данная поверхность </param>
+        /// <param name="next"> Новая поверхность </param>
+        private static void Switching(UIElement current, UIElement next)
+        {
+            current.Visibility = Visibility.Hidden;
+            current.IsEnabled = false;
+            next.Visibility = Visibility.Visible;
+            next.IsEnabled = true;
+        }
+        /// <summary>
+        /// Нажатие какой-либо кнопки, приводящее к смене поверхностей.
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_Switch(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { Tag: Grid nextGrid, Parent: Grid currentGrid }) return;
+            Title = nextGrid.Name switch
+            {
+                "Main" => "Главное меню",
+                "Editor" => "Редактор тестов",
+                "Test" => "Тестирование",
+                "Result" => "Результаты",
+                _ => throw new Exception("Неизвестное окно")
+            };
+            Switching(currentGrid, nextGrid);
+        }
+        private void Button_Click_FromResToMain(object sender, RoutedEventArgs e)
+        {
+            VisCheck.IsChecked = false;
+            ButtonShowCorAns.IsEnabled = true;
+            resPassBox.IsEnabled = true;
+            resPassBox.Clear();
+            _result = null;
+            ResultListBox1.ItemsSource = null;
+            Button_Click_Switch(sender, e);
+        }
+        private void Button_Click_FromTestToRes(object sender, RoutedEventArgs e)
+        {
+            foreach (var quest in _test.quests)
+            {
+                if (!quest.AnswerRequired) //Если ответ не требуется, то пропускаем такой вопрос
+                    continue;
+
+                var isMarked = false; //Если ответ требуется, то ожидаем ответа
+                foreach (var answer in quest.Answers)
+                {
+                    if (answer.IsMarkedByUser
+                        || (quest.Type == EnumTypeQuestion.OPEN_ANSWER && quest.OpenAnswer != string.Empty)
+                        || quest.Type == EnumTypeQuestion.DATA_INPUT) //Если был дан ответ, то делаем пометку, что ответ был дан
+                    {
+                        isMarked = true;
+                        break;
+                    }
+                }
+
+                if (!isMarked) //Если ответ не был дан в вопросе с обязательным ответом, то нужно указать на это
+                {
+                    MessageBox.Show("На какой-то вопрос с обязательным ответом, не был дан ответ!");
+                    return;
+                }
+            }
+
+            Button_Click_IntermediateWindow(sender, e);
+        }
+        /// <summary>
+        /// Нажатие какой-либо кнопки, приводящее к открытию промежуточного окна.
+        /// </summary>
+        /// <param name="sender"> Объект кнопки </param>
+        /// <param name="e"></param>
+        private void Button_Click_IntermediateWindow(object sender, RoutedEventArgs e)
+        {
+            //Если вдруг sender не является кнопкой или в данных нет фабричного метода, то нас просто посылают подальше
+            if (sender is not Button { DataContext: IWindowFactoryMethod windowFactoryMethod })
+                return;
+            //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
+            windowFactoryMethod.SetDirectory = mainDirectory;
+            var window = windowFactoryMethod.Window();
+            var isButtonClick = window.ShowDialog() ?? false;
+
+            if (!isButtonClick)
+                return; //Если не была нажата кнопка, то ничего не должно произойти
+
+            var isSaveTest = false;
+            window.Transfer(ref _test, ref _result, ref isSaveTest); //Передача экземпляров теста и резултата между окнами TODO: в принципе можно заменить на статический класс и просто обращаться к его полям
+
+            //Большая часть логики вынесена ниже
+            Dictionary<Type, Action> actions = new()
+            { //Почему не использовал switch? А потому что там в кейсах требуются константные значения, typeof(%Class%) не является константным
+                //Почему не использовал if else? А потому что захотелось реализовать словарь анонимных методов
+                {typeof(CreateTest),
+                    delegate{
+                        EditTextBox1.Text = _test.name;
+                        EditTextBoxTime.Text = _test.time.ToString();
+                        EditListBox1.ItemsSource = _test.quests;
+                    }
+                },
+                {typeof(ExitFromEdit),
+                    delegate{
+                        if (isSaveTest)
+                            SaveTest(sender, e);
+                        _test.quests.Clear();
+                        EditTextBox1.Clear();
+                        EditTextBoxTime.Clear();
+                    }
+                },
+                {typeof(ExitFromTest),
+                    delegate{
+                        var correctAnswers = _result.Answers;
+                        for (var i = 0; i < _test.quests.Count; i++)
+                            correctAnswers[i].SetTestingAnswers(_test.quests[i]);
+                        _test.quests.Clear();
+                        ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
+                        ResultListBox1.ItemsSource = _result.Answers;
+                        Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+                        TestTextBox1.Text = string.Empty;
+                        TestTextBoxTime.Text = string.Empty;
+                    }
+                },
+                {typeof(OpenResults),
+                    delegate{
+                        ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
+                        ResultListBox1.ItemsSource = _result.Answers;
+                    }
+                },
+                {typeof(OpenTest),
+                    delegate{
+                        TestTextBox1.Text = _test.name;
+                        TestListBox1.ItemsSource = _test.quests;
+
+                        var correctAnswers = _result.Answers;
+                        foreach (var quest in _test.quests) {
+                            correctAnswers.Add(quest.FactoryMethod.Result());
+                            correctAnswers[correctAnswers.Count - 1].SetObject(quest);
+                            if (quest.Answers[0].GetType() != typeof(DAnswerPair))
+
+                                continue; //Если вопрос является соответствием, то необходимо перемешать варианты, иначе пропускаем
+
+                            var answers = quest.Answers;
+                            List<string> list = answers.Select(answer => answer.Answer2).ToList();
+                            list = MixList(list);
+                            for (var i = 0; i < answers.Count; i++){
+                                answers[i].IsMarkedByUser = true; //Пометка, что ответы перемешаны
+                                answers[i].Answer2 = list[i];
+                            }
+                            quest.Answers = answers;
+                        }
+                        _result.Answers = correctAnswers;
+                        if (_test.time == 0) {
+                            TestTextBoxTime.Text = "Время выполнения неограничено";
+                        }
+                        else {
+                            //Установка таймера
+                            _time = TimeSpan.FromMinutes(_test.time);
+                            _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate{
+                                TestTextBoxTime.Text = _time.ToString("c");
+                                if (_time == TimeSpan.Zero){
+                                    _timer.Stop();
+                                    correctAnswers = _result.Answers;
+                                    for (var i = 0; i < _test.quests.Count; i++)
+                                        correctAnswers[i].SetTestingAnswers(_test.quests[i]);
+                                    _test.quests.Clear();
+                                    ResultTextBox1.Text = $"{_result.NameOfTest} - {_result.NameOfPeople} - {_result.Score} из {_result.MaxScore}";
+                                    ResultListBox1.ItemsSource = _result.Answers;
+                                    Loader.SaveResult(_result, $"{mainDirectory}\\{TestTextBox1.Text}\\Results", _result.NameOfPeople);
+                                    TestTextBox1.Text = string.Empty;
+                                    TestTextBoxTime.Text = string.Empty;
+                                    Test.Visibility = Visibility.Hidden;
+                                    Test.IsEnabled = false;
+                                    Result.Visibility = Visibility.Visible;
+                                    Result.IsEnabled = true;
+                                    MessageBox.Show("Время закончилось!");
+                                }
+                                _time = _time.Add(TimeSpan.FromSeconds(-1));
+                            }, Application.Current.Dispatcher);
+                            _timer.Start();
+                        }
+
+                        foreach (var quest in _test.quests)
+                            quest.ListBox = TestListBox1;
+                    }
+                },
+                {typeof(OpenTestForEdit),
+                    delegate{
+                        EditTextBox1.Text = _test.name;
+                        EditTextBoxTime.Text = _test.time.ToString();
+                        EditListBox1.ItemsSource = _test.quests;
+                        foreach (var quest in _test.quests)
+                            quest.ListBox = EditListBox1;
+                    }
+                }
+            };
+            actions[window.GetType()].Invoke();
+            Button_Click_Switch(sender, e);
+        }
+        #endregion
+
     }
 }

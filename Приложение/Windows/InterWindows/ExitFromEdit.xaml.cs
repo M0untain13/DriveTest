@@ -1,27 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Приложение.Classes;
+using Приложение.Classes.Models;
+using Приложение.Classes.Services;
 
-namespace Приложение
+namespace Приложение.Windows.InterWindows
 {
     /// <summary>
     /// Логика взаимодействия для ExitFromEdit.xaml
     /// </summary>
     public partial class ExitFromEdit : Window, IDriveTestWindow
     {
-        public bool saveTest = false;
+        public bool isSaveTest = false;
         public ExitFromEdit()
         {
             InitializeComponent();
@@ -54,23 +45,13 @@ namespace Приложение
         /// <param name="e"></param>
         private void ExitWithSave(object sender, RoutedEventArgs e)
         {
-            saveTest = true;
+            isSaveTest = true;
             DialogResult = true;
         }
 
-        void IDriveTestWindow.Commands(ref TextBox textBox, ref ListBox listBox, ref DTest test)
+        void IDriveTestWindow.Transfer(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
-            if(saveTest)
-            {
-                test.Save("Tests"); //TODO: это потом исправить на нормальную передачу имени главного каталога.
-            }
-            test.quests.Clear();
-            textBox.Clear();
-        }
-
-        IDriveTestWindow IDriveTestWindow.Init(DirectoryInfo directoryInfo)
-        {
-            return new ExitFromEdit();
+            isSaveTest = this.isSaveTest;
         }
     }
 }
