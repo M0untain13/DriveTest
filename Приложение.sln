@@ -5,16 +5,20 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Приложение", "Приложение\Приложение.csproj", "{C6BA249A-FA2A-4465-9811-464D5B954002}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Установщик", "Установщик\Установщик.vdproj", "{F8C340A2-AECB-4737-9F4F-0E26D9FFAC54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C6BA249A-FA2A-4465-9811-464D5B954002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6BA249A-FA2A-4465-9811-464D5B954002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6BA249A-FA2A-4465-9811-464D5B954002}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{C6BA249A-FA2A-4465-9811-464D5B954002}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{C6BA249A-FA2A-4465-9811-464D5B954002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6BA249A-FA2A-4465-9811-464D5B954002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8C340A2-AECB-4737-9F4F-0E26D9FFAC54}.Debug|Any CPU.ActiveCfg = Debug
+		{F8C340A2-AECB-4737-9F4F-0E26D9FFAC54}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
