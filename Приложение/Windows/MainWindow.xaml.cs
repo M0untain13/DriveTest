@@ -533,5 +533,9 @@ namespace Приложение.Windows
         }
         #endregion
 
+        private void Button_Click_close_app(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
