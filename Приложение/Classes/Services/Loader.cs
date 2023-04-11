@@ -62,7 +62,7 @@ namespace Приложение.Classes.Services
             _serializer = new DataContractSerializer(typeof(DTest), _settings);
 
             path += "\\Test.XML";
-            FileStream fs = new FileStream(path, FileMode.Open);
+            FileStream fs = new(path, FileMode.Open);
             XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
             if (_serializer.ReadObject(reader, true) is not DTest test) throw new System.Exception("Объект не является файлом теста");
 
@@ -237,7 +237,7 @@ namespace Приложение.Classes.Services
             _serializer = new DataContractSerializer(typeof(DResult), _settings);
 
             path += "\\" + name + ".XML";
-            FileStream fs = new FileStream(path, FileMode.Open);
+            FileStream fs = new(path, FileMode.Open);
             XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
             if (_serializer.ReadObject(reader, true) is not DResult result) throw new System.Exception("Объект не является файлом результата");
 

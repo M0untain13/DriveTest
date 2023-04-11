@@ -6,15 +6,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using Приложение.Classes.Enums;
 using Приложение.Classes.FactoryMethods;
 using Приложение.Classes.Models;
 using Приложение.Classes.Services;
 using Приложение.Windows.InterWindows;
-
-//TODO: Заметка для следующих задач
-//Если есть пробел после названия теста, то он не сохраняется и выдаёт ошибку
 
 namespace Приложение.Windows
 {
@@ -35,6 +33,7 @@ namespace Приложение.Windows
         public MainWindow()
         {
             InitializeComponent();
+            Directory.CreateDirectory(mainDirectory.Name);
             EditListBox1.ItemsSource = new ObservableCollection<DQuest>();
             EditComboBox1.ItemsSource = _addQuestion;
         }
@@ -142,9 +141,17 @@ namespace Приложение.Windows
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
-        private void SaveTest(object sender, RoutedEventArgs e) //TODO: сделать проверку на занятость названия
+        private void SaveTest(object sender, RoutedEventArgs e)
         {
-            if ((from char sym in EditTextBox1.Text
+            while (EditTextBox1.Text[EditTextBox1.Text.Length - 1] == ' ')
+            {
+                EditTextBox1.Text = EditTextBox1.Text.Substring(0, EditTextBox1.Text.Length - 1);
+            }
+            if (EditTextBox1.Text.Length < 5)
+            {
+                MessageBox.Show("Название должно содержать 5 или более символов!");
+            }
+            else if ((from char sym in EditTextBox1.Text
                  where incorrectChars.Contains(sym)
                  select sym).Count() != 0)
             {
@@ -187,9 +194,21 @@ namespace Приложение.Windows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveTestAsNew(object sender, RoutedEventArgs e) //TODO: сделать проверку на занятость названия
+        private void SaveTestAsNew(object sender, RoutedEventArgs e)
         {
-            if ((from char sym in EditTextBox1.Text
+            while (EditTextBox1.Text[EditTextBox1.Text.Length - 1] == ' ')
+            {
+                EditTextBox1.Text = EditTextBox1.Text.Substring(0, EditTextBox1.Text.Length - 1);
+            }
+            if (EditTextBox1.Text.Length < 5)
+            {
+                MessageBox.Show("Название должно содержать 5 или более символов!");
+            }
+            else if (Directory.Exists($"Tests\\{EditTextBox1.Text}"))
+            {
+                MessageBox.Show("Вы пытались сохранить тест как новый, но название уже занято!");
+            }
+            else if ((from char sym in EditTextBox1.Text
                  where incorrectChars.Contains(sym)
                  select sym).Count() != 0)
             {
@@ -401,7 +420,7 @@ namespace Приложение.Windows
                 return; //Если не была нажата кнопка, то ничего не должно произойти
 
             var isSaveTest = false;
-            window.Transfer(ref _test, ref _result, ref isSaveTest); //Передача экземпляров теста и резултата между окнами TODO: в принципе можно заменить на статический класс и просто обращаться к его полям
+            window.Transfer(ref _test, ref _result, ref isSaveTest); //Передача экземпляров теста и резултата между окнами
 
             //Большая часть логики вынесена ниже
             Dictionary<Type, Action> actions = new()

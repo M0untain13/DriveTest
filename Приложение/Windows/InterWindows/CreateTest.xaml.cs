@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 using Приложение.Classes;
 using Приложение.Classes.Enums;
 using Приложение.Classes.Models;
@@ -30,9 +32,17 @@ namespace Приложение.Windows.InterWindows
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            while (textBox1.Text[textBox1.Text.Length-1] == ' ')
+            {
+                textBox1.Text = textBox1.Text.Substring(0,textBox1.Text.Length-1);
+            }
             if(textBox1.Text.Length < 5)
             {
-                warningBlock.Text = "Название должно содержать 5 или более символов!"; //TODO: сделать проверку на занятость названия.
+                warningBlock.Text = "Название должно содержать 5 или более символов!";
+            }
+            else if (Directory.Exists($"Tests\\{textBox1.Text}"))
+            {
+                warningBlock.Text = "Тест с таким названием уже существует!";
             }
             else if(passBox1.Password.Length < 3)
             {
