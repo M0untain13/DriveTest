@@ -28,6 +28,7 @@
 
         <DataTemplate x:Key="editOpenAnswerTemplate">
             <Grid>
+
                 <Grid Margin="5">
                     <StackPanel Margin="10">
 
@@ -982,12 +983,13 @@
 
     <Grid>
         <!-- Поверхность главного меню -->
-        <Image Source="Pics/Slide 16_9 - 21.png"/>
+      
         <Grid x:Name="Main" IsEnabled="True" Visibility="Visible">
+            <Image Source="Pics/MainWindowBackground.png" Margin="0,-1,-4,-14"/>
             <Button Content="Создать тест" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Margin="10,0,0,0" 
-                    Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}" Background="#FFFF0202" FontFamily="Corbel Light" FontWeight="Bold">
+                    Margin="0,-1,0,0" 
+                    Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}"  FontFamily="Corbel Light" FontWeight="Bold">
                 <Button.DataContext>
                     <factoryMethods:FactoryCreateTest/>
                 </Button.DataContext>
@@ -995,25 +997,26 @@
 
             <Button Content="Редактировать тест" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                     Margin="260,0,0,0" 
+                     Margin="349,-1,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Editor}">
                 <Button.DataContext>
                     <factoryMethods:FactoryOpenTestForEdit/>
                 </Button.DataContext>
             </Button>
 
-            <Button Content="Запустить тест" 
+            <Button Content="Запустить тест"
+                    Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Height="40" Width="120" Margin="462,10,0,0" 
+                     Margin="698,-1,0,0" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Test}">
                 <Button.DataContext>
                     <factoryMethods:FactoryOpenTest/>
                 </Button.DataContext>
             </Button>
 
-            <Button Content="Посмотреть результаты" 
+            <Button Content="Посмотреть результаты" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Height="40" Width="140" Margin="608,11,0,0"
+                     Margin="1047,-1,0,0"
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Result}">
                 <Button.DataContext>
                     <factoryMethods:FactoryOpenResults/>
@@ -1022,7 +1025,7 @@
         </Grid>
 
         <!-- Поверхность редактора -->
-        <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden ">
+        <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden">
 
             <Button Content="Сохранить" 
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -1209,9 +1212,12 @@
 
         </Grid>
 
-        <Button Content="Закрыть" Width="80" Height="80" Click="Button_Click_close_app" 
-                Margin="0,40,40,0"
+        <Button Width="80" Height="80" Click="Button_Click_close_app"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Top"/>
+                VerticalAlignment="Top" Foreground="White" BorderBrush="WhiteSmoke" Background="WhiteSmoke" Margin="0,4,0,0">
+
+            <Image Source="Pics\ExitButton.png"/>
+
+        </Button>
     </Grid>
 </Window>

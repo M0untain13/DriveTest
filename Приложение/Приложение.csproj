@@ -186,9 +186,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Windows\Pics\Slide 16_9 - 21.png" />
+    <Resource Include="Windows\Pics\ExitButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\Pics\MainWindowBackground.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
