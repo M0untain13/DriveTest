@@ -1019,11 +1019,6 @@
                     <factoryMethods:FactoryOpenResults/>
                 </Button.DataContext>
             </Button>
-
-            <Button Content="Закрыть" Width="80" Height="80" Click="Button_Click_close_app" 
-                    Margin="0,40,40,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"/>
         </Grid>
 
         <!-- Поверхность редактора -->
@@ -1213,5 +1208,10 @@
             </Grid>
 
         </Grid>
+
+        <Button Content="Закрыть" Width="80" Height="80" Click="Button_Click_close_app" 
+                Margin="0,40,40,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"/>
     </Grid>
 </Window>

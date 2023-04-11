@@ -535,7 +535,11 @@ namespace Приложение.Windows
 
         private void Button_Click_close_app(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            var result = MessageBox.Show("Несохранённые данные будут утеряны.",
+                "Выйти из приложения?",
+                MessageBoxButton.YesNo);
+            if(result == MessageBoxResult.Yes)
+                Application.Current.Shutdown();
         }
     }
 }
