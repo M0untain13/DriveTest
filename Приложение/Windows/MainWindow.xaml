@@ -982,6 +982,7 @@
 
     <Grid>
         <!-- Поверхность главного меню -->
+        <Image Source="Pics/Slide 16_9 - 21.png"/>
         <Grid x:Name="Main" IsEnabled="True" Visibility="Visible">
             <Button Content="Создать тест" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
