@@ -15,8 +15,9 @@ namespace Приложение.Classes.Models
         public static IEnumerable<Type> listOfTypes = AbstractDResultsAnswer.listOfTypes;
 
         [DataMember] private List<AbstractDResultsAnswer> _answers = new();
-        [DataMember] private string _nameOfTest = "";
-        [DataMember] private string _nameOfPeople = "";
+        [DataMember] private string _nameOfTest;
+        [DataMember] private string _nameOfPeople;
+        [DataMember] private readonly string _password;
         public List<AbstractDResultsAnswer> Answers { get => _answers; set => _answers = value; }
         public string NameOfTest { get => _nameOfTest; set => _nameOfTest = value; }
         public string NameOfPeople { get => _nameOfPeople; set => _nameOfPeople = value; }
@@ -44,6 +45,39 @@ namespace Приложение.Classes.Models
                 return score.ToString("f2");
             }
         }
+
+        public DResult(string nameTest, string namePeople, string password)
+        {
+            _nameOfTest = nameTest;
+            _nameOfPeople = namePeople;
+            _password = password;
+        }
+
+        /// <summary>
+        /// Метод для шифровки пароля
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        private string Encryption(string password)
+        {
+            string newPassword = "";
+            for (int i = 0; i < password.Length; i++)
+            {
+                newPassword += password[i] + i;
+            }
+
+            return newPassword;
+        }
+
+        /// <summary>
+        /// Метод для сверки пароля
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool CheckPass(string password)
+        {
+            return Encryption(password) == _password;
+        }
     }
     [DataContract]
     public abstract class AbstractDResultsAnswer
@@ -61,6 +95,7 @@ namespace Приложение.Classes.Models
         [DataMember] private double _score = 0; //Баллы
         [DataMember] private string _type = "";
         [DataMember] private bool _answerRequired = false;
+        
 
         /// <summary>
         /// Название вопроса

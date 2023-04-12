@@ -1071,7 +1071,7 @@
 
                         <!-- Название теста -->
                         <TextBox x:Name="EditTextBox1" Text="Название теста" 
-                                 MaxWidth="800" MinHeight="30" BorderThickness="0,0,0,1" Background="#FFF1F1F1" TextChanged="EditTextBox1_TextChanged"
+                                 MaxWidth="800" MinHeight="30" BorderThickness="0,0,0,1" Background="#FFF1F1F1"
                                  TextAlignment="Center" BorderBrush="Black" FontFamily="Corbel Light" FontSize="48"/>
 
                         <!-- Список вопросов: Начало -->

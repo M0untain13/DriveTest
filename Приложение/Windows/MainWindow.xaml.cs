@@ -14,8 +14,6 @@ using Приложение.Classes.Models;
 using Приложение.Classes.Services;
 using Приложение.Windows.InterWindows;
 
-//TODO: баг, при завершении теста до окончания таймера, тайиер не останавливается
-//TODO: нужно проверить, что если теста в папке нет или нет результатов, то будет вызываться сообщение об этом
 
 namespace Приложение.Windows
 {
@@ -318,19 +316,16 @@ namespace Приложение.Windows
         private void Button_Click_ShowCorrectAnswers(object sender, RoutedEventArgs e)
         {
             if (VisCheck.IsChecked ?? false) return;
-            _test = Loader.LoadTest($"{mainDirectory}\\{_result.NameOfTest}");
-            if (_test.CheckPass(resPassBox.Password))
+            if (_result.CheckPass(resPassBox.Password))
             {
                 VisCheck.IsChecked = true;
                 ButtonShowCorAns.IsEnabled = false;
                 resPassBox.IsEnabled = false;
                 resPassBox.Clear();
                 ResultListBox1.Items.Refresh();
-                _test = null;
             }
             else
             {
-                _test = null;
                 MessageBox.Show("Неверный пароль!");
             }
         }
@@ -405,6 +400,7 @@ namespace Приложение.Windows
                 }
             }
 
+            _timer.Stop();
             Button_Click_IntermediateWindow(sender, e);
         }
         /// <summary>
@@ -430,7 +426,7 @@ namespace Приложение.Windows
 
             //Большая часть логики вынесена ниже
             Dictionary<Type, Action> actions = new()
-            { //Почему не использовал switch? А потому что там в кейсах требуются константные значения, typeof(%Class%) не является константным
+            { //Почему не использовал switch? А потому что там в кейсах требуются константные значения, а typeof(%Class%) не является константным
                 //Почему не использовал if else? А потому что захотелось реализовать словарь анонимных методов
                 {typeof(CreateTest),
                     delegate{
@@ -547,10 +543,5 @@ namespace Приложение.Windows
         }
 
         #endregion
-
-        private void EditTextBox1_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
