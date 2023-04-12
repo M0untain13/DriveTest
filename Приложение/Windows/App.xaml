@@ -51,7 +51,7 @@
             </Setter>
         </Style>
 
-
+        <!--
         <Style x:Key = "TestNameButton" TargetType = "TextBlock">
             <Setter Property = "Template">
 
@@ -70,7 +70,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        -->
 
     </Application.Resources>
 </Application>
