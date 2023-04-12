@@ -192,11 +192,6 @@ namespace Приложение.Windows
                 }
             }
         }
-        /// <summary>
-        /// Нажатие кнопки "Сохранить" сохраняет тест
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void SaveTestAsNew(object sender, RoutedEventArgs e)
         {
             if (EditTextBox1.Text.Length < 5)

@@ -19,7 +19,7 @@
                    HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="10,58,0,0"/>
         
-        <ComboBox x:Name="choseStudent" 
+        <ComboBox x:Name="chosePeople" 
                   HorizontalAlignment="Left" VerticalAlignment="Top"
                   Margin="10,79,0,0"
                   Width="120" Height="24"/>

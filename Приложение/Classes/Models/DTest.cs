@@ -179,8 +179,8 @@ namespace Приложение.Classes.Models
         public static List<Type> listOfTypesAnswer = new List<Type> { typeof(DAnswerPair), typeof(DAnswerOne), typeof(DAnswer) };
         public virtual string Answer1 { get; set;}
         public virtual string Answer2 { get; set; }
-        public virtual string Index1 { get; set; }
-        public virtual string Index2 { get; set; }
+        // public virtual string Index1 { get; set; }
+        // public virtual string Index2 { get; set; }
         public virtual bool IsCorrect { get; set; }
         public virtual bool IsMarkedByUser { get; set; }
         public virtual DQuest Parrent { get; set; }

@@ -43,21 +43,21 @@ namespace Приложение.Windows.InterWindows
                 warning.Text = "Тест не выбран!";
                 return;
             }
-            else if (choseStudent.Text == string.Empty)
+            else if (chosePeople.Text == string.Empty)
             {
                 warning.Text = "Результат не выбран!";
                 return;
             }
             else
             {
-                result = Loader.LoadResult($"{mainDirectory}\\{choseTest.Text}\\Results", choseStudent.Text);
+                result = Loader.LoadResult($"{mainDirectory}\\{choseTest.Text}\\Results", chosePeople.Text);
                 DialogResult = true;
             }
         }
 
         private void choseTest_DropDownClosed(object sender, EventArgs e)
         {
-            choseStudent.Items.Clear();
+            chosePeople.Items.Clear();
             students.Clear();
             try
             {
@@ -74,7 +74,7 @@ namespace Приложение.Windows.InterWindows
                 if (resDir.GetFiles().Length == 0)
                     throw new Exception("Результатов нет");
                 resDir.GetFiles().ToList().ForEach(d => { students.Add(d); });
-                students.ToList().ForEach(d => { choseStudent.Items.Add($"{Path.GetFileNameWithoutExtension(d.Name)}"); });
+                students.ToList().ForEach(d => { chosePeople.Items.Add($"{Path.GetFileNameWithoutExtension(d.Name)}"); });
             }
             catch (Exception ex)
             {

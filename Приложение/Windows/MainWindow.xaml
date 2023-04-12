@@ -1060,12 +1060,6 @@
 
             <!-- Поле, в котором находится тест -->
             <Grid Margin="10,85,10,55">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="7*"/>
-                    <ColumnDefinition Width="59*"/>
-                    <ColumnDefinition Width="26*"/>
-                    <ColumnDefinition Width="1808*"/>
-                </Grid.ColumnDefinitions>
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Grid.ColumnSpan="4">
                     <StackPanel Margin="10">
 

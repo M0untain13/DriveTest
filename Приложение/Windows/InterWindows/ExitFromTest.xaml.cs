@@ -34,7 +34,7 @@ namespace Приложение.Windows.InterWindows
 
         void IDriveTestWindow.Transfer(ref DTest test, ref DResult result, ref bool isSaveTest)
         {
-            //Nothing
+            //Данное окно ничего не передаёт главному окну
         }
     }
 }
