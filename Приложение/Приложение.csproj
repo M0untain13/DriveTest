@@ -192,5 +192,8 @@
   <ItemGroup>
     <Resource Include="Windows\Pics\MainWindowBackground.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\Pics\EditTestBackground.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

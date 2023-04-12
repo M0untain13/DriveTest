@@ -984,7 +984,7 @@
         <!-- Поверхность главного меню -->
 
         <Grid x:Name="Main" IsEnabled="False" Visibility="Hidden">
-            <Image Source="Pics/MainWindowBackground.png" Margin="0,-1,-4,-14"/>
+            <Image Source="Pics/MainWindowBackground.png" Margin="-5,0,-13,-16"/>
             <Button Content="Создать тест" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Margin="0,-1,0,0" 
@@ -1025,16 +1025,16 @@
 
         <!-- Поверхность редактора -->
         <Grid x:Name="Editor" IsEnabled="True" Visibility="Visible">
-
+            <Image Source="Pics/EditTestBackground.png" Margin="-5,0,-13,-16"/>
             <Button Content="Сохранить" Style= "{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                     Margin="0,-5,0,0" 
+                     Margin="0,-1,0,0" 
                     
                     Click="SaveTest" FontSize="18"/>
 
             <Button Content="Сохранить как..." Style= "{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Margin="349,-5,0,0" 
+                    Margin="349,-1,0,0" 
                     Click="SaveTestAsNew"/>
 
             <Button Content="Вернуться назад" 
@@ -1052,20 +1052,20 @@
                 Margin="20,60,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top">
-                <TextBlock Text="Время для решения теста в минутах" Margin="10,10,0,0"/>
+                <TextBlock Text="Время для решения теста в минутах" Margin="10,15,0,0" FontFamily="Corbel Light" FontSize="22" />
                 <TextBox x:Name="EditTextBoxTime" Text="0" TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"
-                         Width="30" Height="30"
-                         Margin="10,10,0,0"/>
+                         Width="25" Height="22"
+                         Margin="10,15,0,0" FontFamily="Corbel Light" FontSize="22" BorderThickness="0,0,0,1"  />
             </StackPanel>
 
             <!-- Поле, в котором находится тест -->
             <Grid Margin="10,85,10,55">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Grid.ColumnSpan="4">
-                    <StackPanel Margin="10">
+                    <StackPanel Margin="60">
 
                         <!-- Название теста -->
                         <TextBox x:Name="EditTextBox1" Text="Название теста" 
-                                 MaxWidth="800" MinHeight="30" BorderThickness="0,0,0,1" Background="#FFF1F1F1"
+                                 MaxWidth="800" MinHeight="30" BorderThickness="0,0,0,0" Background="#FFFBFBFB"
                                  TextAlignment="Center" BorderBrush="Black" FontFamily="Corbel Light" FontSize="48"/>
 
                         <!-- Список вопросов: Начало -->
@@ -1073,7 +1073,7 @@
                                  MaxWidth="800"
                                  HorizontalContentAlignment="Center" 
                                  BorderBrush="{x:Null}"
-                                 ItemTemplateSelector="{StaticResource editQuestionTemplateSelector}">
+                                 ItemTemplateSelector="{StaticResource editQuestionTemplateSelector}" Background="Black">
 
                             <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
                             <ListBox.ItemContainerStyle>
@@ -1093,8 +1093,6 @@
 
                         <!-- Кнопка добавления вопроса -->
                         <ComboBox x:Name="EditComboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed">
-                         
-                            
                         </ComboBox>
 
                     </StackPanel>
@@ -1216,11 +1214,11 @@
 
         </Grid>
 
-        <Button Width="80" Height="80" Click="Button_Click_close_app"
+        <Button Width="68" Height="69" Click="Button_Click_close_app"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Top" Foreground="White" BorderBrush="WhiteSmoke" Background="WhiteSmoke" Margin="0,4,0,0">
+                VerticalAlignment="Top" Foreground="White" BorderBrush="WhiteSmoke" Background="WhiteSmoke" Margin="0,1,-6,0">
 
-            <Image Source="Pics\ExitButton.png" Height="70"/>
+            <Image Source="Pics\ExitButton.png" Height="65" Width="61"/>
 
         </Button>
     </Grid>
