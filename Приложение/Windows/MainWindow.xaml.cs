@@ -545,8 +545,12 @@ namespace Приложение.Windows
             if (result == MessageBoxResult.Yes)
                 Application.Current.Shutdown();
         }
+
         #endregion
 
+        private void EditTextBox1_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
+        }
     }
 }

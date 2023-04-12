@@ -1071,7 +1071,8 @@
 
                         <!-- Название теста -->
                         <TextBox x:Name="EditTextBox1" Text="Название теста" 
-                                 MaxWidth="800" MinHeight="30" BorderThickness="0,0,0,1" />
+                                 MaxWidth="800" MinHeight="30" BorderThickness="0,0,0,1" Background="#FFF1F1F1" TextChanged="EditTextBox1_TextChanged"
+                                 TextAlignment="Center" BorderBrush="Black" FontFamily="Corbel Light" FontSize="48"/>
 
                         <!-- Список вопросов: Начало -->
                         <ListBox x:Name="EditListBox1"
@@ -1097,7 +1098,10 @@
                         <!-- Список вопросов: Конец -->
 
                         <!-- Кнопка добавления вопроса -->
-                        <ComboBox x:Name="EditComboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed"/>
+                        <ComboBox x:Name="EditComboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed">
+                         
+                            
+                        </ComboBox>
 
                     </StackPanel>
                 </ScrollViewer>
@@ -1222,7 +1226,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top" Foreground="White" BorderBrush="WhiteSmoke" Background="WhiteSmoke" Margin="0,4,0,0">
 
-            <Image Source="Pics\ExitButton.png"/>
+            <Image Source="Pics\ExitButton.png" Height="70"/>
 
         </Button>
     </Grid>
