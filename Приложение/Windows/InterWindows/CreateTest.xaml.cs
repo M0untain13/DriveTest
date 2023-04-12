@@ -32,15 +32,16 @@ namespace Приложение.Windows.InterWindows
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            while (textBox1.Text[textBox1.Text.Length-1] == ' ')
-            {
-                textBox1.Text = textBox1.Text.Substring(0,textBox1.Text.Length-1);
-            }
             if(textBox1.Text.Length < 5)
             {
                 warningBlock.Text = "Название должно содержать 5 или более символов!";
+                return;
             }
-            else if (Directory.Exists($"Tests\\{textBox1.Text}"))
+            while (textBox1.Text[textBox1.Text.Length - 1] == ' ')
+            {
+                textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+            }
+            if (Directory.Exists($"Tests\\{textBox1.Text}"))
             {
                 warningBlock.Text = "Тест с таким названием уже существует!";
             }

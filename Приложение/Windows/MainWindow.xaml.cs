@@ -14,6 +14,7 @@ using Приложение.Classes.Models;
 using Приложение.Classes.Services;
 using Приложение.Windows.InterWindows;
 
+
 namespace Приложение.Windows
 {
     /// <summary>
@@ -143,15 +144,17 @@ namespace Приложение.Windows
         }
         private void SaveTest(object sender, RoutedEventArgs e)
         {
+            if (EditTextBox1.Text.Length < 5)
+            {
+                MessageBox.Show("Название должно содержать 5 или более символов!");
+                return;
+            }
             while (EditTextBox1.Text[EditTextBox1.Text.Length - 1] == ' ')
             {
                 EditTextBox1.Text = EditTextBox1.Text.Substring(0, EditTextBox1.Text.Length - 1);
             }
-            if (EditTextBox1.Text.Length < 5)
-            {
-                MessageBox.Show("Название должно содержать 5 или более символов!");
-            }
-            else if ((from char sym in EditTextBox1.Text
+            
+            if ((from char sym in EditTextBox1.Text
                  where incorrectChars.Contains(sym)
                  select sym).Count() != 0)
             {
@@ -196,15 +199,16 @@ namespace Приложение.Windows
         /// <param name="e"></param>
         private void SaveTestAsNew(object sender, RoutedEventArgs e)
         {
+            if (EditTextBox1.Text.Length < 5)
+            {
+                MessageBox.Show("Название должно содержать 5 или более символов!");
+                return;
+            }
             while (EditTextBox1.Text[EditTextBox1.Text.Length - 1] == ' ')
             {
                 EditTextBox1.Text = EditTextBox1.Text.Substring(0, EditTextBox1.Text.Length - 1);
             }
-            if (EditTextBox1.Text.Length < 5)
-            {
-                MessageBox.Show("Название должно содержать 5 или более символов!");
-            }
-            else if (Directory.Exists($"Tests\\{EditTextBox1.Text}"))
+            if (Directory.Exists($"Tests\\{EditTextBox1.Text}"))
             {
                 MessageBox.Show("Вы пытались сохранить тест как новый, но название уже занято!");
             }
@@ -312,19 +316,16 @@ namespace Приложение.Windows
         private void Button_Click_ShowCorrectAnswers(object sender, RoutedEventArgs e)
         {
             if (VisCheck.IsChecked ?? false) return;
-            _test = Loader.LoadTest($"{mainDirectory}\\{_result.NameOfTest}");
-            if (_test.CheckPass(resPassBox.Password))
+            if (_result.CheckPass(resPassBox.Password))
             {
                 VisCheck.IsChecked = true;
                 ButtonShowCorAns.IsEnabled = false;
                 resPassBox.IsEnabled = false;
                 resPassBox.Clear();
                 ResultListBox1.Items.Refresh();
-                _test = null;
             }
             else
             {
-                _test = null;
                 MessageBox.Show("Неверный пароль!");
             }
         }
@@ -394,11 +395,12 @@ namespace Приложение.Windows
 
                 if (!isMarked) //Если ответ не был дан в вопросе с обязательным ответом, то нужно указать на это
                 {
-                    MessageBox.Show("На какой-то вопрос с обязательным ответом, не был дан ответ!");
+                    MessageBox.Show("На какой-то вопрос с обязательным ответом не был дан ответ!");
                     return;
                 }
             }
 
+            _timer.Stop();
             Button_Click_IntermediateWindow(sender, e);
         }
         /// <summary>
@@ -424,7 +426,7 @@ namespace Приложение.Windows
 
             //Большая часть логики вынесена ниже
             Dictionary<Type, Action> actions = new()
-            { //Почему не использовал switch? А потому что там в кейсах требуются константные значения, typeof(%Class%) не является константным
+            { //Почему не использовал switch? А потому что там в кейсах требуются константные значения, а typeof(%Class%) не является константным
                 //Почему не использовал if else? А потому что захотелось реализовать словарь анонимных методов
                 {typeof(CreateTest),
                     delegate{
@@ -531,15 +533,15 @@ namespace Приложение.Windows
             actions[window.GetType()].Invoke();
             Button_Click_Switch(sender, e);
         }
-        #endregion
-
         private void Button_Click_close_app(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Несохранённые данные будут утеряны.",
                 "Выйти из приложения?",
                 MessageBoxButton.YesNo);
-            if(result == MessageBoxResult.Yes)
+            if (result == MessageBoxResult.Yes)
                 Application.Current.Shutdown();
         }
+
+        #endregion
     }
 }

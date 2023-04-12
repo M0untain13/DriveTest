@@ -62,6 +62,11 @@ namespace Приложение.Classes.Models
         {
             return Encryption(password) == _password;
         }
+
+        public DResult CreateResult(string namePeople)
+        {
+            return new DResult(name, namePeople, _password);
+        }
     }
 
     [DataContract]
