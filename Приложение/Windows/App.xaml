@@ -51,7 +51,7 @@
             </Setter>
         </Style>
 
-        <!--
+        <!-- потом раскоментируй это
         <Style x:Key = "TestNameButton" TargetType = "TextBlock">
             <Setter Property = "Template">
 
