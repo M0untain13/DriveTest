@@ -27,31 +27,44 @@
 
         <DataTemplate x:Key="editOpenAnswerTemplate">
             <Grid>
-
                 <Grid Margin="5">
                     <StackPanel Margin="10">
 
                         <!-- Нумерация вопроса -->
-                        <TextBlock Text="Вопрос " 
+                        <TextBlock Text="Вопрос "
+                               Style="{StaticResource TextInQuestion}"
                                HorizontalAlignment="Left" VerticalAlignment="Top" 
-                               Margin="-5,-10,0,0">
+                               Margin="-5,-10,0,0"
+                                   FontSize="20">
+                            
                         <Run Text ="{Binding Number}"/>
                         <Run Text ="-"/>
                         <Run Text ="{Binding Type}"/>
                         </TextBlock>
 
                         <!-- Кнопка удаления вопроса -->
-                        <Button Content="x" 
+                        <Button
                                 HorizontalAlignment="Right" VerticalAlignment="Top"  
                                 Width="20" Height="20" Margin="-5,-10,0,0" 
-                                Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
+                                Click="Button_Click_QuestionDelete" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                            <Image Source="Pics\DeleteButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        </Button>
 
                         <!-- Поля для ввода вопроса -->
-                        <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                        <TextBlock Text="Введите вопрос"
+                                Style="{StaticResource TextInQuestion}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                                   FontSize="18"/>
+                        <TextBox MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}" FontSize="16"/>
 
                         <!-- Поля для ввода ответа -->
-                        <TextBlock Text="Введите ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBlock Text="Введите ответы"
+                                Style="{StaticResource TextInQuestion}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                                   FontSize="18"/>
                         <ListBox x:Name="listBox2" 
                              ItemsSource= "{Binding Answers}"
                              HorizontalAlignment="Left" 
@@ -74,7 +87,7 @@
                             <!-- Стиль оформления ответа -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Answer1}" Width="100"/>
+                                    <TextBox Text="{Binding Answer1}" MinWidth="100" FontSize="16"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
 
@@ -82,21 +95,46 @@
 
                         <!-- Кнопки добавления и удаления ответов -->
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag = "{Binding Number}"/>
-                            <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}"/>
+                            <Button
+                             Width="20"
+                                Height="20"
+                                Click="Button_Click_AnswerAdd"
+                                Tag = "{Binding Number}" Background="White" BorderBrush="White">
+                                <Image Source="Pics\PlusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+
+                            <Button  
+                            Width="20"
+                            Height="20"
+                            Margin="0,0,45,0"
+                            Click="Button_Click_AnswerDelete"
+                            Tag="{Binding Number}" Background="White" BorderBrush="White">
+                                <Image Source="Pics\MinusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
                         </Grid>
 
                         <!-- Поле с ценностью ответа -->
-                        <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBlock Text="Введите ценность в баллах"
+                                Style="{StaticResource TextInQuestion}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                                   FontSize="18"/>
                         <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
-                                 TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus" />
+                                 TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus" 
+                                 FontSize="16"/>
 
                         <!-- Поле обязательности ответа -->
-                        <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
+                        <TextBlock Text="Ответ на вопрос обязателен?"
+                                Style="{StaticResource TextInQuestion}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                                   FontSize="18"/>
+                        <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}">
+
+                        </CheckBox>
 
                     </StackPanel>
-                    <Border BorderBrush="Black" BorderThickness="1"/>
+                    <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -106,7 +144,9 @@
                 <StackPanel Margin="10">
 
                     <!-- Нумерация вопроса -->
-                    <TextBlock Text="Вопрос " 
+                    <TextBlock Text="Вопрос "
+                           Style="{StaticResource TextInQuestion}"
+                           FontSize="20"
                                                        HorizontalAlignment="Left" VerticalAlignment="Top" 
                                                        Margin="-5,-10,0,0">
                         <Run Text ="{Binding Number}"/>
@@ -115,18 +155,20 @@
                     </TextBlock>
 
                     <!-- Кнопка удаления вопроса -->
-                    <Button Content="x" 
+                    <Button  
                                                     HorizontalAlignment="Right" VerticalAlignment="Top"  
                                                     Width="20" Height="20" Margin="-5,-10,0,0" 
-                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
+                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                        <Image Source="Pics\DeleteButton.png" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock Text="Введите вопрос" Style="{StaticResource TextInQuestion}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}" FontSize="18"/>
 
                     <!-- Поля для ввода ответа -->
 
-                    <TextBlock Text="Введите ответы и отметьте верные" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Введите ответы и отметьте верные" Style="{StaticResource TextInQuestion}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ListBox x:Name="listBox2" 
                                                  ItemsSource="{Binding Answers}"
                                                  HorizontalAlignment="Left" 
@@ -160,21 +202,25 @@
 
                     <!-- Кнопки добавления и удаления ответов -->
                     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag="{Binding Number}"/>
-                        <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" />
+                        <Button  Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                            <Image Source="Pics\PlusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" Background="White" BorderBrush="White" >
+                            <Image Source="Pics\MinusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
                     </Grid>
 
                     <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
-                             TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"/>
+                    <TextBlock Text="Введите ценность в баллах" Style="{StaticResource TextInQuestion}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox MinWidth="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
+                             TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus" FontSize="18"/>
 
                     <!-- Поле обязательности ответа -->
-                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
+                    <TextBlock Text="Ответ на вопрос обязателен?"  Style="{StaticResource TextInQuestion}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}" />
 
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
             </Grid>
         </DataTemplate>
 
@@ -183,7 +229,7 @@
                 <StackPanel Margin="10">
 
                     <!-- Нумерация вопроса -->
-                    <TextBlock Text="Вопрос " 
+                    <TextBlock Text="Вопрос " Style="{StaticResource TextInQuestion}" 
                                                        HorizontalAlignment="Left" VerticalAlignment="Top" 
                                                        Margin="-5,-10,0,0">
                         <Run Text ="{Binding Number}"/>
@@ -192,18 +238,21 @@
                     </TextBlock>
 
                     <!-- Кнопка удаления вопроса -->
-                    <Button Content="x" 
+                    <Button 
                                                     HorizontalAlignment="Right" VerticalAlignment="Top"  
                                                     Width="20" Height="20" Margin="-5,-10,0,0" 
-                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
+                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                        <Image Source="Pics\DeleteButton.png" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource TextInQuestion}" FontSize="18"/>
                     <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
 
-                    <TextBlock Text="Введите ответы и отметьте верные" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Введите ответы и отметьте верные" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource TextInQuestion}" FontSize="18"/>
                     <ListBox x:Name="listBox2" 
                                                  ItemsSource= "{Binding Answers}"
                                                  HorizontalAlignment="Left" 
@@ -237,21 +286,25 @@
 
                     <!-- Кнопки добавления и удаления ответов -->
                     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag="{Binding Number}"/>
-                        <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" />
+                        <Button Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                            <Image Source="Pics\PlusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button  Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" Background="White" BorderBrush="White" >
+                            <Image Source="Pics\MinusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
                     </Grid>
 
                     <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
+                    <TextBlock Text="Введите ценность в баллах" Style="{StaticResource TextInQuestion}" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox Width="25" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
                              TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"/>
 
                     <!-- Поле обязательности ответа -->
-                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Ответ на вопрос обязателен?" Style="{StaticResource TextInQuestion}" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
 
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
             </Grid>
         </DataTemplate>
 
@@ -260,7 +313,7 @@
                 <StackPanel Margin="10">
 
                     <!-- Нумерация вопроса -->
-                    <TextBlock Text="Вопрос " 
+                    <TextBlock Text="Вопрос " Style="{StaticResource TextInQuestion}" 
                                                        HorizontalAlignment="Left" VerticalAlignment="Top" 
                                                        Margin="-5,-10,0,0">
                         <Run Text ="{Binding Number}"/>
@@ -269,17 +322,19 @@
                     </TextBlock>
 
                     <!-- Кнопка удаления вопроса -->
-                    <Button Content="x" 
+                    <Button 
                                                     HorizontalAlignment="Right" VerticalAlignment="Top"  
                                                     Width="20" Height="20" Margin="-5,-10,0,0" 
-                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
+                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                        <Image Source="Pics\DeleteButton.png" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Введите вопрос" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock Text="Введите вопрос" Style="{StaticResource TextInQuestion}" FontSize="18"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox MinWidth="120" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Введите ответы и соотнесите верные" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Введите ответы и соотнесите верные" Style="{StaticResource TextInQuestion}" FontSize="18"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ListBox x:Name="listBox2" 
                                                  ItemsSource= "{Binding Answers}"
                                                  HorizontalAlignment="Left" 
@@ -303,8 +358,8 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox Text="{Binding Answer1}" Width="100"/>
-                                    <TextBox Text="{Binding Answer2}" Width="100"/>
+                                    <TextBox Text="{Binding Answer1}" MinWidth="100"/>
+                                    <TextBox Text="{Binding Answer2}" MinWidth="100" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -313,21 +368,25 @@
 
                     <!-- Кнопки добавления и удаления ответов -->
                     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Button Content="+" Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag="{Binding Number}"/>
-                        <Button Content="-" Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" />
+                        <Button  Width="20" Height="20" Click="Button_Click_AnswerAdd" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                            <Image Source="Pics\PlusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                        <Button  Width="20" Height="20" Margin="0,0,45,0" Click="Button_Click_AnswerDelete" Tag="{Binding Number}" Background="White" BorderBrush="White" >
+                            <Image Source="Pics\MinusButton.png" Height="16" Width="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
                     </Grid>
 
                     <!-- Поле с ценностью ответа -->
-                    <TextBlock Text="Введите ценность в баллах" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Width="25" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
+                    <TextBlock Text="Введите ценность в баллах" Style="{StaticResource TextInQuestion}" FontSize="18"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox MinWidth="25" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Price}" 
                              TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"/>
 
                     <!-- Поле обязательности ответа -->
-                    <TextBlock Text="Ответ на вопрос обязателен?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Text="Ответ на вопрос обязателен?" Style="{StaticResource TextInQuestion}" FontSize="18"   HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
 
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
             </Grid>
         </DataTemplate>
 
@@ -335,7 +394,7 @@
             <Grid Margin="5">
                 <StackPanel Margin="10">
                     <!-- Нумерация вопроса -->
-                    <TextBlock Text="Форма " 
+                    <TextBlock Text="Форма " Style="{StaticResource TextInQuestion}" 
                                                        HorizontalAlignment="Left" VerticalAlignment="Top" 
                                                        Margin="-5,-10,0,0">
                         <Run Text ="{Binding Number}"/>
@@ -344,15 +403,17 @@
                     </TextBlock>
 
                     <!-- Кнопка удаления вопроса -->
-                    <Button Content="x" 
+                    <Button  
                                                     HorizontalAlignment="Right" VerticalAlignment="Top"  
                                                     Width="20" Height="20" Margin="-5,-10,0,0" 
-                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}"/>
+                                                    Click="Button_Click_QuestionDelete" Tag="{Binding Number}" Background="White" BorderBrush="White">
+                        <Image Source="Pics\DeleteButton.png" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
 
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введите описание требуемой информации" VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введите описание требуемой информации" Style="{StaticResource TextInQuestion}" FontSize="18" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" MinWidth="120" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Text="{Binding Name}"/>
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
             </Grid>
 
         </DataTemplate>
@@ -983,7 +1044,7 @@
     <Grid>
         <!-- Поверхность главного меню -->
 
-        <Grid x:Name="Main" IsEnabled="False" Visibility="Hidden">
+        <Grid x:Name="Main" IsEnabled="True" Visibility="Visible">
             <Image Source="Pics/MainWindowBackground.png" Margin="-5,0,-13,-16"/>
             <Button Content="Создать тест" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -1024,7 +1085,7 @@
         </Grid>
 
         <!-- Поверхность редактора -->
-        <Grid x:Name="Editor" IsEnabled="True" Visibility="Visible">
+        <Grid x:Name="Editor" IsEnabled="False" Visibility="Hidden">
             <Image Source="Pics/EditTestBackground.png" Margin="-5,0,-13,-16"/>
             <Button Content="Сохранить" Style= "{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -1037,26 +1098,16 @@
                     Margin="349,-1,0,0" 
                     Click="SaveTestAsNew"/>
 
-            <Button Content="Вернуться назад" 
+            <Button Content="Вернуться назад" Style="{StaticResource CreateTestWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                    Height="40" Width="120" Margin="10,0,0,10" 
+                    Height="40" Width="150" Margin="10,0,0,10" 
                     Click="Button_Click_IntermediateWindow" Tag="{Binding ElementName=Main}">
                 <Button.DataContext>
                     <factoryMethods:FactoryExitFromEdit/>
                 </Button.DataContext>
             </Button>
 
-            <!-- Время для решения теста -->
-            <StackPanel
-                Orientation="Horizontal"
-                Margin="20,60,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top">
-                <TextBlock Text="Время для решения теста в минутах" Margin="10,15,0,0" FontFamily="Corbel Light" FontSize="22" />
-                <TextBox x:Name="EditTextBoxTime" Text="0" TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"
-                         Width="25" Height="22"
-                         Margin="10,15,0,0" FontFamily="Corbel Light" FontSize="22" BorderThickness="0,0,0,1"  />
-            </StackPanel>
+            
 
             <!-- Поле, в котором находится тест -->
             <Grid Margin="10,85,10,55">
@@ -1065,15 +1116,17 @@
 
                         <!-- Название теста -->
                         <TextBox x:Name="EditTextBox1" Text="Название теста" 
-                                 MaxWidth="800" MinHeight="30" BorderThickness="0,0,0,0" Background="#FFFBFBFB"
-                                 TextAlignment="Center" BorderBrush="Black" FontFamily="Corbel Light" FontSize="48"/>
+                                 MaxWidth="800" MinHeight="30"  Background="#FFFBFBFB"
+                                 TextAlignment="Center" 
+                                 BorderBrush="Gray" BorderThickness="0,0,0,2"
+                                 FontFamily="Corbel Light" FontSize="48"/>
 
                         <!-- Список вопросов: Начало -->
                         <ListBox x:Name="EditListBox1"
                                  MaxWidth="800"
                                  HorizontalContentAlignment="Center" 
                                  BorderBrush="{x:Null}"
-                                 ItemTemplateSelector="{StaticResource editQuestionTemplateSelector}" Background="Black">
+                                 ItemTemplateSelector="{StaticResource editQuestionTemplateSelector}">
 
                             <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
                             <ListBox.ItemContainerStyle>
@@ -1092,13 +1145,24 @@
                         <!-- Список вопросов: Конец -->
 
                         <!-- Кнопка добавления вопроса -->
-                        <ComboBox x:Name="EditComboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed">
+                        <ComboBox x:Name="EditComboBox1" Height="40" Width="120" Margin="0,10,0,0" DropDownClosed="СomboBox1_DropDownClosed" FontFamily="Corbel Light">
                         </ComboBox>
-
                     </StackPanel>
                 </ScrollViewer>
-
             </Grid>
+
+            <!-- Время для решения теста -->
+            <StackPanel
+                Orientation="Horizontal"
+                Margin="20,60,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <TextBlock Text="Время для решения теста в минутах" Margin="10,15,0,0" FontFamily="Corbel Light" FontSize="22" />
+                <TextBox x:Name="EditTextBoxTime" Text="0" TextChanged="TextBox_TextChanged" LostKeyboardFocus="EditTextBoxTime_LostKeyboardFocus"
+                         Width="25" Height="22"
+                         Margin="10,15,0,0" FontFamily="Corbel Light" FontSize="22" BorderThickness="0,0,0,1"  
+                         TextAlignment="Center"/>
+            </StackPanel>
         </Grid>
 
         <!-- Поверхность тестирования -->

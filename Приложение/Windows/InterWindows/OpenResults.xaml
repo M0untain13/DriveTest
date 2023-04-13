@@ -5,31 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Приложение"
         mc:Ignorable="d"
-        Title="Открыть результаты" Height="179" Width="390" ResizeMode="NoResize" Activated="Window_Activated">
+        Title="Открыть результаты" Height="250" Width="390" ResizeMode="NoResize" Activated="Window_Activated">
     <Grid>
-        <TextBlock Text="Выбор теста"
+        <TextBlock Text="Выбор теста" Style="{StaticResource TextInQuestion}" FontSize="18"
                    HorizontalAlignment="Left" VerticalAlignment="Top" 
-                   Margin="10,10,0,0"/>
-        
-        <ComboBox x:Name="choseTest" DropDownClosed="choseTest_DropDownClosed"
-                  HorizontalAlignment="Left" VerticalAlignment="Top" 
-                  Margin="10,31,0,0" Width="120" />
-        
-        <TextBlock Text="Выбор чела"
-                   HorizontalAlignment="Left" VerticalAlignment="Top"
-                   Margin="10,58,0,0"/>
-        
-        <ComboBox x:Name="chosePeople" 
-                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                  Margin="10,79,0,0"
-                  Width="120" Height="24"/>
-        
-        <Button x:Name="button" Content="Открыть" Click="button_Click"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Margin="0,0,10,10"/>
+                   Margin="10,14,0,0"/>
 
-        <TextBlock x:Name="warning" Text="Выберите тест, чела и введите пароль от теста."  VerticalAlignment="Bottom"
+        <ComboBox x:Name="choseTest" DropDownClosed="choseTest_DropDownClosed" FontFamily="Corbel Light"
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Margin="10,41,0,0" Width="120" />
+
+        <TextBlock Style="{StaticResource TextInQuestion}" FontSize="18"
+                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                   Margin="10,75,0,0" Width="134"><Run Text="Выбор "/><Run Language="ru-ru" Text="участника"/></TextBlock>
+
+        <ComboBox x:Name="chosePeople" FontFamily="Corbel Light"
+                  HorizontalAlignment="Left" VerticalAlignment="Top"
+                  Margin="10,102,0,0"
+                  Width="120" Height="24"/>
+
+        <Button x:Name="button" Content="Открыть" Click="button_Click" Style="{StaticResource CreateTestWindowButton}"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,0,10,5" Width="150" Height="30"/>
+
+        <TextBlock x:Name="warning" Style="{StaticResource TextInQuestion}" FontSize="15" VerticalAlignment="Bottom"
                    HorizontalAlignment="Left" 
-                   Margin="10,0,0,10"/>
+                   Margin="10,0,0,47"><Run Text="Выберите тест, "/><Run Language="ru-ru" Text="участника "/><Run Text="и введите пароль от теста."/></TextBlock>
     </Grid>
 </Window>

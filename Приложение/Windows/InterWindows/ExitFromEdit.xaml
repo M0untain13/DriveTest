@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Приложение"
         mc:Ignorable="d"
-        Title="Вы уверены, что сохранили тест?" Height="150" Width="300" ResizeMode="NoResize">
+        Title="Вы уверены, что сохранили тест?" Height="150" Width="300" ResizeMode="NoResize" FontFamily="Corbel Light">
     <Grid>
-        <Button Content="Сохранить и выйти" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Click="ExitWithSave"/>
-        <Button Content="Выйти" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Click="ExitWithoutSave"/>
-        <Button Content="Не выходить" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Click="Close"/>
+        <Button Content="Сохранить и выйти" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Click="ExitWithSave" Style="{StaticResource CreateTestWindowButton}" Width="153" />
+        <Button Content="Выйти" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Click="ExitWithoutSave" Style="{StaticResource CreateTestWindowButton}" Width="59"/>
+        <Button Content="Не выходить" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Click="Close" Style="{StaticResource CreateTestWindowButton}" Width="104"/>
     </Grid>
 </Window>
