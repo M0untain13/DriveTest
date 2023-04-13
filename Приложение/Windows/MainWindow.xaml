@@ -136,7 +136,7 @@
                         </CheckBox>
 
                     </StackPanel>
-                    <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                    <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
                 </Grid>
             </Grid>
         </DataTemplate>
@@ -174,7 +174,7 @@
                                Style="{StaticResource TextInQuestion}" 
                                HorizontalAlignment="Left" VerticalAlignment="Top"
                                FontSize="18"/>
-                    <ListBox x:Name="listBox2" 
+                    <ListBox x:Name="listBox2" FontFamily="Corbel light" FontSize="16"
                                                  ItemsSource="{Binding Answers}"
                                                  HorizontalAlignment="Left" 
                                                  VerticalAlignment="Top"
@@ -229,7 +229,7 @@
                     <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}" />
 
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -313,7 +313,7 @@
                     <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
 
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -395,7 +395,7 @@
                     <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding AnswerRequired}"/>
 
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -422,7 +422,7 @@
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введите описание требуемой информации" Style="{StaticResource TextInQuestion}" FontSize="18" VerticalAlignment="Top"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="120" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Text="{Binding Name}"/>
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
 
         </DataTemplate>
@@ -468,7 +468,7 @@
                                Text="{Binding AnswerRequiredText}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -493,7 +493,7 @@
                     <!-- Поля для ввода ответа -->
                     <TextBlock Style="{StaticResource TextInQuestion}"
                                Text="Отметьте верные ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ListBox x:Name="listBox2" 
+                    <ListBox x:Name="listBox2" FontFamily="Corbel light" FontSize="16"
                                                  ItemsSource="{Binding Answers}"
                                                  HorizontalAlignment="Left" 
                                                  VerticalAlignment="Top"
@@ -536,7 +536,7 @@
                                Text="{Binding AnswerRequiredText}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -561,7 +561,7 @@
                     <!-- Поля для ввода ответа -->
                     <TextBlock Style="{StaticResource TextInQuestion}"
                                Text="Отметьте верные ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ListBox x:Name="listBox2" 
+                    <ListBox x:Name="listBox2" FontFamily="Corbel light" FontSize="16"
                                                  ItemsSource= "{Binding Answers}"
                                                  HorizontalAlignment="Left" 
                                                  VerticalAlignment="Top"
@@ -603,7 +603,7 @@
                                Text="{Binding AnswerRequiredText}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -629,7 +629,7 @@
                     <TextBlock Style="{StaticResource TextInQuestion}"
                                Text="Соотнесите верные ответы" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <StackPanel Orientation="Horizontal">
-                        <ListBox ItemsSource="{Binding Answers}"
+                        <ListBox ItemsSource="{Binding Answers}" FontFamily="Corbel light" FontSize="16"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Top"
                                  BorderBrush="{x:Null}">
@@ -652,13 +652,13 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <ListBox ItemsSource="{Binding Answers}"
+                        <ListBox ItemsSource="{Binding Answers}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}" SelectionChanged="ListBox_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="25" MouseDown="Label_MouseClick"/>
+                                    <TextBlock Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" Height="25" MouseDown="Label_MouseClick"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
@@ -675,7 +675,7 @@
                                Text="{Binding AnswerRequiredText}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -707,7 +707,7 @@
                     <TextBox HorizontalAlignment="Left"  VerticalAlignment="Top"
                              MinWidth="120" Text="{Binding InputData}"/>
                 </StackPanel>
-                <Border BorderBrush="#FFBBBBBB" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
 
         </DataTemplate>
@@ -718,17 +718,20 @@
                                           TestingMatchingSearchTemplate="{StaticResource testingMatchingSearchTemplate}"
                                           TestingDataInputTemplate="{StaticResource testingDataInputTemplate}"
                                         x:Key="testingQuestionTemplateSelector"/>
-
+        
         <DataTemplate x:Key="resultOpenAnswerTemplate">
+            
             <Grid Margin="5">
+               
                 <StackPanel Margin="10">
+                    
                     <!-- Поля с вопросом -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <TextBlock MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"  Style="{StaticResource TextInQuestion}" FontSize="18" />
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <ListBox ItemsSource="{Binding ArrayOfString02}"
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"  FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString02}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -748,8 +751,8 @@
 
                     <Grid Margin="10" Style="{StaticResource StyleForVis}">
                         <StackPanel >
-                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <ListBox ItemsSource="{Binding ArrayOfString03}"
+                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                            <ListBox ItemsSource="{Binding ArrayOfString03}" FontFamily="Corbel light" FontSize="16"
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Top"
                                      BorderBrush="{x:Null}">
@@ -767,16 +770,16 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
 
-                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" >
-                                <Run Text="{Binding Score}"/>
+                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Style="{StaticResource TextInQuestion}" >
+                                <Run Text="{Binding Score}" FontFamily="Corbel light" />
                                 <Run Text="из"/>
-                                <Run Text="{Binding MaxScore}"/>
+                                <Run Text="{Binding MaxScore}" FontFamily="Corbel light" />
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -785,11 +788,11 @@
                 <StackPanel Margin="10">
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <TextBlock MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}" FontSize="18" Style="{StaticResource TextInQuestion}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
                     <ListBox ItemsSource="{Binding ArrayOfString01}"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -807,8 +810,8 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <ListBox ItemsSource="{Binding ArrayOfString02}"
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString02}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -827,8 +830,8 @@
                     </ListBox>
                     <Grid Margin="10" Style="{StaticResource StyleForVis}">
                         <StackPanel >
-                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <ListBox ItemsSource="{Binding ArrayOfString03}"
+                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                            <ListBox ItemsSource="{Binding ArrayOfString03}" FontFamily="Corbel light" FontSize="16"
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Top"
                                      BorderBrush="{x:Null}">
@@ -846,16 +849,16 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
 
-                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" >
-                                <Run Text="{Binding Score}"/>
+                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Style="{StaticResource TextInQuestion}" >
+                                <Run Text="{Binding Score}" FontFamily="Corbel light"/>
                                 <Run Text="из"/>
-                                <Run Text="{Binding MaxScore}"/>
+                                <Run Text="{Binding MaxScore}" FontFamily="Corbel light" />
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -864,12 +867,12 @@
                 <StackPanel Margin="10">
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <TextBlock MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"  FontSize="18" Style="{StaticResource TextInQuestion}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <ListBox ItemsSource="{Binding ArrayOfString01}"
+                    <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"  FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString01}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -886,8 +889,8 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <ListBox ItemsSource="{Binding ArrayOfString02}"
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"  FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString02}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -906,8 +909,8 @@
                     </ListBox>
                     <Grid Margin="10" Style="{StaticResource StyleForVis}">
                         <StackPanel >
-                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <ListBox ItemsSource="{Binding ArrayOfString03}"
+                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"  FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                            <ListBox ItemsSource="{Binding ArrayOfString03}" FontFamily="Corbel light" FontSize="16"
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Top"
                                      BorderBrush="{x:Null}">
@@ -925,16 +928,16 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
 
-                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" >
-                                <Run Text="{Binding Score}"/>
+                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top"  FontSize="20" Style="{StaticResource TextInQuestion}">
+                                <Run Text="{Binding Score}" FontFamily="Corbel light" />
                                 <Run Text="из"/>
-                                <Run Text="{Binding MaxScore}"/>
+                                <Run Text="{Binding MaxScore}" FontFamily="Corbel light" />
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -943,13 +946,13 @@
                 <StackPanel Margin="10">
 
                     <!-- Поля для ввода вопроса -->
-                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <TextBlock Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"/>
+                    <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <TextBlock MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}" FontSize="18" Style="{StaticResource TextInQuestion}"/>
 
                     <!-- Поля для ввода ответа -->
-                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                    <TextBlock Text="Ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
                     <StackPanel Orientation="Horizontal">
-                        <ListBox ItemsSource="{Binding ArrayOfString01}"
+                        <ListBox ItemsSource="{Binding ArrayOfString01}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -966,7 +969,7 @@
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
-                        <ListBox ItemsSource="{Binding ArrayOfString02}"
+                        <ListBox ItemsSource="{Binding ArrayOfString02}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -987,9 +990,9 @@
 
                     <Grid Margin="10" Style="{StaticResource StyleForVis}">
                         <StackPanel >
-                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="Правильный ответ:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
                             <StackPanel Orientation="Horizontal">
-                                <ListBox ItemsSource="{Binding ArrayOfString01}"
+                                <ListBox ItemsSource="{Binding ArrayOfString01}"  FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -1006,12 +1009,12 @@
                                         </Style>
                                     </ListBox.ItemContainerStyle>
                                 </ListBox>
-                                <ListBox ItemsSource="{Binding ArrayOfString03}"
+                                <ListBox ItemsSource="{Binding ArrayOfString03}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
                                     <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
-                                    <ListBox.ItemContainerStyle>
+                                    <ListBox.ItemContainerStyle> 
                                         <Style TargetType="ListBoxItem">
                                             <Setter Property="Template">
                                                 <Setter.Value>
@@ -1025,16 +1028,16 @@
                                 </ListBox>
                             </StackPanel>
 
-                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" >
-                                <Run Text="{Binding Score}"/>
+                            <TextBlock Text="Баллы:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Style="{StaticResource TextInQuestion}" >
+                                <Run Text="{Binding Score}"  FontFamily="Corbel light" />
                                 <Run Text="из"/>
-                                <Run Text="{Binding MaxScore}"/>
+                                <Run Text="{Binding MaxScore}" FontFamily="Corbel light" />
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
         </DataTemplate>
 
@@ -1046,10 +1049,10 @@
                                Margin="-5,-10,0,0">
                     </TextBlock>
 
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Требуемая информация:" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <TextBlock HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Name}"/>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введённые данные:" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                    <ListBox ItemsSource="{Binding ArrayOfString01}"
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Требуемая информация:" VerticalAlignment="Top" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <TextBlock HorizontalAlignment="Left" Width="120" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Name}" FontSize="18" Style="{StaticResource TextInQuestion}"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Введённые данные:" VerticalAlignment="Top" FontSize="20" Style="{StaticResource TextInQuestion}"/>
+                    <ListBox ItemsSource="{Binding ArrayOfString01}" FontFamily="Corbel light" FontSize="18"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -1067,7 +1070,7 @@
                         </ListBox.ItemContainerStyle>
                     </ListBox>
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1"/>
+                <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
 
         </DataTemplate>
@@ -1208,7 +1211,9 @@
         </Grid>
 
         <!-- Поверхность тестирования -->
+        
         <Grid x:Name="Test" IsEnabled="False" Visibility="Hidden">
+            <Image Source="Pics/EditTestBackground.png" Margin="-5,0,-13,-16"/>
             <TextBlock x:Name="TestTextBoxTime" Text="" Style="{StaticResource TextInQuestion}"
                        VerticalAlignment="Top" HorizontalAlignment="Left"
                        Margin="10"
@@ -1216,7 +1221,7 @@
 
             <Grid Margin="10,55,10,100">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Margin="0,0,0,-28">
-                    <StackPanel Margin="10">
+                    <StackPanel Margin="80">
 
                         <!-- Название теста -->
                         <TextBox x:Name="TestTextBox1" Text="Название теста" IsEnabled="False"
