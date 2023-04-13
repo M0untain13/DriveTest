@@ -41,7 +41,7 @@
                     <Border x:Name="Border" CornerRadius="3" BorderBrush="Gray" BorderThickness="1,1,1,2" Background="white"
                           
                             TextBlock.Foreground="Black"
-                             TextBlock.FontSize="18"
+                             
                              TextBlock.FontWeight="Medium"
                              TextBlock.FontFamily="Corbel Light">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>

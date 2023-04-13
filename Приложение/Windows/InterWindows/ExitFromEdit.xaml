@@ -7,8 +7,25 @@
         mc:Ignorable="d"
         Title="Вы уверены, что сохранили тест?" Height="150" Width="300" ResizeMode="NoResize" FontFamily="Corbel Light">
     <Grid>
-        <Button Content="Сохранить и выйти" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Click="ExitWithSave" Style="{StaticResource CreateTestWindowButton}" Width="153" />
-        <Button Content="Выйти" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Click="ExitWithoutSave" Style="{StaticResource CreateTestWindowButton}" Width="59"/>
-        <Button Content="Не выходить" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Click="Close" Style="{StaticResource CreateTestWindowButton}" Width="104"/>
+        <Button 
+            Content="Сохранить и выйти" 
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Margin="10,25,0,0"  
+            Click="ExitWithSave" Style="{StaticResource CreateTestWindowButton}" 
+            Width="153" 
+            FontSize="18"/>
+        <Button 
+            Content="Выйти" 
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Margin="10,53,0,0" 
+            Click="ExitWithoutSave" Style="{StaticResource CreateTestWindowButton}" 
+            Width="59"
+            FontSize="18"/>
+        <Button Content="Не выходить" 
+                HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="10,81,0,0" 
+                Click="Close" Style="{StaticResource CreateTestWindowButton}" 
+                Width="104"
+                FontSize="18"/>
     </Grid>
 </Window>

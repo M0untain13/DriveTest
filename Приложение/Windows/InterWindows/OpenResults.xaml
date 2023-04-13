@@ -13,7 +13,7 @@
 
         <ComboBox x:Name="choseTest" DropDownClosed="choseTest_DropDownClosed" FontFamily="Corbel Light"
                   HorizontalAlignment="Left" VerticalAlignment="Top" 
-                  Margin="10,41,0,0" Width="120" />
+                  Margin="10,41,0,0" Width="120" FontSize="18" />
 
         <TextBlock Style="{StaticResource TextInQuestion}" FontSize="18"
                    HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -22,11 +22,12 @@
         <ComboBox x:Name="chosePeople" FontFamily="Corbel Light"
                   HorizontalAlignment="Left" VerticalAlignment="Top"
                   Margin="10,102,0,0"
-                  Width="120" Height="24"/>
+                  Width="120" Height="24" FontSize="18"/>
 
         <Button x:Name="button" Content="Открыть" Click="button_Click" Style="{StaticResource CreateTestWindowButton}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Margin="0,0,10,5" Width="150" Height="30"/>
+                Margin="0,0,10,5" Width="150" Height="30"
+                FontSize="18"/>
 
         <TextBlock x:Name="warning" Style="{StaticResource TextInQuestion}" FontSize="15" VerticalAlignment="Bottom"
                    HorizontalAlignment="Left" 

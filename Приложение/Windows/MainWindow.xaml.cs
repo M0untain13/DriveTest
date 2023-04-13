@@ -395,7 +395,7 @@ namespace Приложение.Windows
                 }
             }
 
-            _timer.Stop();
+            _timer?.Stop();
             Button_Click_IntermediateWindow(sender, e);
         }
         /// <summary>
