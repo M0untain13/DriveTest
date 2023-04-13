@@ -117,6 +117,8 @@ namespace Приложение.Classes.Models
             set => _answerRequired = value;
         }
 
+        public string AnswerRequiredText => _answerRequired ? "Ответ обязателен" : string.Empty;
+
         public double Price
         {
             get => _price;
