@@ -65,6 +65,9 @@
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Windows\Pics\Scorp.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
@@ -204,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Windows\Pics\MinusButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\Pics\Scorp.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

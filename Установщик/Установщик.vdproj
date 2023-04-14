@@ -15,14 +15,20 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_EE0B4F75CA1E4CF59280EE0C89470299"
+        "MsmKey" = "8:_D69AC83AFD8D4E3A978A704CDBCEF6E8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E3CD4303D0BB44A5BB907901422BB028"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EE0B4F75CA1E4CF59280EE0C89470299"
+        "OwnerKey" = "8:_E3CD4303D0BB44A5BB907901422BB028"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -120,6 +126,57 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D69AC83AFD8D4E3A978A704CDBCEF6E8"
+            {
+            "SourcePath" = "8:..\\Приложение\\Windows\\Pics\\Scorp.ico"
+            "TargetName" = "8:Scorp.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_02E0995EAF694F1FB078020D84D730C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E3CD4303D0BB44A5BB907901422BB028"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ADAF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E3CD4303D0BB44A5BB907901422BB028"
+                    {
+                    "Name" = "8:ADAF.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\Приложение\\bin\\Release\\ADAF.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_02E0995EAF694F1FB078020D84D730C4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -177,7 +234,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ADA Forms"
         "ProductCode" = "8:{2E368631-6D4F-4DA5-B3F6-DD28C56C5129}"
-        "PackageCode" = "8:{91A5CD8F-8590-4EE8-9722-4B09DB6D8FF8}"
+        "PackageCode" = "8:{DB87EEC6-0A58-4590-98BD-FE180AC849D6}"
         "UpgradeCode" = "8:{2711FD1A-C743-4477-817A-F897CC246306}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -297,6 +354,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9D1D289AE9DD477FAFB8CD38BC878339"
+            {
+            "Name" = "8:ADA Forms"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_E3CD4303D0BB44A5BB907901422BB028"
+            "Folder" = "8:_AF1561E2915B49E59A8F5CC77EDED6A0"
+            "WorkingFolder" = "8:_02E0995EAF694F1FB078020D84D730C4"
+            "Icon" = "8:_D69AC83AFD8D4E3A978A704CDBCEF6E8"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -696,34 +767,6 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EE0B4F75CA1E4CF59280EE0C89470299"
-            {
-            "SourcePath" = "8:..\\Приложение\\obj\\Release\\ADAF.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_02E0995EAF694F1FB078020D84D730C4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{C6BA249A-FA2A-4465-9811-464D5B954002}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
         }
     }
 }
