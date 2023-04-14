@@ -234,7 +234,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ADA Forms"
         "ProductCode" = "8:{2E368631-6D4F-4DA5-B3F6-DD28C56C5129}"
-        "PackageCode" = "8:{DB87EEC6-0A58-4590-98BD-FE180AC849D6}"
+        "PackageCode" = "8:{770903C7-541A-4FCE-8FFE-0F0859A1F791}"
         "UpgradeCode" = "8:{2711FD1A-C743-4477-817A-F897CC246306}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
