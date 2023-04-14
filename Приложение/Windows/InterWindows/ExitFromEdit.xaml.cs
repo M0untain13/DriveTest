@@ -13,6 +13,7 @@ namespace Приложение.Windows.InterWindows
     public partial class ExitFromEdit : Window, IDriveTestWindow
     {
         public bool isSaveTest = false;
+        public MainWindow MainWin { get; set; }
         public ExitFromEdit()
         {
             InitializeComponent();
@@ -45,8 +46,7 @@ namespace Приложение.Windows.InterWindows
         /// <param name="e"></param>
         private void ExitWithSave(object sender, RoutedEventArgs e)
         {
-            isSaveTest = true;
-            DialogResult = true;
+            DialogResult = MainWin.SaveTest();
         }
 
         void IDriveTestWindow.Transfer(ref DTest test, ref DResult result, ref bool isSaveTest)

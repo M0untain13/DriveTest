@@ -12,7 +12,7 @@
         xmlns:services="clr-namespace:Приложение.Classes.Services"
         x:Class="Приложение.Windows.MainWindow"
         mc:Ignorable="d"
-        Title="Главное меню" d:DesignHeight="1080" d:DesignWidth="1920">
+        Title="Главное меню">
 
     <Window.Resources>
         <Style TargetType="Grid" x:Key="StyleForVis">
@@ -705,7 +705,8 @@
                                Text="Введите данные" />
 
                     <TextBox HorizontalAlignment="Left"  VerticalAlignment="Top"
-                             MinWidth="120" Text="{Binding InputData}"/>
+                             MinWidth="120" Text="{Binding InputData}"
+                             FontSize="20"/>
                 </StackPanel>
                 <Border BorderBrush="#FFBBBBBB" BorderThickness="2" CornerRadius="5"/>
             </Grid>
@@ -718,13 +719,13 @@
                                           TestingMatchingSearchTemplate="{StaticResource testingMatchingSearchTemplate}"
                                           TestingDataInputTemplate="{StaticResource testingDataInputTemplate}"
                                         x:Key="testingQuestionTemplateSelector"/>
-        
+
         <DataTemplate x:Key="resultOpenAnswerTemplate">
-            
+
             <Grid Margin="5">
-               
+
                 <StackPanel Margin="10">
-                    
+
                     <!-- Поля с вопросом -->
                     <TextBlock Text="Вопрос:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
                     <TextBlock MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Name}"  Style="{StaticResource TextInQuestion}" FontSize="18" />
@@ -793,7 +794,7 @@
 
                     <!-- Поля для ввода ответа -->
                     <TextBlock Text="Варианты:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Style="{StaticResource TextInQuestion}"/>
-                    <ListBox ItemsSource="{Binding ArrayOfString01}"
+                    <ListBox ItemsSource="{Binding ArrayOfString01}" FontFamily="Corbel light" FontSize="16"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
@@ -1014,7 +1015,7 @@
                              VerticalAlignment="Top"
                              BorderBrush="{x:Null}">
                                     <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
-                                    <ListBox.ItemContainerStyle> 
+                                    <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">
                                             <Setter Property="Template">
                                                 <Setter.Value>
@@ -1134,7 +1135,7 @@
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
                      Margin="0,-1,0,0" 
                     
-                    Click="SaveTest" FontSize="18"/>
+                    Click="Button_Click_SaveTest" FontSize="18"/>
 
             <Button Content="Сохранить как..." Style= "{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
@@ -1211,7 +1212,7 @@
         </Grid>
 
         <!-- Поверхность тестирования -->
-        
+
         <Grid x:Name="Test" IsEnabled="False" Visibility="Hidden">
             <Image Source="Pics/EditTestBackground.png" Margin="-5,0,-13,-16"/>
             <TextBlock x:Name="TestTextBoxTime" Text="" Style="{StaticResource TextInQuestion}"
@@ -1272,41 +1273,42 @@
 
         <!-- Поверхность просмотра результатов -->
         <Grid x:Name="Result" IsEnabled="False" Visibility="Hidden">
-            <Button Content="Вернуться в меню" 
+            <Image Source="Pics\EditTestBackground.png" Margin="-5,0,-13,-16"/>
+            <Button Content="Вернуться в меню" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Height="40" Width="120" Margin="10,10,0,0" 
+                    Height="47" Width="277" Margin="0,-2,0,0" 
                     Click="Button_Click_FromResToMain" Tag="{Binding ElementName=Main}">
             </Button>
 
-            <Button Content="Показать верные ответы" x:Name="ButtonShowCorAns"
+            <Button Content="Показать верные ответы" x:Name="ButtonShowCorAns" Style="{StaticResource UpperPanelMainWindowButton}"
                     HorizontalAlignment="Left" VerticalAlignment="Top" 
-                    Height="40" Width="120" Margin="135,10,0,0" 
+                    Height="47" Width="327" Margin="276,-2,0,0" 
                     Click="Button_Click_ShowCorrectAnswers">
             </Button>
 
-            <TextBlock Text="Пароль"
+            <TextBlock Text="Пароль" FontFamily="Corbel light" FontSize="15"
                        HorizontalAlignment="Left" VerticalAlignment="Top"
                        Height="20" Width="80"
-                       Margin="260,10,0,0"/>
+                       Margin="608,5,0,0"/>
 
             <PasswordBox x:Name="resPassBox" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="20" Width="80" 
-                    Margin="260,30,0,0" />
+                    Margin="608,25,0,0" FontFamily="Corbel Light" BorderThickness="0,0,0,2" Background="White" />
 
-            <CheckBox x:Name="VisCheck" IsChecked="False" IsEnabled="False"
+            <CheckBox x:Name="VisCheck" IsChecked="False" IsEnabled="False" Visibility="Hidden"
                       HorizontalAlignment="Left" VerticalAlignment="Top" 
-                      Margin="324, 10, 0, 0"/>
+                      Margin="672,5,0,0"/>
 
             <!-- Название теста -->
-            <TextBlock x:Name="ResultTextBox1" Text="Название теста" 
+            <TextBlock x:Name="ResultTextBox1" Text="Название теста" Style="{StaticResource TextInQuestion}" FontSize="40"
                        MaxWidth="800" MinHeight="30" 
                        TextAlignment="Center"
                        HorizontalAlignment="Center" VerticalAlignment="Top"
-                       Margin="0,60,0,0"/>
+                       Margin="0,50,0,0"/>
 
-            <Grid Margin="10,75,10,55">
+            <Grid Margin="10,125,10,10">
                 <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                    <StackPanel Margin="10">
+                    <StackPanel Margin="0">
                         <!-- Список результатов -->
                         <ListBox x:Name="ResultListBox1"
                                  MaxWidth="800"

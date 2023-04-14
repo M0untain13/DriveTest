@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xaml;
 using Приложение.Classes.Enums;
 using Приложение.Classes.FactoryMethods;
 using Приложение.Classes.Models;
@@ -142,12 +143,16 @@ namespace Приложение.Windows
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
-        private void SaveTest(object sender, RoutedEventArgs e)
+        private void Button_Click_SaveTest(object sender, RoutedEventArgs e)
+        {
+            SaveTest();
+        }
+        public bool SaveTest()
         {
             if (EditTextBox1.Text.Length < 5)
             {
                 MessageBox.Show("Название должно содержать 5 или более символов!");
-                return;
+                return false;
             }
             while (EditTextBox1.Text[EditTextBox1.Text.Length - 1] == ' ')
             {
@@ -159,6 +164,7 @@ namespace Приложение.Windows
                  select sym).Count() != 0)
             {
                 MessageBox.Show("Имя файла не должно содержать специальные знаки! " + string.Join(" ", incorrectChars.ToArray()));
+                return false;
             }
             else
             {
@@ -169,10 +175,12 @@ namespace Приложение.Windows
                      select sym).Count() != 0)
                 {
                     MessageBox.Show("Время выполнения содержит нечисленные символы!");
+                    return false;
                 }
                 else if (!Loader.CheckTest(_test, out var message))
                 {
                     MessageBox.Show($"{message}!");
+                    return false;
                 }
                 else
                 {
@@ -189,6 +197,7 @@ namespace Приложение.Windows
                     _test.time = Convert.ToInt32(EditTextBoxTime.Text);
                     Loader.SaveTest(_test, mainDirectory + "\\" + _test.name);
                     MessageBox.Show("Тест сохранён!");
+                    return true;
                 }
             }
         }
@@ -411,6 +420,11 @@ namespace Приложение.Windows
             //Устанавливаем путь к главной директории, из которой при необходимости будут браться тесты.
             windowFactoryMethod.SetDirectory = mainDirectory;
             var window = windowFactoryMethod.Window();
+            if (window is ExitFromEdit w)
+            {
+                w.MainWin = this;
+                window = w;
+            }
             var isButtonClick = window.ShowDialog() ?? false;
 
             if (!isButtonClick)
@@ -433,7 +447,7 @@ namespace Приложение.Windows
                 {typeof(ExitFromEdit),
                     delegate{
                         if (isSaveTest)
-                            SaveTest(sender, e);
+                            Button_Click_SaveTest(sender, e);
                         _test.quests.Clear();
                         EditTextBox1.Clear();
                         EditTextBoxTime.Clear();

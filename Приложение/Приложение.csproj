@@ -83,10 +83,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Windows\дизайн.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\InterWindows\ExitFromTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,9 +110,6 @@
     <Compile Include="Classes\Services\ResultQuestionTemplateSelector.cs" />
     <Compile Include="Classes\Services\TestingQuestionTemplateSelector.cs" />
     <Compile Include="Classes\Services\Loader.cs" />
-    <Compile Include="Windows\дизайн.xaml.cs">
-      <DependentUpon>дизайн.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\InterWindows\ExitFromTest.xaml.cs">
       <DependentUpon>ExitFromTest.xaml</DependentUpon>
     </Compile>
@@ -207,10 +200,10 @@
     <Resource Include="Windows\Pics\PlusButton.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Windows\Pics\MinusButton.png" />
+    <Resource Include="Windows\Pics\DeleteButton.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Windows\Pics\DeleteButton.png" />
+    <Resource Include="Windows\Pics\MinusButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
