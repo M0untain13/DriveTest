@@ -163,14 +163,16 @@ namespace Приложение.Classes.Models
             get 
             {
                 var arrayOfAnswerFromTesting = _answerFromTesting.Split();
-                var countOfErrors = arrayOfAnswerFromTesting.Length - (from answer in arrayOfAnswerFromTesting
+                double countOfErrors = arrayOfAnswerFromTesting.Length - (from answer in arrayOfAnswerFromTesting
                                                                       where _correctAnswers.Contains(answer)
                                                                       select answer).Count();
-                var countOfCorrectAnswers = arrayOfAnswerFromTesting.Length-countOfErrors;
+                double countOfCorrectAnswers = arrayOfAnswerFromTesting.Length-countOfErrors;
 
                 if (countOfCorrectAnswers == 0) return 0.0;
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
-                return 1.0 * countOfCorrectAnswers/ _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count); 
+                double a = countOfCorrectAnswers / _correctAnswers.Count;
+                double b = 1.0 - countOfErrors / _correctAnswers.Count;
+                return a * b; 
             } 
         }
         public override IEnumerable<string> ArrayOfString02
@@ -249,14 +251,14 @@ namespace Приложение.Classes.Models
         {
             get
             {
-                var countOfCorrectAnswers = (from answer in _receivedAnswers
+                double countOfCorrectAnswers = (from answer in _receivedAnswers
                                              where _correctAnswers.Contains(answer)
                                              select answer).Count();
-                var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
+                double countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
                 
                 if (countOfCorrectAnswers == 0) return 0.0;
                 //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
-                return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _answers.Count);
+                return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1.0 - countOfErrors / _answers.Count);
             }
         }
         public override IEnumerable<string> ArrayOfString01 => _answers;
@@ -296,14 +298,12 @@ namespace Приложение.Classes.Models
         {
             get
             {
-                var countOfCorrectAnswers = (from answer in _receivedAnswers
+                double countOfCorrectAnswers = (from answer in _receivedAnswers
                                              where _correctAnswers[answer.Key] == _receivedAnswers[answer.Key]
                                              select answer).Count();
-                var countOfErrors = _receivedAnswers.Count - countOfCorrectAnswers;
                 
                 if (countOfCorrectAnswers == 0) return 0.0;
-                //Объяснение данной формулы есть на гитхабе в roadmap в выполненной задаче "Классы внутренней логики"
-                return 1.0 * countOfCorrectAnswers / _correctAnswers.Count * (1 - countOfErrors / _correctAnswers.Count);
+                return countOfCorrectAnswers / _correctAnswers.Count;
             }
         }
         /// <summary>
