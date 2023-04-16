@@ -516,7 +516,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Answer1}" Width="100"/>
+                                    <TextBlock Text="{Binding Answer1}" MinWidth="100"/>
 
                                     <RadioButton IsChecked="{Binding IsMarkedByUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
@@ -584,7 +584,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Answer1}" Width="100"/>
+                                    <TextBlock Text="{Binding Answer1}" MinWidth="100"/>
                                     <CheckBox IsChecked="{Binding IsMarkedByUser}"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -648,7 +648,7 @@
                             <!-- Стиль оформления ответа -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Answer1}" Width="100" Height="30"/>
+                                    <TextBlock Text="{Binding Answer1}" MinWidth="100" Height="30"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
@@ -1242,7 +1242,9 @@
                             <!-- Стиль для того, чтобы элементы не выделялись синим цветом при наведении курсором -->
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
+                                    
                                     <Setter Property="Template">
+                                      
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
                                                 <ContentPresenter/>
@@ -1301,7 +1303,7 @@
 
             <!-- Название теста -->
             <TextBlock x:Name="ResultTextBox1" Text="Название теста" Style="{StaticResource TextInQuestion}" FontSize="40"
-                       MaxWidth="800" MinHeight="30" 
+                       MinWidth="800" MinHeight="30" 
                        TextAlignment="Center"
                        HorizontalAlignment="Center" VerticalAlignment="Top"
                        Margin="0,50,0,0"/>
