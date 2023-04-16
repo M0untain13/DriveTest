@@ -1166,7 +1166,7 @@
 
                         <!-- Список вопросов: Начало -->
                         <ListBox x:Name="EditListBox1"
-                                 MaxWidth="800"
+                                 MinWidth="800"
                                  HorizontalContentAlignment="Center" 
                                  BorderBrush="{x:Null}"
                                  ItemTemplateSelector="{StaticResource editQuestionTemplateSelector}">
@@ -1234,7 +1234,7 @@
 
                         <!-- Список вопросов: Начало -->
                         <ListBox x:Name="TestListBox1"
-                                 MaxWidth="800"
+                                 MinWidth="800"
                                  HorizontalContentAlignment="Center" 
                                  BorderBrush="{x:Null}"
                                  ItemTemplateSelector="{StaticResource testingQuestionTemplateSelector}">
@@ -1313,7 +1313,7 @@
                     <StackPanel Margin="0">
                         <!-- Список результатов -->
                         <ListBox x:Name="ResultListBox1"
-                                 MaxWidth="800"
+                                 MinWidth="800"
                                  HorizontalContentAlignment="Center" 
                                  BorderBrush="{x:Null}"
                                  ItemTemplateSelector="{StaticResource resultQuestionTemplateSelector}">
