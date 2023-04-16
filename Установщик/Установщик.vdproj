@@ -15,20 +15,20 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_A551DAF9BBC4415CAC63DCC97C5FEC6D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D69AC83AFD8D4E3A978A704CDBCEF6E8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E3CD4303D0BB44A5BB907901422BB028"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E3CD4303D0BB44A5BB907901422BB028"
+        "OwnerKey" = "8:_A551DAF9BBC4415CAC63DCC97C5FEC6D"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -126,10 +126,21 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D69AC83AFD8D4E3A978A704CDBCEF6E8"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A551DAF9BBC4415CAC63DCC97C5FEC6D"
             {
-            "SourcePath" = "8:..\\Приложение\\Windows\\Pics\\Scorp.ico"
-            "TargetName" = "8:Scorp.ico"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ADAF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_A551DAF9BBC4415CAC63DCC97C5FEC6D"
+                    {
+                    "Name" = "8:ADAF.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\Приложение\\bin\\Release\\ADAF.exe"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_02E0995EAF694F1FB078020D84D730C4"
             "Condition" = "8:"
@@ -146,21 +157,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E3CD4303D0BB44A5BB907901422BB028"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D69AC83AFD8D4E3A978A704CDBCEF6E8"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ADAF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_E3CD4303D0BB44A5BB907901422BB028"
-                    {
-                    "Name" = "8:ADAF.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Приложение\\bin\\Release\\ADAF.exe"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\Приложение\\Windows\\Pics\\Scorp.ico"
+            "TargetName" = "8:Scorp.ico"
             "Tag" = "8:"
             "Folder" = "8:_02E0995EAF694F1FB078020D84D730C4"
             "Condition" = "8:"
@@ -354,20 +354,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9D1D289AE9DD477FAFB8CD38BC878339"
-            {
-            "Name" = "8:ADA Forms"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_E3CD4303D0BB44A5BB907901422BB028"
-            "Folder" = "8:_AF1561E2915B49E59A8F5CC77EDED6A0"
-            "WorkingFolder" = "8:_02E0995EAF694F1FB078020D84D730C4"
-            "Icon" = "8:_D69AC83AFD8D4E3A978A704CDBCEF6E8"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {
